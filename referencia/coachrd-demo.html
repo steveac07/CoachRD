@@ -1,0 +1,1536 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CoachRD">
+<meta name="robots" content="noindex">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>CoachRD Demo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Onest:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: cuaderno del coach (izquierda) + teléfono del socio en vivo (derecha). En móvil, un conmutador alterna ambas vistas. */
+:root{
+  --bg:#ECEFF2; --surface:#FFFFFF; --surface-2:#F4F6F8; --ink:#12171D; --muted:#5A6570; --line:#DAE0E6;
+  --good:#17804A; --warn:#9A6208; --bad:#C0392B;
+  --brand:#0E7C74; --on-brand:#FFFFFF;
+  --brand-ink:color-mix(in oklab, var(--brand) 80%, #12171D);
+  --brand-soft:color-mix(in oklab, var(--brand) 11%, #FFFFFF);
+  --app-bg:color-mix(in oklab, var(--brand) 9%, #F7F8FA);
+  --device:#1A1F25;
+  --shadow:0 1px 2px rgb(16 24 32 / .06), 0 10px 28px rgb(16 24 32 / .07);
+  --star:#E3A008;
+  --f-display:"Barlow Condensed","Roboto Condensed","Arial Narrow",sans-serif;
+  --f-body:"Onest",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r-lg:22px; --r-md:14px; --r-sm:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0E12; --surface:#151A20; --surface-2:#1B2129; --ink:#E6EBF0; --muted:#94A1AE; --line:#28313B;
+    --good:#47C285; --warn:#E2A33A; --bad:#F06B5C;
+    --brand-ink:color-mix(in oklab, var(--brand) 58%, #FFFFFF);
+    --brand-soft:color-mix(in oklab, var(--brand) 20%, #151A20);
+    --app-bg:color-mix(in oklab, var(--brand) 10%, #0E1216);
+    --device:#000000;
+    --shadow:0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .35);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0E12; --surface:#151A20; --surface-2:#1B2129; --ink:#E6EBF0; --muted:#94A1AE; --line:#28313B;
+  --good:#47C285; --warn:#E2A33A; --bad:#F06B5C;
+  --brand-ink:color-mix(in oklab, var(--brand) 58%, #FFFFFF);
+  --brand-soft:color-mix(in oklab, var(--brand) 20%, #151A20);
+  --app-bg:color-mix(in oklab, var(--brand) 10%, #0E1216);
+  --device:#000000;
+  --shadow:0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .35);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+.wrap{max-width:1360px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+
+/* ---------- Barra superior ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
+.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:color-mix(in oklab, var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-block:12px}
+.mark{display:flex;align-items:center;gap:10px;min-width:0}
+.mark-badge{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--ink);color:var(--bg);font-family:var(--f-display);font-weight:700;font-size:18px;letter-spacing:.02em}
+.mark-name{font-family:var(--f-display);font-weight:700;font-size:21px;letter-spacing:.01em;line-height:1}
+.mark-sub{color:var(--muted);font-size:12.5px}
+.pill-demo{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--line);padding:4px 9px;border-radius:999px}
+.top-sp{flex:1}
+.seg{display:none;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;padding:7px 12px;border-radius:9px;font-weight:600;font-size:13px;color:var(--muted)}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);padding:8px 12px;border-radius:10px;font-weight:600;font-size:13px}
+.btn:hover{border-color:color-mix(in oklab, var(--ink) 30%, var(--line))}
+.btn.primary{background:var(--brand);color:var(--on-brand);border-color:transparent}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:5px 9px;font-size:12.5px}
+.btn svg{width:16px;height:16px}
+
+/* ---------- Disposición principal ---------- */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:28px;padding-block:24px 40px;align-items:start}
+.device-col{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 76px);display:flex;flex-direction:column;align-items:center;gap:10px}
+.device-cap{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:6px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 color-mix(in oklab, var(--good) 60%, transparent);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.fgrid .w2{grid-column:span 2}
+@media (max-width:420px){.fgrid .w2{grid-column:1/-1}}
+@media (max-width:1079px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .seg{display:flex;order:5;flex-basis:100%}
+  .seg button{flex:1}
+  .layout{padding-block:16px 32px}
+  .layout[data-view="app"] .coach{display:none}
+  .layout[data-view="coach"] .device-col{display:none}
+  .device-col{position:static}
+}
+
+/* ---------- Panel del coach ---------- */
+.coach{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);min-width:0;overflow:hidden}
+.coach-head{padding:22px 24px 6px;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-ink)}
+.coach-head h1{font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1;letter-spacing:.005em}
+.coach-head p{color:var(--muted);max-width:62ch}
+.tabs{display:flex;gap:4px;padding:12px 20px 0;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs button{border:0;background:transparent;padding:10px 12px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent;white-space:nowrap;display:flex;gap:7px;align-items:center}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
+.tabs .count{font-size:11px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:0 7px;color:var(--muted)}
+.coach-body{padding:20px 24px 26px}
+@media (max-width:560px){.coach-head,.coach-body{padding-left:16px;padding-right:16px}.tabs{padding-left:10px;padding-right:10px}}
+
+.split{display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:760px){.split{grid-template-columns:minmax(0,1fr)}}
+.list{display:flex;flex-direction:column;gap:8px;min-width:0}
+.list-head{display:flex;align-items:center;justify-content:space-between;font-weight:600;color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em}
+.item{display:flex;flex-direction:column;gap:3px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-md);padding:10px 12px;width:100%}
+.item:hover{border-color:color-mix(in oklab, var(--brand) 40%, var(--line))}
+.item[aria-current="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.item-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600}
+.item-sub{color:var(--muted);font-size:12.5px}
+.tag-ej{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 5px}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.lvl-good{color:var(--good);background:color-mix(in oklab, var(--good) 13%, transparent)}
+.lvl-warn{color:var(--warn);background:color-mix(in oklab, var(--warn) 15%, transparent)}
+.lvl-bad{color:var(--bad);background:color-mix(in oklab, var(--bad) 13%, transparent)}
+
+.editor{display:flex;flex-direction:column;gap:18px;min-width:0}
+.sec-title{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px 12px}
+.fgrid .wide{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:12px;color:var(--muted);font-weight:500}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-sm);padding:8px 10px;min-width:0}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand);background:var(--surface)}
+.field .unit{position:relative}
+.field .unit input{padding-right:38px}
+.field .unit span{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip.al[aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:#fff}
+
+.out-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.out-grid{grid-template-columns:minmax(0,1fr)}}
+.ocard{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:var(--surface);display:flex;flex-direction:column;gap:8px;min-width:0}
+.ocard.wide{grid-column:1/-1}
+.ocard h4{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.row span:first-child{color:var(--muted)}
+.row b{font-weight:600}
+.big{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;letter-spacing:.01em}
+.big small{font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0}
+.meta-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.arrow{color:var(--muted);font-family:var(--f-display);font-size:22px}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--surface-2)}
+.bar i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.c-p{background:var(--brand)} .c-c{background:color-mix(in oklab, var(--brand) 45%, #E9B44C)} .c-f{background:color-mix(in oklab, var(--ink) 55%, var(--surface))}
+.checks{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.checks li{display:flex;gap:8px;align-items:flex-start;font-size:13px}
+.checks li .pill{flex:none;margin-top:1px}
+.blocked{display:flex;flex-wrap:wrap;gap:6px}
+.blocked span{font-size:12px;border:1px solid color-mix(in oklab, var(--bad) 35%, var(--line));color:var(--bad);border-radius:8px;padding:2px 8px;text-decoration:line-through;text-decoration-color:color-mix(in oklab, var(--bad) 50%, transparent)}
+.note{color:var(--muted);font-size:12.5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.range-row{display:grid;grid-template-columns:minmax(0,1fr) 74px;gap:10px;align-items:center}
+.range-row input[type=range]{accent-color:var(--brand);width:100%}
+.range-row output{font-family:var(--f-display);font-weight:600;font-size:20px;text-align:right}
+
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.al-tags{display:flex;gap:4px;flex-wrap:wrap;white-space:normal}
+.al-tags span{font-size:11px;background:color-mix(in oklab, var(--bad) 12%, transparent);color:var(--bad);border-radius:6px;padding:1px 6px}
+.icon-btn{border:0;background:transparent;color:var(--muted);padding:4px;border-radius:8px;display:inline-grid;place-items:center}
+.icon-btn:hover{color:var(--bad);background:var(--surface-2)}
+.icon-btn svg{width:16px;height:16px}
+.addbox{border:1px dashed color-mix(in oklab, var(--brand) 45%, var(--line));border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:12px;background:color-mix(in oklab, var(--brand) 4%, var(--surface))}
+.msg{font-size:12.5px;min-height:1em}
+.msg.err{color:var(--bad)} .msg.ok{color:var(--good)}
+.empty{border:1px dashed var(--line);border-radius:var(--r-md);padding:26px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:6px;align-items:center}
+.empty b{color:var(--ink);font-size:15px}
+
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.sw{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 12px 6px 6px;font-weight:600;font-size:13px}
+.sw i{width:26px;height:26px;border-radius:8px;display:block}
+.sw[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);padding:3px}
+
+@media (max-width:560px){.mark-sub{display:none}.top-in{gap:10px;padding-block:10px}.pill-demo{font-size:10.5px;padding:3px 7px}}
+.foot{color:var(--muted);font-size:12.5px;padding-block:0 30px;max-width:900px}
+
+/* ---------- Teléfono ---------- */
+.phone{width:390px;max-width:100%;height:800px;border-radius:52px;background:var(--device);padding:11px;box-shadow:0 30px 60px -20px rgb(10 14 20 / .45), inset 0 0 0 1.5px rgb(255 255 255 / .08)}
+@media (max-width:1079px){.phone{height:min(800px, calc(100dvh - 150px));min-height:620px}}
+@media (max-width:480px){
+  .phone{background:none;padding:0;box-shadow:none;border-radius:0;width:100%;height:calc(100dvh - 128px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));min-height:540px}
+  .device-cap{display:none}
+}
+.screen{position:relative;height:100%;border-radius:42px;overflow:hidden;background:var(--app-bg);display:flex;flex-direction:column}
+
+.sbar{display:flex;justify-content:space-between;align-items:center;padding:15px 28px 6px;font-weight:600;font-size:14.5px;flex:none}
+.sbar .isl{width:104px;height:30px;background:#000;border-radius:20px;position:absolute;left:50%;top:10px;transform:translateX(-50%)}
+.sbar .sig{display:flex;gap:5px;align-items:center}
+.sbar svg{height:12px}
+.app{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 18px 18px;scrollbar-width:none;display:flex;flex-direction:column;gap:18px}
+.app::-webkit-scrollbar{display:none}
+.anav{flex:none;display:grid;grid-template-columns:repeat(5,1fr);background:var(--surface);border-top:1px solid var(--line);padding:6px 6px 22px;position:relative}
+.anav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--muted);padding:6px 0;position:relative}
+.anav button svg{width:23px;height:23px}
+.anav button[aria-current="true"]{color:var(--brand-ink)}
+.anav button[aria-current="true"]::before{content:"";position:absolute;top:-7px;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+
+.a-head{display:flex;align-items:center;gap:13px;padding-top:6px}
+.logo{width:54px;height:54px;border-radius:16px;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:23px;letter-spacing:.02em;flex:none;box-shadow:inset 0 -2px 0 rgb(0 0 0 / .12)}
+.logo.sm{width:30px;height:30px;border-radius:9px;font-size:14px}
+.a-head h2{font-family:var(--f-display);font-weight:700;font-size:32px;line-height:1}
+.a-head p{color:var(--muted);font-size:13.5px}
+.a-title{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1}
+.a-sub{color:var(--muted);font-size:13px;margin-top:3px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.tile{position:relative;height:118px;border-radius:18px;border:0;overflow:hidden;text-align:left;padding:12px;display:flex;flex-direction:column;justify-content:space-between;font-weight:700;font-size:15.5px}
+.tile .ti{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgb(255 255 255 / .18);backdrop-filter:blur(4px)}
+.tile .ti svg{width:22px;height:22px}
+.tile.t1{background:radial-gradient(120% 90% at 100% 0%, color-mix(in oklab, var(--brand) 55%, #FFFFFF) 0%, var(--brand) 55%, color-mix(in oklab, var(--brand) 70%, #000) 100%);color:var(--on-brand)}
+.tile.t2{background:radial-gradient(120% 90% at 100% 0%, #3A434D 0%, #1C2229 60%, #11161B 100%);color:#fff}
+.tile::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg, rgb(255 255 255 / .06) 0 2px, transparent 2px 14px);pointer-events:none}
+.acard{background:var(--surface);border-radius:20px;padding:15px 16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 2px rgb(16 24 32 / .05)}
+.acard-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.acard-h h3{font-family:var(--f-display);font-weight:700;font-size:22px;line-height:1}
+.link{border:0;background:transparent;color:var(--brand-ink);font-weight:700;font-size:13.5px;padding:0}
+.ring-row{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;align-items:center}
+.ring{position:relative;width:112px;height:112px}
+.ring svg{transform:rotate(-90deg)}
+.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-c b{font-family:var(--f-display);font-size:27px;line-height:1}
+.ring-c span{font-size:11px;color:var(--muted)}
+.mbars{display:flex;flex-direction:column;gap:9px}
+.mb-top{display:flex;justify-content:space-between;font-size:12.5px}
+.mb-top span:last-child{color:var(--muted)}
+.mb{height:7px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+.mb i{display:block;height:100%;border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.next{display:flex;gap:12px;align-items:center}
+.next .ic{width:44px;height:44px;border-radius:13px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center;flex:none}
+.next .ic svg{width:22px;height:22px}
+.aforo{display:flex;align-items:flex-end;gap:3px;height:56px}
+.aforo i{flex:1;border-radius:3px 3px 1px 1px;background:color-mix(in oklab, var(--brand) 22%, var(--surface-2))}
+.aforo i.now{background:var(--brand)}
+.coachmsg{display:flex;gap:10px;align-items:flex-start}
+.bubble{background:var(--surface-2);border-radius:4px 16px 16px 16px;padding:10px 12px;font-size:13.5px}
+
+.meal{background:var(--surface);border-radius:18px;padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+.meal.done{opacity:.62}
+.meal-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.meal-slot{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-ink)}
+.meal-name{font-weight:600;font-size:14.5px;line-height:1.3;margin-top:2px}
+.tick{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:none;color:transparent}
+.tick svg{width:18px;height:18px}
+.tick[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.ing{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.ing li{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.ing li span:last-child{color:var(--muted);font-variant-numeric:tabular-nums}
+.mchips{display:flex;gap:6px;flex-wrap:wrap}
+.mchips span{font-size:11.5px;font-weight:600;background:var(--surface-2);border-radius:7px;padding:2px 7px;font-variant-numeric:tabular-nums}
+.sumline{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--surface);border-radius:16px;padding:11px 8px;text-align:center}
+.sumline b{display:block;font-family:var(--f-display);font-size:21px;line-height:1.05}
+.sumline span{font-size:11px;color:var(--muted)}
+.al-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.al-row .al{font-size:11.5px;font-weight:600;color:var(--bad);background:color-mix(in oklab, var(--bad) 11%, var(--surface));border-radius:7px;padding:2px 8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--surface);border-radius:16px;padding:11px 12px}
+.stat b{display:block;font-family:var(--f-display);font-size:24px;line-height:1.05}
+.stat span{font-size:11.5px;color:var(--muted)}
+.chart text{font-family:var(--f-body);font-size:10px;fill:var(--muted)}
+.menu{background:var(--surface);border-radius:18px;overflow:hidden}
+.menu-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 15px;border-bottom:1px solid var(--line);font-size:14.5px}
+.menu-row:last-child{border-bottom:0}
+.menu-row .r{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:4px;text-align:right}
+.menu-row svg{width:16px;height:16px;color:var(--brand-ink);flex:none}
+.out{color:var(--bad);font-weight:700;font-size:15px;border:0;background:transparent;text-align:left;padding:0}
+.prof{display:flex;align-items:center;gap:12px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-weight:700;color:var(--muted);border:1px solid var(--line)}
+.a-empty{background:var(--surface);border-radius:18px;padding:22px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.a-empty b{color:var(--ink)}
+.btn-app{border:0;border-radius:14px;background:var(--brand);color:var(--on-brand);font-weight:700;padding:12px;font-size:14px}
+.btn-app.ghost{background:var(--surface);color:var(--brand-ink)}
+
+.modal{position:absolute;inset:0;background:rgb(8 10 14 / .5);display:flex;align-items:flex-end;z-index:3;animation:fade .2s}
+.sheet{background:var(--surface);width:100%;border-radius:26px 26px 0 0;padding:18px 20px 30px;display:flex;flex-direction:column;align-items:center;gap:12px;animation:up .28s cubic-bezier(.2,.8,.2,1)}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--line)}
+.qr{background:#fff;padding:12px;border-radius:16px}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.flash{animation:flash .9s}
+
+/* Retos, premios, avisos y tarjeta para redes */
+.ahead-row{display:flex;align-items:center;gap:10px}
+.ahead-row .a-head{flex:1;min-width:0}
+.ahead-row .a-head h2{font-size:29px}
+.bell{position:relative;width:42px;height:42px;border-radius:50%;border:0;background:var(--surface);display:grid;place-items:center;flex:none;margin-top:6px}
+.bell svg{width:21px;height:21px}
+.bell .badge{position:absolute;top:3px;right:3px;min-width:18px;height:18px;border-radius:9px;background:var(--bad);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px;border:2px solid var(--app-bg)}
+.stars{display:inline-flex;align-items:center;gap:3px;font-weight:700;color:var(--star);white-space:nowrap}
+.stars svg{width:15px;height:15px;fill:currentColor;stroke:none}
+.task{background:var(--surface);border-radius:18px;padding:12px 13px;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:11px;align-items:center}
+.task .ic{width:42px;height:42px;border-radius:13px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center}
+.task .ic svg{width:22px;height:22px}
+.task-t{font-weight:600;font-size:14px;line-height:1.25}
+.task-d{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}
+.task-r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.dots{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
+.dots i{width:16px;height:6px;border-radius:3px;background:var(--surface-2)}
+.dots i.on{background:var(--brand)}
+.inc{min-width:46px;height:36px;border-radius:12px;border:0;background:var(--brand);color:var(--on-brand);font-weight:700;font-size:14px;display:grid;place-items:center;padding:0 10px}
+.inc.ok{background:color-mix(in oklab, var(--good) 16%, var(--surface));color:var(--good)}
+.inc svg{width:18px;height:18px}
+.reward{background:linear-gradient(135deg, color-mix(in oklab, var(--brand) 80%, #000) 0%, var(--brand) 100%);color:var(--on-brand)}
+.rw-top{display:flex;gap:12px;align-items:center}
+.rw-ic{width:46px;height:46px;border-radius:14px;background:rgb(255 255 255 / .18);display:grid;place-items:center;flex:none}
+.rw-ic svg{width:24px;height:24px}
+.rw-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.82}
+.rw-name{font-family:var(--f-display);font-weight:700;font-size:25px;line-height:1.05}
+.rw-bar{height:9px;border-radius:999px;background:rgb(255 255 255 / .22);overflow:hidden}
+.rw-bar i{display:block;height:100%;background:var(--star);border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.rw-note{font-size:13px;opacity:.88}
+.rw-btn{border:0;border-radius:12px;background:var(--on-brand);color:var(--brand);font-weight:700;padding:11px 14px;font-size:14px}
+.rw-meal{border:1.5px dashed var(--brand)}
+.push{position:absolute;left:10px;right:10px;top:12px;z-index:4;background:color-mix(in oklab, var(--surface) 90%, transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:20px;padding:11px 13px;display:flex;gap:11px;align-items:flex-start;box-shadow:0 12px 32px rgb(0 0 0 / .2);animation:drop .45s cubic-bezier(.2,.8,.2,1)}
+.push-h{display:flex;gap:6px;align-items:baseline}
+.push b{font-size:13px}
+.push p{font-size:13px;line-height:1.35;margin-top:1px}
+.push .when,.note-item .when{color:var(--muted);font-size:11.5px}
+.push .when{margin-left:auto}
+@keyframes drop{from{transform:translateY(-130%);opacity:0}}
+.toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);z-index:4;background:var(--ink);color:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;font-size:13.5px;white-space:nowrap;display:flex;gap:7px;align-items:center;animation:pop .35s cubic-bezier(.2,.8,.2,1)}
+.toast svg{width:16px;height:16px;fill:var(--star);stroke:none}
+@keyframes pop{from{transform:translate(-50%,12px) scale(.92);opacity:0}}
+.note-list{display:flex;flex-direction:column;gap:8px;width:100%}
+.note-item{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border-radius:14px;padding:10px 12px;font-size:13.5px;text-align:left}
+.sheet .note-item{background:var(--surface-2)}
+.note-item .when{display:block;margin-top:2px}
+.shareimg{max-height:min(48vh,400px);width:auto;max-width:100%;border-radius:14px;box-shadow:0 8px 24px rgb(0 0 0 / .22);background:var(--surface-2);min-height:120px}
+.sheet .chips{justify-content:center}
+.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.btn-app{display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-app svg{width:17px;height:17px}
+.btn-app.ghost{border:1px solid var(--line)}
+.trow{display:grid;grid-template-columns:36px minmax(0,1fr) auto auto auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:var(--r-md);padding:9px 8px 9px 12px}
+.trow .ic{width:36px;height:36px;border-radius:10px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center}
+.trow .ic svg{width:19px;height:19px}
+.trow .t{font-weight:600}
+.trow .d{color:var(--muted);font-size:12.5px}
+.tlist{display:flex;flex-direction:column;gap:8px}
+.weekgoal{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+/* Móvil real: la app ocupa la pantalla, sin marco de teléfono simulado */
+@media (max-width:480px){
+  .pill-demo{display:none}
+  .screen{border-radius:22px;border:1px solid var(--line)}
+  .sbar{display:none}
+  .app{padding-top:16px}
+  .anav{padding-bottom:calc(8px + env(safe-area-inset-bottom, 0px))}
+  .phone{height:calc(100dvh - 120px - env(safe-area-inset-top, 0px))}
+}
+@keyframes flash{30%{box-shadow:0 0 0 6px color-mix(in oklab, var(--brand) 45%, transparent),0 30px 60px -20px rgb(10 14 20 / .45)}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <div class="mark">
+      <span class="mark-badge" aria-hidden="true">C</span>
+      <div>
+        <div class="mark-name">CoachRD</div>
+        <div class="mark-sub">Plataforma marca blanca para gimnasios y coaches</div>
+      </div>
+    </div>
+    <span class="pill-demo">Demo · datos de ejemplo</span>
+    <span class="top-sp"></span>
+    <div class="seg" role="tablist" aria-label="Vista">
+      <button role="tab" id="seg-app" data-view="app">App del socio</button>
+      <button role="tab" id="seg-coach" data-view="coach">Panel del coach</button>
+    </div>
+    <button class="btn" data-action="reset" id="btn-reset" title="Vuelve a cargar los datos de ejemplo">Restablecer</button>
+  </div>
+</header>
+
+<main class="wrap layout" id="layout" data-view="app">
+  <section class="coach" id="coach" aria-label="Panel del coach"></section>
+  <section class="device-col" aria-label="App del socio">
+    <div class="phone" id="phone">
+      <div class="screen">
+        <div class="sbar"><span id="clock" class="num">9:41</span><span class="isl" aria-hidden="true"></span>
+          <span class="sig" aria-hidden="true">
+            <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5" width="3" height="7" rx="1" fill="currentColor"/><rect x="10" y="2.5" width="3" height="9.5" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor" opacity=".35"/></svg>
+            <svg viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="15" height="8" rx="2" fill="currentColor"/><rect x="23.5" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".45"/></svg>
+          </span>
+        </div>
+        <div class="app" id="app"></div>
+        <nav class="anav" id="anav" aria-label="Navegación de la app"></nav>
+        <div id="modal"></div>
+        <div id="push"></div>
+        <div id="toast"></div>
+      </div>
+    </div>
+    <p class="device-cap"><span class="live-dot" aria-hidden="true"></span> Vista del socio · cambia en vivo con el panel</p>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  Demo con datos de ejemplo. Gasto basal por Katch-McArdle a partir de la masa magra; macros y raciones calculados por reglas que define el coach, no por IA. Herramienta de apoyo para profesionales: cada plan lo revisa el coach o nutricionista antes de entregarlo.
+</footer>
+
+<script>
+(() => {
+"use strict";
+
+/* ===================== Catálogos ===================== */
+const ALLERGENS = [["gluten","Gluten"],["lacteos","Lácteos"],["huevo","Huevo"],["mani","Maní"],["frutos","Frutos de cáscara"],["soya","Soya"],["pescado","Pescado"],["crustaceos","Crustáceos"],["moluscos","Moluscos"],["sesamo","Sésamo"],["apio","Apio"],["mostaza","Mostaza"],["sulfitos","Sulfitos"],["altramuces","Altramuces"]];
+const AL = Object.fromEntries(ALLERGENS);
+const ORIGINS = [["carne","Carnes"],["pescado","Pescado"],["marisco","Mariscos"],["huevo","Huevo"],["lacteo","Lácteos"]];
+const ORIGIN_ALL = [["vegetal","Vegetal"], ...ORIGINS];
+const CATS = [["proteina","Proteína"],["carbohidrato","Carbohidrato"],["grasa","Grasa"],["vegetal","Vegetales"]];
+const CAT = Object.fromEntries(CATS);
+const ACT = [[1.2,"Sedentario"],[1.375,"Ligero · 1–3 días"],[1.55,"Moderado · 3–5 días"],[1.725,"Alto · 6–7 días"],[1.9,"Muy alto · doble sesión"]];
+const SLOTS = {3:["Desayuno","Almuerzo","Cena"],4:["Desayuno","Almuerzo","Merienda","Cena"],5:["Desayuno","Media mañana","Almuerzo","Pre-entreno","Cena"],6:["Desayuno","Media mañana","Almuerzo","Pre-entreno","Post-entreno","Cena"]};
+const SLOT_W = {"Desayuno":25,"Media mañana":10,"Almuerzo":32,"Merienda":12,"Pre-entreno":12,"Post-entreno":14,"Cena":23};
+const SMALL = new Set(["Media mañana","Merienda","Pre-entreno"]);
+const PRESETS = [["Atlántico Fit","AF","#0E7C74"],["Barrio Iron","BI","#D9480F"],["Sol Boutique","SB","#C2255C"],["Cordillera Gym","CG","#3B5BDB"]];
+
+/* ===================== Datos de ejemplo ===================== */
+// Valores por 100 g, ya cocidos. Aproximados a partir de USDA FoodData Central.
+function F(id,name,cat,origin,k,p,c,f,allergens,d){return {id,name,cat,origin,k,p,c,f,allergens,d:!!d,ej:true};}
+const seedFoods = () => [
+  F("pollo","Pechuga de pollo guisada","proteina","carne",165,31,0,3.6,[],0),
+  F("res","Res magra guisada","proteina","carne",190,29,0,8,[],0),
+  F("bacalao","Bacalao guisado","proteina","pescado",105,23,0,0.9,["pescado"],0),
+  F("camarones","Camarones al ajillo","proteina","marisco",99,24,0.2,0.3,["crustaceos"],0),
+  F("huevo","Huevo entero","proteina","huevo",143,12.6,0.7,9.5,["huevo"],1),
+  F("claras","Claras de huevo","proteina","huevo",52,10.9,0.7,0.2,["huevo"],1),
+  F("queso","Queso blanco a la plancha","proteina","lacteo",310,20,3,24,["lacteos"],1),
+  F("yogur","Yogur griego natural 0 %","proteina","lacteo",59,10.3,3.6,0.4,["lacteos"],1),
+  F("tofu","Tofu firme a la plancha","proteina","vegetal",144,17.3,2.8,8.7,["soya"],0),
+  F("arroz","Arroz blanco","carbohidrato","vegetal",130,2.7,28.2,0.3,[],0),
+  F("habichuelas","Habichuelas rojas guisadas","carbohidrato","vegetal",127,8.7,22.8,0.5,[],0),
+  F("lentejas","Lentejas guisadas","carbohidrato","vegetal",116,9,20,0.4,[],0),
+  F("platano","Plátano verde hervido","carbohidrato","vegetal",116,0.8,31.2,0.2,[],1),
+  F("batata","Batata hervida","carbohidrato","vegetal",76,1.4,17.7,0.1,[],0),
+  F("yuca","Yuca hervida","carbohidrato","vegetal",112,1.4,26.9,0.3,[],0),
+  F("avena","Avena cocida en agua","carbohidrato","vegetal",71,2.5,12,1.5,["gluten"],1),
+  F("pan","Pan integral","carbohidrato","vegetal",247,13,41,3.4,["gluten"],1),
+  F("guineo","Guineo maduro","carbohidrato","vegetal",89,1.1,22.8,0.3,[],1),
+  F("lechosa","Lechosa","carbohidrato","vegetal",43,0.5,10.8,0.3,[],1),
+  F("aguacate","Aguacate","grasa","vegetal",160,2,8.5,14.7,[],1),
+  F("aceite","Aceite de oliva","grasa","vegetal",884,0,0,100,[],0),
+  F("mani","Mantequilla de maní","grasa","vegetal",588,25,20,50,["mani"],1),
+  F("ensalada","Ensalada verde criolla","vegetal","vegetal",18,0.9,3.5,0.2,[],0)
+];
+const seedTemplates = () => [
+  {id:"def",name:"Definición criolla",adjust:-20,protein:2.4,fatPct:25,meals:4,exclude:[],note:"Déficit moderado con víveres hervidos y guisos sin fritura.",ej:true},
+  {id:"recomp",name:"Recomposición",adjust:-10,protein:2.2,fatPct:28,meals:4,exclude:[],note:"Déficit suave y proteína alta para ganar músculo mientras baja grasa.",ej:true},
+  {id:"vol",name:"Volumen limpio",adjust:10,protein:2.0,fatPct:25,meals:5,exclude:[],note:"Superávit pequeño repartido en cinco tomas.",ej:true},
+  {id:"veg",name:"Vegetariana",adjust:-10,protein:2.2,fatPct:30,meals:4,exclude:["carne","pescado","marisco"],note:"Sin carnes ni pescados. Admite huevo y lácteos.",ej:true}
+];
+const T = (type,title,detail,target,stars,done) => ({id:"k"+Math.random().toString(36).slice(2,8),type,title,detail,target,stars,done});
+const H_AGO = h => Date.now() - h*3600e3;
+const seedClients = () => [
+  {id:"c1",name:"Carlos Peña",sex:"M",age:34,weight:88,height:178,bf:24,tbf:16,lean:0,weeks:16,act:1.55,allergens:["mani"],tpl:"def",ej:true,
+   tasks:[T("correr","Correr 30 minutos","",3,2,2),T("baloncesto","Jugar baloncesto","Con los panas del barrio cuenta.",2,1,1),T("cardio","Elíptica 30 minutos","Antes: 20 min. Si te ves bien, sube 5 min por sesión.",3,2,0),T("plan","Cumplir el plan del día","Seis de siete días cuentan como semana completa.",6,2,4)],
+   bank:3,retosTotal:9,starsLife:16,reward:{name:"Helado de coco",cost:6,kcal:300},redeemed:false,
+   notes:[{id:"n1",text:"Esta semana sube la elíptica de 20 a 30 minutos. Si te ves bien, 5 minutos más cada sesión.",ts:H_AGO(3),read:false}]},
+  {id:"c2",name:"Mariela Rosario",sex:"F",age:29,weight:64,height:163,bf:30,tbf:24,lean:0,weeks:20,act:1.375,allergens:["lacteos","gluten"],tpl:"recomp",ej:true,
+   tasks:[T("pasos","Caminar 8.000 pasos","",5,2,3),T("agua","Beber 2,5 litros de agua","",6,1,5),T("plan","Cumplir el plan del día","",6,2,4)],
+   bank:1,retosTotal:6,starsLife:11,reward:{name:"Clase de baile gratis",cost:5,kcal:0},redeemed:false,
+   notes:[{id:"n2",text:"¡Buena semana! Este finde mantén tu plan: estás muy cerca de tu clase de baile.",ts:H_AGO(20),read:true}]},
+  {id:"c3",name:"Javier Tavárez",sex:"M",age:22,weight:70,height:180,bf:12,tbf:13,lean:4,weeks:24,act:1.725,allergens:["crustaceos"],tpl:"vol",ej:true,
+   tasks:[T("baloncesto","Jugar baloncesto","",3,2,2),T("plan","Hacer las 5 comidas","",6,2,5)],
+   bank:2,retosTotal:4,starsLife:8,reward:{name:"Batido de mamey",cost:4,kcal:350},redeemed:false,notes:[]}
+];
+function ensureClient(c){
+  if(!Array.isArray(c.tasks)) c.tasks = [];
+  if(!Number.isFinite(c.bank)) c.bank = 0;
+  if(!Number.isFinite(c.retosTotal)) c.retosTotal = 0;
+  if(!Number.isFinite(c.starsLife)) c.starsLife = c.bank || 0;
+  if(!c.reward || typeof c.reward !== "object") c.reward = {name:"",cost:5,kcal:0};
+  if(typeof c.redeemed !== "boolean") c.redeemed = false;
+  if(!Array.isArray(c.notes)) c.notes = [];
+  return c;
+}
+
+/* ===================== Estado ===================== */
+const KEY = "coachrd-demo-v2";
+const fresh = () => ({v:2,brand:{name:"Atlántico Fit",initials:"AF",color:"#0E7C74",coach:"Coach Ramón"},foods:seedFoods(),templates:seedTemplates(),clients:seedClients(),sel:"c1",selT:"def",tab:"socios",ptab:"inicio",seed:0,done:{},view:"app",share:{fmt:"post",weight:false}});
+function load(){
+  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); if(o && o.v === 2){ const s = Object.assign(fresh(), o); s.clients.forEach(ensureClient); return s; } } }catch(e){}
+  return fresh();
+}
+let S = load();
+let saveT;
+function save(){ clearTimeout(saveT); saveT = setTimeout(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }, 250); }
+
+/* ===================== Utilidades ===================== */
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const clamp = (x,a,b) => Math.min(b, Math.max(a, x));
+const r5 = x => Math.round(x/5)*5;
+const fmt = (x,d=0) => Number(x).toLocaleString("es-DO",{minimumFractionDigits:d,maximumFractionDigits:d});
+const sgn = (x,d=1) => (x > 0 ? "+" : x < 0 ? "−" : "") + fmt(Math.abs(x), d);
+const uid = () => Math.random().toString(36).slice(2,9);
+function hash(s){ let h = 2166136261; for(const ch of String(s)){ h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+const curClient = () => S.clients.find(c => c.id === S.sel) || S.clients[0] || null;
+const tplOf = c => c ? S.templates.find(t => t.id === c.tpl) || null : null;
+const firstName = n => String(n || "").trim().split(/\s+/)[0] || "socio";
+
+const ICONS = {
+  home:'<path d="M3.5 10.5 12 4l8.5 6.5V19a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>',
+  plan:'<path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17.5 21v-7.5c-2 0-3-1.5-3-5S16 3 17.5 3z"/>',
+  prog:'<path d="M4 20h16M5.5 16l4.5-5 3.5 3 5.5-7"/><path d="M15 7h4v4"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.4-3.6 4.2-5.5 7.5-5.5s6.1 1.9 7.5 5.5"/>',
+  qr:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2M14 18h2v2M18 18h2v2h-2"/>',
+  share:'<path d="M15 4.5 19.5 9 15 13.5"/><path d="M19.5 9H11a6 6 0 0 0-6 6v4"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  chev:'<path d="m9 6 6 6-6 6"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  bolt:'<path d="M13 3 5 13h6l-1 8 8-10h-6z"/>',
+  cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+  swap:'<path d="M4 8h13l-3-3M20 16H7l3 3"/>',
+  star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z"/>',
+  bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3-5.5-4-5.5-1.5S10 9 12 9zm0 0c1.5-3 5.5-4 5.5-1.5S14 9 12 9z"/>',
+  send:'<path d="M4 12 20 4l-6 16-3-7z"/>',
+  run:'<circle cx="14.5" cy="4.5" r="2"/><path d="M7 21l3.5-6 3 2.5V22M5.5 11.5 9 8l4 1 2.5 3.5 3.5 1M10.5 15l-1-5"/>',
+  ball:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5v17M6.2 5.8c2.8 3.2 2.8 9.2 0 12.4M17.8 5.8c-2.8 3.2-2.8 9.2 0 12.4"/>',
+  pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+  steps:'<path d="M8.5 3c1.8 0 2.8 2 2.8 4.8S10.3 12 8.5 12 5.7 10.6 5.7 7.8 6.7 3 8.5 3zM15.5 11c1.8 0 2.8 2 2.8 4.8S17.3 20 15.5 20s-2.8-1.4-2.8-4.2 1-4.8 2.8-4.8z"/>',
+  drop:'<path d="M12 3.5s6 6.3 6 10.8a6 6 0 0 1-12 0c0-4.5 6-10.8 6-10.8z"/>',
+  checkc:'<circle cx="12" cy="12" r="8.5"/><path d="m8 12.3 2.8 2.8L16 9.5"/>',
+  target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>'
+};
+const TASK_TYPES = {correr:["Correr 30 minutos","run","Correr"],baloncesto:["Jugar baloncesto","ball","Baloncesto"],cardio:["Elíptica 30 minutos","pulse","Elíptica o cardio"],pasos:["Caminar 8.000 pasos","steps","Pasos"],agua:["Beber 3 litros de agua","drop","Agua"],plan:["Cumplir el plan del día","checkc","Cumplir el plan"],otra:["Reto personalizado","target","Otro"]};
+const QUICK = [
+  ["correr","Correr 30 minutos","",3,2],
+  ["baloncesto","Jugar baloncesto","",2,1],
+  ["cardio","Elíptica 30 minutos","Antes: 20 min. Si te ves bien, sube 5 min por sesión.",3,2],
+  ["plan","Cumplir el plan del día","Seis de siete días cuentan como semana completa.",6,2],
+  ["agua","Beber 3 litros de agua","",5,1]
+];
+const REWARD_IDEAS = [["Helado de coco",6,300],["Batido de mamey",4,350],["Pizza con amigos",10,700],["Camiseta del gimnasio",8,0],["Clase de baile gratis",5,0]];
+const NOTE_IDEAS = ["Esta semana sube la elíptica de 20 a 30 minutos.","Este fin de semana mantén tu plan: estás a un reto de tu premio.","Bebe un vaso de agua antes de cada comida.","¡Gran semana! El lunes revisamos tu progreso juntos."];
+const icon = (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+
+function onColor(hex){
+  let m = String(hex).replace("#",""); if(m.length === 3) m = m.split("").map(x => x+x).join("");
+  const n = parseInt(m,16); if(!Number.isFinite(n)) return "#FFFFFF";
+  const lin = v => { v /= 255; return v <= .03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4); };
+  const L = .2126*lin(n>>16&255) + .7152*lin(n>>8&255) + .0722*lin(n&255);
+  return (1.05/(L+.05)) >= ((L+.05)/.06) ? "#FFFFFF" : "#12171D";
+}
+function applyBrand(){
+  const r = document.documentElement;
+  r.style.setProperty("--brand", S.brand.color);
+  r.style.setProperty("--on-brand", onColor(S.brand.color));
+}
+
+/* ===================== Cálculo (determinista) ===================== */
+function calc(cl, t){
+  const W = clamp(+cl.weight || 0, 30, 250), H = clamp(+cl.height || 0, 120, 230);
+  const bf = clamp(+cl.bf || 0, 3, 60)/100, tbf = clamp(+cl.tbf || 0, 3, 60)/100;
+  const weeks = clamp(Math.round(+cl.weeks || 1), 1, 104), lean = clamp(+cl.lean || 0, -10, 15);
+  const LBM = W*(1-bf), FM = W-LBM, BMI = W/Math.pow(H/100, 2);
+  const BMR = 370 + 21.6*LBM, TDEE = BMR*(+cl.act || 1.55);
+  const targetW = (LBM + lean)/(1 - tbf), delta = targetW - W;
+  const o = {W,H,bf:bf*100,tbf:tbf*100,weeks,LBM,FM,BMI,BMR,TDEE,targetW,delta,needWk:delta/weeks,needPct:delta/weeks/W*100,checks:[]};
+  if(!t){ o.status = {lvl:"warn",label:"Sin forma",detail:"Asigna una forma dietética para calcular el plan."}; return o; }
+  const kcal = Math.round(TDEE*(1 + t.adjust/100));
+  const P = Math.round(t.protein*LBM), Fg = Math.round(kcal*t.fatPct/100/9);
+  const C = Math.max(0, Math.round((kcal - P*4 - Fg*9)/4));
+  Object.assign(o, {kcal, P, C, F:Fg, expWk: TDEE*(t.adjust/100)*7/7700});
+  if(Math.abs(delta) < 0.3) o.status = {lvl:"good",label:"Mantenimiento",detail:"El peso meta coincide con el actual."};
+  else if(Math.abs(o.expWk) < 0.01 || Math.sign(o.expWk) !== Math.sign(delta))
+    o.status = {lvl:"bad",label:"Dirección contraria",detail:`La meta pide ${delta<0?"bajar":"subir"} peso y «${t.name}» ${t.adjust<0?"tiene déficit":t.adjust>0?"tiene superávit":"es de mantenimiento"}.`};
+  else {
+    const wn = Math.abs(delta/o.expWk); o.weeksNeeded = wn;
+    o.status = wn <= weeks*1.1
+      ? {lvl:"good",label:"En plazo",detail:`Con esta forma llega en unas ${Math.ceil(wn)} semanas. Plazo fijado: ${weeks}.`}
+      : {lvl:"warn",label:`+${Math.ceil(wn-weeks)} semanas`,detail:`Con esta forma necesita unas ${Math.ceil(wn)} semanas. Alarga el plazo o aumenta el déficit.`};
+  }
+  const ck = o.checks;
+  if(o.needPct < -1.5) ck.push(["bad",`Ritmo de pérdida muy alto: ${fmt(Math.abs(o.needPct),1)} % del peso por semana. Recomendado: hasta 1 %.`]);
+  else if(o.needPct < -1) ck.push(["warn",`Ritmo de pérdida exigente: ${fmt(Math.abs(o.needPct),1)} % semanal.`]);
+  if(o.needPct > .5) ck.push(["warn",`Ganancia de ${fmt(o.needPct,1)} % semanal: probablemente más grasa que músculo.`]);
+  const floor = cl.sex === "F" ? 15 : 8;
+  if(o.tbf < floor) ck.push(["bad",`Meta de grasa por debajo de un rango saludable (${floor} % para ${cl.sex==="F"?"mujeres":"hombres"}).`]);
+  if(kcal < BMR) ck.push(["warn",`Calorías del plan (${fmt(kcal)}) por debajo del gasto basal (${fmt(BMR)}).`]);
+  if(C < 60) ck.push(["warn",`Carbohidratos muy bajos (${C} g). Revisa proteína o grasa.`]);
+  return o;
+}
+
+function allowedFoods(cl, t){
+  const ex = new Set(t ? t.exclude : []), al = new Set(cl.allergens);
+  const ok = [], blocked = [];
+  for(const f of S.foods){
+    const hit = f.allergens.filter(a => al.has(a));
+    if(hit.length) blocked.push({f, why: hit.map(a => AL[a]).join(", ")});
+    else if(ex.has(f.origin)) blocked.push({f, why: "Forma dietética"});
+    else ok.push(f);
+  }
+  return {ok, blocked};
+}
+
+function macrosOf(f, g){ const k = g/100; return {k:f.k*k, p:f.p*k, c:f.c*k, f:f.f*k}; }
+function addM(a, b){ return {k:a.k+b.k, p:a.p+b.p, c:a.c+b.c, f:a.f+b.f}; }
+const ZERO = {k:0,p:0,c:0,f:0};
+
+function buildPlan(cl, t, o){
+  if(!t || !o.kcal) return null;
+  const {ok} = allowedFoods(cl, t);
+  const pools = {}; for(const [c] of CATS) pools[c] = ok.filter(f => f.cat === c);
+  const slots = SLOTS[t.meals] || SLOTS[4];
+  const wsum = slots.reduce((s, x) => s + SLOT_W[x], 0);
+  // Premio canjeado: reserva sus calorías (60 % carbohidrato, 40 % grasa) y mantiene intacta la proteína.
+  const rw = cl.redeemed && cl.reward && cl.reward.name ? cl.reward : null;
+  const rk = rw ? clamp(+rw.kcal || 0, 0, 1200) : 0;
+  const dP = o.P, dC = Math.max(0, o.C - rk*.6/4), dF = Math.max(0, o.F - rk*.4/9);
+  const base = hash(cl.id) + S.seed*5;
+  // Candidatos rotados: la «semilla» cambia el orden para ofrecer otra combinación.
+  const cands = (pool, light, i, salt, n) => {
+    if(!pool.length) return [null];
+    let list = light ? pool.filter(f => f.d) : pool.filter(f => !f.d);
+    if(!list.length) list = pool;
+    const start = (base + i*7 + salt) % list.length, out = [];
+    for(let k = 0; k < Math.min(n, list.length); k++) out.push(list[(start + k) % list.length]);
+    return out;
+  };
+  // Compone una comida: resuelve proteína/carbohidrato con un sistema 2x2 y completa grasa.
+  function compose(slot, prot, carb, fat, veg, mP, mC, mF){
+    const items = []; let tot = {...ZERO};
+    const push = (f, g) => { if(!f || g <= 0) return; const m = macrosOf(f, g); items.push({f, g, m}); tot = addM(tot, m); };
+    const vm = veg ? macrosOf(veg, 150) : ZERO;
+    const tP = Math.max(0, mP - vm.p), tC = Math.max(0, mC - vm.c);
+    let g1 = 0, g2 = 0;
+    if(prot && carb){
+      const p1 = prot.p/100, c1 = prot.c/100, p2 = carb.p/100, c2 = carb.c/100, det = p1*c2 - p2*c1;
+      if(det > 1e-6){ g1 = (tP*c2 - p2*tC)/det; g2 = (p1*tC - c1*tP)/det; }
+      if(!(det > 1e-6) || g1 < 30 || g2 < 0){ g1 = Math.max(30, (tP - p2*Math.max(0, g2))/(p1 || 1)); g2 = Math.max(0, (tC - c1*g1)/(c2 || 1)); }
+    } else if(prot){ g1 = tP/(prot.p/100 || 1); }
+    else if(carb){ g2 = tC/(carb.c/100 || 1); }
+    g1 = clamp(r5(g1), prot ? 30 : 0, SMALL.has(slot) ? 180 : 320);
+    g2 = clamp(r5(g2), 0, 300);
+    push(prot, g1); if(g2 >= 20) push(carb, g2);
+    if(veg) push(veg, 150);
+    // Si el carbohidrato principal se queda corto por ración máxima, completa con un segundo (estilo «la bandera»).
+    const remC = mC - tot.c;
+    if(carb && remC > 15){
+      const pool = pools.carbohidrato.filter(f => f !== carb);
+      const second = pool.find(f => f.id === "habichuelas") || pool.find(f => !!f.d === !!carb.d) || pool[0];
+      if(second) push(second, clamp(r5(remC/(second.c/100 || 1)), 0, 250));
+    }
+    const remF = mF - tot.f;
+    if(fat && remF > 3) push(fat, clamp(r5(remF/(fat.f/100 || 1)), 5, fat.f > 80 ? 15 : 120));
+    const mk = mP*4 + mC*4 + mF*9;
+    const score = Math.abs(tot.k - mk)/mk + 1.5*Math.abs(tot.p - mP)/Math.max(mP, 10) + Math.abs(tot.f - mF)/Math.max(mF, 8) + .5*Math.abs(tot.c - mC)/Math.max(mC, 10);
+    return {items, tot, score};
+  }
+  const meals = slots.map((slot, i) => {
+    const share = SLOT_W[slot]/wsum, light = slot === "Desayuno" || SMALL.has(slot);
+    const mP = dP*share, mC = dC*share, mF = dF*share;
+    const veg = (slot === "Almuerzo" || slot === "Cena") && pools.vegetal.length ? pools.vegetal[0] : null;
+    const all = [];
+    for(const pr of cands(pools.proteina, light, i, 0, 4))
+      for(const ca of cands(pools.carbohidrato, light, i, 3, 4))
+        for(const fa of cands(pools.grasa, light, i, 1, 2)){
+          const r = compose(slot, pr, ca, fa, veg, mP, mC, mF);
+          r.key = r.items.map(x => x.f.id).join("|");
+          if(!all.some(x => x.key === r.key)) all.push(r);
+        }
+    all.sort((a, b) => a.score - b.score);
+    // Solo combinaciones cercanas a la mejor; la semilla rota entre ellas.
+    const good = all.filter(r => r.score <= all[0].score*1.5 + .08).slice(0, 4);
+    const {items, tot} = good[(S.seed + i) % good.length];
+    const named = items.filter(x => x.f.cat !== "vegetal").map(x => x.f.name);
+    const name = named.length ? named[0] + (named.length > 1 ? " con " + named.slice(1).map(n => n.charAt(0).toLowerCase() + n.slice(1)).join(" y ") : "") : "Sin alimentos disponibles";
+    return {slot, name, items, tot};
+  });
+  if(rk > 0) meals.push({slot:"Premio", name:rw.name, items:[], tot:{k:rk, p:0, c:rk*.6/4, f:rk*.4/9}, reward:true});
+  const total = meals.reduce((a, m) => addM(a, m.tot), {...ZERO});
+  const missing = ["proteina","carbohidrato"].filter(c => !pools[c].length);
+  return {meals, total, missing};
+}
+
+/* ===================== Panel del coach ===================== */
+function renderCoach(){
+  const used = S.clients.length, nT = S.templates.length, nF = S.foods.length;
+  const tabs = [["socios","Socios",used],["retos","Retos y premios",null],["formas","Formas dietéticas",nT],["alimentos","Alimentos",nF],["marca","Marca",null]];
+  $("#coach").innerHTML = `
+    <div class="coach-head">
+      <span class="eyebrow">Cuaderno del coach · ${esc(S.brand.name)}</span>
+      <h1>Tus reglas, tu marca</h1>
+      <p>Empieza en blanco o con ejemplos. Defines tus alimentos, tus formas dietéticas y tus límites; la app los aplica a cada socio según su peso, altura, % de grasa, alergias y plazo.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Secciones del panel">
+      ${tabs.map(([id,l,n]) => `<button role="tab" id="tab-${id}" data-tab="${id}" aria-selected="${S.tab===id}">${l}${n!==null?` <span class="count num">${n}</span>`:""}</button>`).join("")}
+    </div>
+    <div class="coach-body" id="coachBody">${
+      S.tab === "socios" ? socios() : S.tab === "retos" ? retos() : S.tab === "formas" ? formas() : S.tab === "alimentos" ? alimentos() : marca()
+    }</div>`;
+}
+
+/* ---- Socios ---- */
+function clientList(){
+  if(!S.clients.length) return `<p class="note">Sin socios todavía.</p>`;
+  return S.clients.map(c => {
+    const t = tplOf(c), o = calc(c, t);
+    return `<button class="item" data-action="sel-client" data-id="${c.id}" aria-current="${c.id===S.sel}">
+      <span class="item-top"><span>${esc(c.name || "Sin nombre")}</span><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></span>
+      <span class="item-sub">${t ? esc(t.name) : "Sin forma dietética"}${c.ej ? ` · <span class="tag-ej">ejemplo</span>` : ""}</span>
+    </button>`;
+  }).join("");
+}
+function socios(){
+  const c = curClient();
+  return `<div class="split">
+    <aside class="list">
+      <div class="list-head"><span>Socios</span><button class="btn sm" data-action="new-client">${icon("plus")} Nuevo</button></div>
+      <div class="list" id="clientList">${clientList()}</div>
+    </aside>
+    <div class="editor">${c ? clientForm(c) + `<div id="cOut">${clientOut(c)}</div>` :
+      `<div class="empty"><b>Aún no hay socios</b><span>Crea el primero con «Nuevo». Sus datos alimentan la app al instante.</span></div>`}</div>
+  </div>`;
+}
+function num(id, label, val, unit, step="1"){
+  return `<div class="field"><label for="${id}">${label}</label><div class="unit"><input id="${id}" type="number" inputmode="decimal" step="${step}" data-field="${id.slice(2)}" value="${esc(val)}"><span>${unit}</span></div></div>`;
+}
+function clientForm(c){
+  return `<div>
+    <div class="sec-title">Datos del socio</div>
+    <div class="fgrid">
+      <div class="field wide"><label for="c-name">Nombre</label><input id="c-name" data-field="name" value="${esc(c.name)}" autocomplete="off"></div>
+      <div class="field"><label for="c-sex">Sexo</label><select id="c-sex" data-field="sex"><option value="M"${c.sex==="M"?" selected":""}>Hombre</option><option value="F"${c.sex==="F"?" selected":""}>Mujer</option></select></div>
+      ${num("c-age","Edad",c.age,"años")}
+      ${num("c-weight","Peso actual",c.weight,"kg","0.1")}
+      ${num("c-height","Altura",c.height,"cm")}
+      ${num("c-bf","Grasa actual",c.bf,"%","0.5")}
+      ${num("c-tbf","Grasa meta",c.tbf,"%","0.5")}
+      ${num("c-lean","Músculo a ganar",c.lean,"kg","0.5")}
+      ${num("c-weeks","Plazo",c.weeks,"sem")}
+      <div class="field w2"><label for="c-act">Actividad</label><select id="c-act" data-field="act">${ACT.map(([v,l]) => `<option value="${v}"${+c.act===v?" selected":""}>${l}</option>`).join("")}</select></div>
+      <div class="field w2"><label for="c-tpl">Forma dietética</label><select id="c-tpl" data-field="tpl"><option value="">Sin asignar</option>${S.templates.map(t => `<option value="${t.id}"${c.tpl===t.id?" selected":""}>${esc(t.name)}</option>`).join("")}</select></div>
+    </div>
+  </div>
+  <div>
+    <div class="sec-title">Alergias e intolerancias</div>
+    <div class="chips" id="c-allergens">${ALLERGENS.map(([k,l]) => `<button type="button" class="chip al" data-action="toggle-al" data-k="${k}" aria-pressed="${c.allergens.includes(k)}">${l}</button>`).join("")}</div>
+  </div>`;
+}
+function clientOut(c){
+  const t = tplOf(c), o = calc(c, t), {ok, blocked} = allowedFoods(c, t);
+  const plan = buildPlan(c, t, o);
+  const tot = o.kcal ? o.P*4 + o.C*4 + o.F*9 : 1;
+  const pP = o.kcal ? o.P*4/tot*100 : 0, pC = o.kcal ? o.C*4/tot*100 : 0, pF = o.kcal ? o.F*9/tot*100 : 0;
+  const checks = [...o.checks];
+  if(plan && plan.missing.length) checks.push(["bad",`Sin alimentos de ${plan.missing.map(m => CAT[m].toLowerCase()).join(" ni ")} compatibles. Añade opciones en «Alimentos».`]);
+  if(!checks.length) checks.push(["good","Sin alertas. El plan respeta alergias, exclusiones y ritmo saludable."]);
+  return `<div class="out-grid">
+    <div class="ocard wide">
+      <h4>Meta en ${o.weeks} semanas</h4>
+      <div class="meta-line"><span class="big num">${fmt(o.W,1)}<small> kg</small></span><span class="arrow">→</span><span class="big num">${fmt(o.targetW,1)}<small> kg</small></span><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
+      <p class="note">${esc(o.status.detail)} Ritmo necesario: <b class="num">${sgn(o.needWk,2)} kg/sem</b> (${fmt(Math.abs(o.needPct),1)} %). Grasa: ${fmt(o.bf,1)} % → ${fmt(o.tbf,1)} %.</p>
+    </div>
+    <div class="ocard">
+      <h4>Composición</h4>
+      <div class="row"><span>Masa magra</span><b class="num">${fmt(o.LBM,1)} kg</b></div>
+      <div class="row"><span>Masa grasa</span><b class="num">${fmt(o.FM,1)} kg</b></div>
+      <div class="row"><span>IMC</span><b class="num">${fmt(o.BMI,1)}</b></div>
+    </div>
+    <div class="ocard">
+      <h4>Energía</h4>
+      <div class="row"><span>Basal (Katch-McArdle)</span><b class="num">${fmt(o.BMR)} kcal</b></div>
+      <div class="row"><span>Gasto total</span><b class="num">${fmt(o.TDEE)} kcal</b></div>
+      <div class="row"><span>Plan diario</span><b class="num">${o.kcal ? fmt(o.kcal)+" kcal" : "—"}</b></div>
+    </div>
+    ${o.kcal ? `<div class="ocard wide">
+      <h4>Macros del plan</h4>
+      <div class="bar" role="img" aria-label="Reparto de macros"><i class="c-p" style="width:${pP}%"></i><i class="c-c" style="width:${pC}%"></i><i class="c-f" style="width:${pF}%"></i></div>
+      <div class="legend num"><span><i class="c-p"></i>Proteína ${o.P} g · ${fmt(pP)} %</span><span><i class="c-c"></i>Carbohidratos ${o.C} g · ${fmt(pC)} %</span><span><i class="c-f"></i>Grasa ${o.F} g · ${fmt(pF)} %</span></div>
+    </div>` : ""}
+    <div class="ocard wide">
+      <h4>Alergias y exclusiones</h4>
+      <p class="note"><b class="num" style="color:var(--ink)">${ok.length} de ${S.foods.length}</b> alimentos disponibles para ${esc(firstName(c.name))}. El generador nunca usa los bloqueados.</p>
+      ${blocked.length ? `<div class="blocked">${blocked.map(b => `<span title="${esc(b.why)}">${esc(b.f.name)}</span>`).join("")}</div>` : ""}
+    </div>
+    <div class="ocard wide">
+      <h4>Revisión automática</h4>
+      <ul class="checks">${checks.map(([l,m]) => `<li><span class="pill lvl-${l}">${l==="good"?"OK":l==="warn"?"Revisar":"Alerta"}</span><span>${esc(m)}</span></li>`).join("")}</ul>
+    </div>
+  </div>
+  <div class="actions" style="margin-top:14px">
+    <button class="btn primary" data-action="view-app">${icon("bolt")} Ver su app</button>
+    <button class="btn danger" data-action="del-client">${icon("trash")} Eliminar socio</button>
+  </div>`;
+}
+
+/* ---- Retos y premios ---- */
+function starsOf(c){
+  const done = c.tasks.filter(t => t.done >= t.target);
+  const earned = done.reduce((s, t) => s + (+t.stars || 0), 0);
+  return {earned, total:(c.bank || 0) + earned, completed:done.length};
+}
+function weekGoal(o){
+  const wk = clamp(o.needWk, -0.01*o.W, 0.005*o.W);
+  return {wk, txt: Math.abs(wk) < 0.05 ? "Mantener el peso" : (wk < 0 ? "Bajar " : "Subir ") + fmt(Math.abs(wk),1) + " kg"};
+}
+const starIc = () => icon("star");
+function retos(){
+  const c = curClient();
+  return `<div class="split">
+    <aside class="list">
+      <div class="list-head"><span>Socios</span></div>
+      <div class="list" id="clientList">${clientList()}</div>
+    </aside>
+    <div class="editor">${c ? retosEditor(c) : `<div class="empty"><b>Aún no hay socios</b><span>Crea uno en la pestaña «Socios».</span></div>`}</div>
+  </div>`;
+}
+function retosEditor(c){
+  const o = calc(c, tplOf(c)), g = weekGoal(o), st = starsOf(c), rw = c.reward;
+  const rows = c.tasks.map(t => `<div class="trow">
+      <span class="ic">${icon((TASK_TYPES[t.type] || TASK_TYPES.otra)[1])}</span>
+      <div style="min-width:0"><div class="t">${esc(t.title)}</div>${t.detail ? `<div class="d">${esc(t.detail)}</div>` : ""}</div>
+      <span class="note num">${t.done}/${t.target}</span>
+      <span class="stars num">${starIc()}${t.stars}</span>
+      <button class="icon-btn" data-action="del-task" data-id="${t.id}" aria-label="Eliminar reto ${esc(t.title)}">${icon("trash")}</button>
+    </div>`).join("");
+  return `<div class="ocard">
+    <h4>Meta de la semana · automática</h4>
+    <div class="weekgoal"><span class="big">${g.txt}</span><span class="note num">${fmt(Math.abs(g.wk)/o.W*100,1)} % del peso</span></div>
+    <p class="note">Sale de su meta (${fmt(o.targetW,1)} kg en ${o.weeks} semanas). Nunca pide más del 1 % del peso por semana al bajar ni del 0,5 % al subir. Las estrellas se ganan con hábitos, no con la báscula.</p>
+  </div>
+  <div>
+    <div class="sec-title">Retos de esta semana · ${esc(firstName(c.name))} tiene <span class="stars num">${starIc()}${st.total}</span></div>
+    <div class="tlist">${rows || `<p class="note">Sin retos. Añade uno con las sugerencias de abajo.</p>`}</div>
+  </div>
+  <div class="addbox">
+    <div class="sec-title" style="margin:0">Añadir reto</div>
+    <div class="chips">${QUICK.map((q,i) => `<button type="button" class="chip" data-action="quick-task" data-i="${i}">${icon("plus").replace('aria-hidden="true"','aria-hidden="true" style="width:13px;height:13px;vertical-align:-2px"')} ${esc(q[1])} ×${q[3]}</button>`).join("")}</div>
+    <div class="fgrid">
+      <div class="field w2"><label for="rt-type">Tipo</label><select id="rt-type">${Object.entries(TASK_TYPES).map(([k,v]) => `<option value="${k}">${v[2]}</option>`).join("")}</select></div>
+      <div class="field"><label for="rt-target">Veces por semana</label><input id="rt-target" type="number" min="1" max="7" value="3"></div>
+      <div class="field"><label for="rt-stars">Estrellas</label><select id="rt-stars"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div>
+      <div class="field wide"><label for="rt-title">Reto</label><input id="rt-title" value="${TASK_TYPES.correr[0]}" autocomplete="off"></div>
+      <div class="field wide"><label for="rt-detail">Detalle para el socio (opcional)</label><input id="rt-detail" placeholder="Ej.: Antes 20 min; esta semana 30 min." autocomplete="off"></div>
+    </div>
+    <div class="actions"><button class="btn primary" data-action="add-task">${icon("plus")} Añadir reto</button><span class="msg" id="rt-msg" role="status"></span></div>
+  </div>
+  <div>
+    <div class="sec-title">Premio · lo que le motiva</div>
+    <div class="fgrid">
+      <div class="field wide"><label for="r-name">Premio</label><input id="r-name" data-rfield="name" value="${esc(rw.name)}" placeholder="Ej.: Helado de coco" autocomplete="off"></div>
+      ${`<div class="field"><label for="r-cost">Estrellas necesarias</label><div class="unit"><input id="r-cost" type="number" min="1" max="50" data-rfield="cost" value="${esc(rw.cost)}"><span>★</span></div></div>`}
+      <div class="field w2"><label for="r-kcal">Calorías que reserva el plan</label><div class="unit"><input id="r-kcal" type="number" min="0" max="1200" step="50" data-rfield="kcal" value="${esc(rw.kcal)}"><span>kcal</span></div></div>
+    </div>
+    <div class="chips" style="margin-top:10px">${REWARD_IDEAS.map((r,i) => `<button type="button" class="chip" data-action="reward-idea" data-i="${i}">${esc(r[0])}</button>`).join("")}</div>
+    <p class="note" style="margin-top:8px">Si el premio es comida, el día que lo canjea el plan reserva esas calorías y ajusta el resto sin tocar la proteína. Usa 0 kcal para premios que no son comida.</p>
+  </div>
+  <div>
+    <div class="sec-title">Enviar aviso al móvil</div>
+    <div class="field"><label for="n-text">Mensaje</label><textarea id="n-text" rows="2" placeholder="Escribe un mensaje corto y en positivo."></textarea></div>
+    <div class="chips" style="margin-top:8px">${NOTE_IDEAS.map((n,i) => `<button type="button" class="chip" data-action="note-idea" data-i="${i}">${esc(n.length > 44 ? n.slice(0,42) + "…" : n)}</button>`).join("")}</div>
+    <div class="actions" style="margin-top:10px"><button class="btn primary" data-action="send-note">${icon("send")} Enviar aviso</button><span class="msg" id="n-msg" role="status"></span></div>
+  </div>
+  <div class="actions">
+    <button class="btn" data-action="close-week">Cerrar semana</button>
+    <span class="note">Suma las estrellas ganadas a su saldo y reinicia los retos para la semana siguiente.</span>
+  </div>`;
+}
+
+/* ---- Formas dietéticas ---- */
+function formas(){
+  const t = S.templates.find(x => x.id === S.selT) || S.templates[0];
+  return `<div class="split">
+    <aside class="list">
+      <div class="list-head"><span>Formas</span><button class="btn sm" data-action="new-tpl">${icon("plus")} En blanco</button></div>
+      <div class="list" id="tplList">${tplList()}</div>
+    </aside>
+    <div class="editor">${t ? tplForm(t) : `<div class="empty"><b>Cuaderno en blanco</b><span>Crea tu primera forma dietética: ajuste calórico, proteína, grasa, número de comidas y exclusiones.</span></div>`}</div>
+  </div>`;
+}
+function tplList(){
+  if(!S.templates.length) return `<p class="note">Sin formas todavía.</p>`;
+  return S.templates.map(t => {
+    const n = S.clients.filter(c => c.tpl === t.id).length;
+    return `<button class="item" data-action="sel-tpl" data-id="${t.id}" aria-current="${t.id===S.selT}">
+      <span class="item-top"><span>${esc(t.name || "Sin nombre")}</span></span>
+      <span class="item-sub num">${t.adjust>0?"+":""}${t.adjust} % kcal · ${t.meals} comidas · ${n} socio${n===1?"":"s"}${t.ej?` · <span class="tag-ej">ejemplo</span>`:""}</span>
+    </button>`;
+  }).join("");
+}
+function rng(id, label, val, min, max, step, suffix){
+  return `<div class="field"><label for="${id}">${label}</label><div class="range-row"><input type="range" id="${id}" data-tfield="${id.slice(2)}" min="${min}" max="${max}" step="${step}" value="${val}"><output for="${id}" id="${id}-o" class="num">${val}${suffix}</output></div></div>`;
+}
+function tplForm(t){
+  return `<div>
+    <div class="sec-title">Forma dietética</div>
+    <div class="fgrid">
+      <div class="field wide"><label for="t-name">Nombre</label><input id="t-name" data-tfield="name" value="${esc(t.name)}" autocomplete="off"></div>
+      <div class="field wide">${rng("t-adjust","Ajuste calórico sobre el gasto total",t.adjust,-30,20,1," %")}</div>
+      <div class="field wide">${rng("t-protein","Proteína por kg de masa magra",t.protein,1.6,3.2,0.1," g")}</div>
+      <div class="field wide">${rng("t-fatPct","Grasa sobre el total de calorías",t.fatPct,15,45,1," %")}</div>
+      <div class="field"><label for="t-meals">Comidas al día</label><select id="t-meals" data-tfield="meals">${[3,4,5,6].map(n => `<option value="${n}"${t.meals===n?" selected":""}>${n}</option>`).join("")}</select></div>
+      <div class="field wide"><label for="t-note">Notas para el socio</label><textarea id="t-note" rows="2" data-tfield="note">${esc(t.note)}</textarea></div>
+    </div>
+  </div>
+  <div>
+    <div class="sec-title">Excluye de esta forma</div>
+    <div class="chips">${ORIGINS.map(([k,l]) => `<button type="button" class="chip" data-action="toggle-ex" data-k="${k}" aria-pressed="${t.exclude.includes(k)}">${l}</button>`).join("")}</div>
+  </div>
+  <div id="tOut">${tplOut(t)}</div>`;
+}
+function tplOut(t){
+  const users = S.clients.filter(c => c.tpl === t.id);
+  const sample = users[0] || curClient();
+  let prev = `<p class="note">Asigna esta forma a un socio para ver el resultado.</p>`;
+  if(sample){
+    const o = calc(sample, t);
+    prev = `<div class="row"><span>Aplicada a ${esc(sample.name)}</span><b class="num">${fmt(o.kcal)} kcal</b></div>
+      <div class="legend num"><span><i class="c-p"></i>P ${o.P} g</span><span><i class="c-c"></i>C ${o.C} g</span><span><i class="c-f"></i>G ${o.F} g</span><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>`;
+  }
+  return `<div class="out-grid" style="margin-top:4px">
+    <div class="ocard wide"><h4>Vista previa</h4>${prev}
+      <p class="note">${users.length ? `En uso por: ${users.map(u => esc(u.name)).join(", ")}.` : "Ningún socio la usa todavía."}</p>
+    </div>
+  </div>
+  <div class="actions" style="margin-top:12px">
+    <button class="btn danger" data-action="del-tpl">${icon("trash")} Eliminar forma</button>
+    <span class="msg err" id="t-msg" role="status"></span>
+  </div>`;
+}
+
+/* ---- Alimentos ---- */
+function alimentos(){
+  const rows = S.foods.map(f => `<tr>
+    <td>${esc(f.name)}${f.ej ? ` <span class="tag-ej">ejemplo</span>` : ""}</td>
+    <td>${CAT[f.cat] || f.cat}</td>
+    <td class="n">${fmt(f.k)}</td><td class="n">${fmt(f.p,1)}</td><td class="n">${fmt(f.c,1)}</td><td class="n">${fmt(f.f,1)}</td>
+    <td><div class="al-tags">${f.allergens.map(a => `<span>${AL[a]}</span>`).join("") || `<span style="background:none;color:var(--muted);padding:0">—</span>`}</div></td>
+    <td><button class="icon-btn" data-action="del-food" data-id="${f.id}" aria-label="Eliminar ${esc(f.name)}">${icon("trash")}</button></td>
+  </tr>`).join("");
+  return `<div class="editor">
+    <div class="addbox">
+      <div class="sec-title" style="margin:0">Añadir alimento · valores por 100 g cocidos</div>
+      <div class="fgrid">
+        <div class="field wide"><label for="nf-name">Nombre</label><input id="nf-name" placeholder="Ej.: Mangú de guineo verde" autocomplete="off"></div>
+        <div class="field"><label for="nf-cat">Grupo</label><select id="nf-cat">${CATS.map(([k,l]) => `<option value="${k}">${l}</option>`).join("")}</select></div>
+        <div class="field"><label for="nf-origin">Origen</label><select id="nf-origin">${ORIGIN_ALL.map(([k,l]) => `<option value="${k}">${l}</option>`).join("")}</select></div>
+        <div class="field"><label for="nf-k">Calorías</label><div class="unit"><input id="nf-k" type="number" inputmode="decimal" min="0" step="1"><span>kcal</span></div></div>
+        <div class="field"><label for="nf-p">Proteína</label><div class="unit"><input id="nf-p" type="number" inputmode="decimal" min="0" step="0.1"><span>g</span></div></div>
+        <div class="field"><label for="nf-c">Carbohidratos</label><div class="unit"><input id="nf-c" type="number" inputmode="decimal" min="0" step="0.1"><span>g</span></div></div>
+        <div class="field"><label for="nf-f">Grasa</label><div class="unit"><input id="nf-f" type="number" inputmode="decimal" min="0" step="0.1"><span>g</span></div></div>
+        <div class="field"><label for="nf-d">Uso</label><select id="nf-d"><option value="0">Comida principal</option><option value="1">Desayuno o merienda</option></select></div>
+      </div>
+      <div><div class="sec-title">Contiene</div><div class="chips" id="nf-al">${ALLERGENS.map(([k,l]) => `<button type="button" class="chip al" data-action="nf-al" data-k="${k}" aria-pressed="false">${l}</button>`).join("")}</div></div>
+      <div class="actions"><button class="btn primary" data-action="add-food">${icon("plus")} Añadir al cuaderno</button><span class="msg" id="nf-msg" role="status"></span></div>
+    </div>
+    ${S.foods.length ? `<div class="tbl-wrap"><table><thead><tr><th>Alimento</th><th>Grupo</th><th class="n">kcal</th><th class="n">Prot.</th><th class="n">Carb.</th><th class="n">Grasa</th><th>Alérgenos</th><th><span class="sr" style="position:absolute;left:-9999px">Acciones</span></th></tr></thead><tbody>${rows}</tbody></table></div>`
+      : `<div class="empty"><b>Cuaderno vacío</b><span>Añade los alimentos con los que trabajas. La app solo propondrá lo que esté aquí.</span></div>`}
+    <div class="actions">
+      <button class="btn" data-action="blank">Empezar en blanco</button>
+      <button class="btn" data-action="examples">Cargar ejemplos dominicanos</button>
+      <span class="note">«Empezar en blanco» vacía alimentos y formas; tus socios se conservan.</span>
+    </div>
+  </div>`;
+}
+
+/* ---- Marca ---- */
+function marca(){
+  const b = S.brand;
+  return `<div class="editor">
+    <div>
+      <div class="sec-title">Identidad del gimnasio</div>
+      <div class="fgrid">
+        <div class="field wide"><label for="b-name">Nombre del gimnasio</label><input id="b-name" data-bfield="name" value="${esc(b.name)}" autocomplete="off"></div>
+        <div class="field"><label for="b-initials">Iniciales del logo</label><input id="b-initials" data-bfield="initials" maxlength="3" value="${esc(b.initials)}" autocomplete="off"></div>
+        <div class="field"><label for="b-coach">Nombre del coach</label><input id="b-coach" data-bfield="coach" value="${esc(b.coach)}" autocomplete="off"></div>
+        <div class="field"><label for="b-color">Color de marca</label><input id="b-color" type="color" data-bfield="color" value="${esc(b.color)}"></div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-title">Marcas de ejemplo</div>
+      <div class="swatches" id="swatches">${PRESETS.map(([n,i,c]) => `<button class="sw" data-action="preset" data-n="${esc(n)}" data-i="${i}" data-c="${c}" aria-pressed="${b.color.toLowerCase()===c.toLowerCase()}"><i style="background:${c}"></i>${esc(n)}</button>`).join("")}</div>
+    </div>
+    <p class="note">Cada gimnasio recibe su propia app con su nombre, logo y color. La lógica, los datos y la seguridad son los mismos para todos.</p>
+  </div>`;
+}
+
+/* ===================== App del socio ===================== */
+function doneKey(c){ return c.id + ":" + S.seed; }
+function doneSet(c){ return new Set(S.done[doneKey(c)] || []); }
+
+function renderApp(){
+  const c = curClient();
+  const navs = [["inicio","Inicio","home"],["plan","Plan","plan"],["retos","Retos","star"],["progreso","Progreso","prog"],["perfil","Perfil","user"]];
+  $("#anav").innerHTML = navs.map(([id,l,ic]) => `<button data-ptab="${id}" aria-current="${S.ptab===id}">${icon(ic)}${l}</button>`).join("");
+  const el = $("#app");
+  if(!c){ el.innerHTML = `${appHead(null)}<div class="a-empty"><b>Sin socio seleccionado</b><span>Crea un socio en el panel del coach.</span></div>`; return; }
+  const t = tplOf(c), o = calc(c, t), plan = buildPlan(c, t, o);
+  el.innerHTML = S.ptab === "plan" ? appPlan(c,t,o,plan) : S.ptab === "retos" ? appRetos(c,o) : S.ptab === "progreso" ? appProg(c,t,o) : S.ptab === "perfil" ? appPerfil(c,t) : appHome(c,t,o,plan);
+}
+function appHead(c){
+  return `<div class="a-head"><div class="logo">${esc(S.brand.initials || "GYM")}</div><div><h2>¡Hola${c ? ", " + esc(firstName(c.name)) : ""}!</h2><p>${esc(S.brand.name)} · tu plan de hoy, listo</p></div></div>`;
+}
+function ring(pct){
+  const r = 48, C = 2*Math.PI*r, off = C*(1 - clamp(pct,0,1));
+  return `<svg width="112" height="112" viewBox="0 0 112 112" aria-hidden="true"><circle cx="56" cy="56" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="10"/><circle cx="56" cy="56" r="${r}" fill="none" stroke="var(--brand)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)"/></svg>`;
+}
+function eaten(c, plan){
+  const d = doneSet(c); let tot = {...ZERO};
+  if(plan) plan.meals.forEach((m,i) => { if(d.has(i)) tot = addM(tot, m.tot); });
+  return tot;
+}
+function mbar(label, val, target, cls){
+  const pct = target ? clamp(val/target,0,1)*100 : 0;
+  return `<div><div class="mb-top"><span>${label}</span><span class="num">${fmt(val)} / ${fmt(target)} g</span></div><div class="mb"><i class="${cls}" style="width:${pct}%"></i></div></div>`;
+}
+function appHome(c,t,o,plan){
+  const e = eaten(c, plan), d = doneSet(c);
+  const next = plan ? plan.meals.findIndex((m,i) => !d.has(i)) : -1;
+  const hr = new Date().getHours();
+  const bars = Array.from({length:17}, (_,k) => { const h = 6+k; const v = .25 + .55*Math.exp(-Math.pow((h-8)/1.6,2)) + .7*Math.exp(-Math.pow((h-19)/2,2)) + (hash("a"+h)%10)/100; return {h, v:clamp(v,.12,1)}; });
+  const nowBar = bars.find(b => b.h === hr);
+  const msg = o.status.lvl === "good" ? `Vas en ritmo para ${fmt(o.targetW,1)} kg en ${o.weeks} semanas. Sigue así.` :
+              o.status.lvl === "warn" ? `Ajustamos el plan esta semana para llegar a tu meta. Lo hablamos en la próxima cita.` :
+              `Tu coach está revisando tu plan antes de la próxima semana.`;
+  const st = starsOf(c), rw = c.reward, unread = c.notes.filter(n => !n.read).length, g = weekGoal(o);
+  const rwPct = rw.name ? clamp(st.total/Math.max(1, rw.cost), 0, 1)*100 : 0;
+  return `<div class="ahead-row">${appHead(c)}<button class="bell" data-action="open-bell" aria-label="Avisos${unread ? ", " + unread + " sin leer" : ""}">${icon("bell")}${unread ? `<span class="badge num">${unread}</span>` : ""}</button></div>
+  <div class="tiles">
+    <button class="tile t1" data-action="checkin"><span class="ti">${icon("qr")}</span>Check-in</button>
+    <button class="tile t2" data-action="friend"><span class="ti">${icon("share")}</span>Trae a un amigo</button>
+  </div>
+  ${plan ? `<div class="acard">
+    <div class="acard-h"><h3>Hoy</h3><button class="link" data-ptab="plan">Ver plan</button></div>
+    <div class="ring-row">
+      <div class="ring">${ring(o.kcal ? e.k/o.kcal : 0)}<div class="ring-c"><b class="num">${fmt(Math.max(0, o.kcal - e.k))}</b><span>kcal restantes</span></div></div>
+      <div class="mbars">${mbar("Proteína", e.p, o.P, "c-p")}${mbar("Carbohidratos", e.c, o.C, "c-c")}${mbar("Grasa", e.f, o.F, "c-f")}</div>
+    </div>
+  </div>` : `<div class="a-empty"><b>Tu plan está en preparación</b><span>Tu coach está configurando tu forma dietética.</span></div>`}
+  <div class="acard">
+    <div class="acard-h"><h3>Retos</h3><button class="link" data-ptab="retos">Ver retos</button></div>
+    ${rw.name ? `<div class="row"><span style="color:var(--ink)">${c.redeemed ? "Premio canjeado: " : "Para tu premio: "}<b>${esc(rw.name)}</b></span><span class="stars num">${starIc()}${st.total}/${rw.cost}</span></div>
+    <div class="mb"><i style="width:${rwPct}%;background:var(--star)"></i></div>` : ""}
+    <div class="row"><span>Meta de la semana</span><b>${g.txt}</b></div>
+  </div>
+  ${plan && next >= 0 ? `<div class="acard"><div class="next"><span class="ic">${icon("plan")}</span><div style="min-width:0;flex:1"><div class="meal-slot">Próxima · ${esc(plan.meals[next].slot)}</div><div class="meal-name">${esc(plan.meals[next].name)}</div></div><button class="tick" data-action="done" data-i="${next}" aria-pressed="false" aria-label="Marcar como hecha">${icon("check")}</button></div></div>` : ""}
+  <div class="acard">
+    <div class="acard-h"><h3>Tu coach</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
+    <div class="coachmsg"><div class="logo sm">${esc(S.brand.initials)}</div><div class="bubble"><b>${esc(S.brand.coach)}</b><br>${esc(msg)}</div></div>
+  </div>
+  <div class="acard">
+    <div class="acard-h"><h3>Aforo</h3><span class="note">${nowBar ? (nowBar.v < .45 ? "Tranquilo ahora" : nowBar.v < .75 ? "Moderado ahora" : "Lleno ahora") : "Cerrado ahora"}</span></div>
+    <div class="aforo" role="img" aria-label="Aforo por hora, de 6:00 a 22:00">${bars.map(b => `<i class="${b.h===hr?"now":""}" style="height:${b.v*100}%"></i>`).join("")}</div>
+    <div class="row note num"><span>6:00</span><span>14:00</span><span>22:00</span></div>
+  </div>`;
+}
+function appPlan(c,t,o,plan){
+  if(!plan) return `<div><div class="a-title">Plan de hoy</div></div><div class="a-empty"><b>Sin forma dietética asignada</b><span>Tu coach la asignará pronto.</span></div>`;
+  const d = doneSet(c);
+  return `<div><div class="a-title">Plan de hoy</div><div class="a-sub">${esc(t.name)} · ${t.meals} comidas</div></div>
+  ${c.allergens.length ? `<div class="al-row"><span class="note">Sin:</span>${c.allergens.map(a => `<span class="al">${AL[a]}</span>`).join("")}</div>` : ""}
+  <div class="sumline num">
+    <div><b>${fmt(plan.total.k)}</b><span>de ${fmt(o.kcal)} kcal</span></div>
+    <div><b>${fmt(plan.total.p)}</b><span>prot. g</span></div>
+    <div><b>${fmt(plan.total.c)}</b><span>carb. g</span></div>
+    <div><b>${fmt(plan.total.f)}</b><span>grasa g</span></div>
+  </div>
+  ${plan.missing.length ? `<div class="a-empty"><b>Faltan alimentos compatibles</b><span>Tu coach está completando opciones para ti.</span></div>` : ""}
+  ${plan.meals.map((m,i) => m.reward ? `<div class="meal rw-meal${d.has(i)?" done":""}">
+    <div class="meal-h"><div style="min-width:0"><div class="meal-slot">Premio · ganado con tus retos</div><div class="meal-name">${esc(m.name)}</div></div>
+      <button class="tick" data-action="done" data-i="${i}" aria-pressed="${d.has(i)}" aria-label="${d.has(i)?"Desmarcar":"Marcar como hecho"}">${icon("check")}</button></div>
+    <div class="mchips"><span>${fmt(m.tot.k)} kcal reservadas</span><span>El resto del día ya está ajustado</span></div>
+  </div>` : `<div class="meal${d.has(i)?" done":""}">
+    <div class="meal-h"><div style="min-width:0"><div class="meal-slot">${esc(m.slot)}</div><div class="meal-name">${esc(m.name)}</div></div>
+      <button class="tick" data-action="done" data-i="${i}" aria-pressed="${d.has(i)}" aria-label="${d.has(i)?"Desmarcar":"Marcar como hecha"}">${icon("check")}</button></div>
+    <ul class="ing">${m.items.map(x => `<li><span>${esc(x.f.name)}</span><span>${fmt(x.g)} g</span></li>`).join("")}</ul>
+    <div class="mchips"><span>${fmt(m.tot.k)} kcal</span><span>P ${fmt(m.tot.p)}</span><span>C ${fmt(m.tot.c)}</span><span>G ${fmt(m.tot.f)}</span></div>
+  </div>`).join("")}
+  <button class="btn-app ghost" data-action="reroll">${icon("swap").replace('aria-hidden="true"','aria-hidden="true" style="width:16px;height:16px;vertical-align:-3px"')} Otra combinación</button>
+  ${t.note ? `<p class="note">Nota del coach: ${esc(t.note)}</p>` : ""}`;
+}
+// Registros semanales de ejemplo: siguen el ritmo esperado con una pequeña oscilación.
+function history(c,o){
+  const past = 6, hist = [];
+  const slope = o.expWk ? o.expWk*0.9 : o.needWk;
+  for(let k = past; k >= 0; k--){ const wob = k ? Math.sin(hash(c.id+k)%628/100)*0.25 : 0; hist.push([-k, o.W - slope*k + wob]); }
+  return {past, hist};
+}
+function chart(c,o){
+  const {past, hist} = history(c,o);
+  const W = 330, H = 190, ml = 34, mr = 54, mt = 14, mb = 26;
+  const x0 = -past, x1 = o.weeks;
+  const ys = [...hist.map(p => p[1]), o.targetW];
+  let y0 = Math.floor(Math.min(...ys) - 1), y1 = Math.ceil(Math.max(...ys) + 1);
+  const X = x => ml + (x - x0)/(x1 - x0)*(W - ml - mr);
+  const Y = y => mt + (1 - (y - y0)/(y1 - y0))*(H - mt - mb);
+  const step = (y1 - y0) > 12 ? 4 : (y1 - y0) > 6 ? 2 : 1;
+  const grid = []; for(let v = Math.ceil(y0/step)*step; v <= y1; v += step) grid.push(v);
+  const hp = hist.map((p,i) => `${i?"L":"M"}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join(" ");
+  const area = `${hp} L${X(0).toFixed(1)} ${(H-mb)} L${X(-past).toFixed(1)} ${(H-mb)} Z`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Evolución del peso y proyección a ${o.weeks} semanas">
+    <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--brand)" stop-opacity=".22"/><stop offset="1" stop-color="var(--brand)" stop-opacity="0"/></linearGradient></defs>
+    ${grid.map(v => `<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${ml-6}" y="${Y(v)+3}" text-anchor="end">${v}</text>`).join("")}
+    <path d="${area}" fill="url(#ga)"/>
+    <path d="${hp}" fill="none" stroke="var(--brand)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M${X(0)} ${Y(o.W)} L${X(o.weeks)} ${Y(o.targetW)}" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>
+    <line x1="${X(0)}" x2="${X(0)}" y1="${mt}" y2="${H-mb}" stroke="var(--line)" stroke-dasharray="2 3"/>
+    <circle cx="${X(0)}" cy="${Y(o.W)}" r="5" fill="var(--brand)" stroke="var(--surface)" stroke-width="2"/>
+    <circle cx="${X(o.weeks)}" cy="${Y(o.targetW)}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
+    <text x="${X(o.weeks)+8}" y="${Y(o.targetW)+3}" style="fill:var(--ink);font-weight:600">${fmt(o.targetW,1)}</text>
+    <text x="${X(0)+8}" y="${Y(o.W)-8}" style="fill:var(--ink);font-weight:600">${fmt(o.W,1)}</text>
+    <text x="${X(-past)}" y="${H-8}" text-anchor="start">−${past} sem</text>
+    <text x="${X(0)}" y="${H-8}" text-anchor="middle">Hoy</text>
+    <text x="${X(o.weeks)}" y="${H-8}" text-anchor="middle">Sem ${o.weeks}</text>
+  </svg>`;
+}
+function appProg(c,t,o){
+  return `<div><div class="a-title">Progreso</div><div class="a-sub">Meta: ${fmt(o.tbf,1)} % de grasa en ${o.weeks} semanas</div></div>
+  <div class="stats num">
+    <div class="stat"><b>${fmt(o.W,1)}</b><span>Peso, kg</span></div>
+    <div class="stat"><b>${fmt(o.bf,1)}</b><span>% grasa</span></div>
+    <div class="stat"><b>${fmt(o.LBM,1)}</b><span>Masa magra, kg</span></div>
+  </div>
+  <div class="acard">
+    <div class="acard-h"><h3>Peso</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
+    ${chart(c,o)}
+    <div class="legend"><span><i class="c-p"></i>Registros semanales (ejemplo)</span><span><i style="background:var(--muted)"></i>Proyección</span></div>
+  </div>
+  <div class="acard">
+    <div class="row"><span>Peso meta</span><b class="num">${fmt(o.targetW,1)} kg</b></div>
+    <div class="row"><span>Ritmo necesario</span><b class="num">${sgn(o.needWk,2)} kg/sem</b></div>
+    <div class="row"><span>Grasa a ${o.delta<0?"perder":"mover"}</span><b class="num">${fmt(Math.abs(o.FM - (o.targetW*o.tbf/100)),1)} kg</b></div>
+  </div>
+  <button class="btn-app" data-action="share-open">${icon("share")} Compartir mi progreso</button>`;
+}
+function weekRange(){
+  const d = new Date(), day = (d.getDay() + 6) % 7, mon = new Date(d); mon.setDate(d.getDate() - day);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  const f = x => x.toLocaleDateString("es-DO", {day:"numeric", month:"short"});
+  return f(mon) + " al " + f(sun);
+}
+function ago(ts){
+  const m = Math.round((Date.now() - ts)/60000);
+  return m < 1 ? "ahora" : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m/60)} h` : `hace ${Math.round(m/1440)} d`;
+}
+function appRetos(c,o){
+  const st = starsOf(c), rw = c.reward, g = weekGoal(o);
+  const pct = rw.name ? clamp(st.total/Math.max(1, rw.cost), 0, 1)*100 : 0;
+  const rwCard = rw.name ? `<div class="acard reward">
+    <div class="rw-top"><span class="rw-ic">${icon("gift")}</span><div style="min-width:0;flex:1"><div class="rw-eyebrow">Tu premio</div><div class="rw-name">${esc(rw.name)}</div></div><span class="stars num" style="color:inherit">${starIc()}${st.total}/${rw.cost}</span></div>
+    <div class="rw-bar"><i style="width:${pct}%"></i></div>
+    ${c.redeemed ? `<p class="rw-note">Canjeado. ${+rw.kcal ? `Está en tu plan de hoy con ${fmt(rw.kcal)} kcal reservadas.` : "Recógelo en recepción."}</p>`
+      : st.total >= rw.cost ? `<button class="rw-btn" data-action="redeem">Canjear premio</button>`
+      : `<p class="rw-note">Te faltan ${rw.cost - st.total} estrella${rw.cost - st.total === 1 ? "" : "s"}. Complétalas con tus retos.</p>`}
+  </div>` : "";
+  const tasks = c.tasks.map(t => {
+    const full = t.done >= t.target;
+    return `<div class="task">
+      <span class="ic">${icon((TASK_TYPES[t.type] || TASK_TYPES.otra)[1])}</span>
+      <div style="min-width:0"><div class="task-t">${esc(t.title)}</div>${t.detail ? `<div class="task-d">${esc(t.detail)}</div>` : ""}
+        <div class="dots" aria-label="${t.done} de ${t.target}">${Array.from({length:t.target}, (_,k) => `<i class="${k < t.done ? "on" : ""}"></i>`).join("")}</div></div>
+      <div class="task-r"><span class="stars num">${starIc()}${t.stars}</span>
+        <button class="inc${full ? " ok" : ""}" data-action="task-inc" data-id="${t.id}" aria-label="${full ? "Completado. Pulsa para deshacer uno" : "Registrar una vez"}">${full ? icon("check") : "+1"}</button></div>
+    </div>`;
+  }).join("");
+  const notes = [...c.notes].sort((a,b) => b.ts - a.ts).slice(0,3);
+  return `<div><div class="a-title">Retos</div><div class="a-sub">Semana del ${weekRange()}</div></div>
+  ${rwCard}
+  <div class="acard"><div class="acard-h"><h3>Meta de la semana</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
+    <div class="big">${g.txt}</div><p class="note">Un ritmo que puedes sostener. Tu coach la revisa cada lunes.</p></div>
+  ${tasks || `<div class="a-empty"><b>Sin retos esta semana</b><span>Tu coach los añadirá pronto.</span></div>`}
+  ${notes.length ? `<div><div class="sec-title">Avisos de tu coach</div><div class="note-list">${notes.map(n => `<div class="note-item"><span class="logo sm">${esc(S.brand.initials)}</span><div>${esc(n.text)}<span class="when">${ago(n.ts)}</span></div></div>`).join("")}</div></div>` : ""}`;
+}
+
+/* ---- Avisos (simulan una notificación push) y mensajes breves ---- */
+let pushT, toastT;
+function showPush(text){
+  $("#push").innerHTML = `<div class="push" role="status"><span class="logo sm">${esc(S.brand.initials)}</span><div style="min-width:0;flex:1"><div class="push-h"><b>${esc(S.brand.name)}</b><span class="when">ahora</span></div><p>${esc(text)}</p></div></div>`;
+  clearTimeout(pushT); pushT = setTimeout(() => { $("#push").innerHTML = ""; }, 5200);
+}
+function showToast(text, star){
+  $("#toast").innerHTML = `<div class="toast" role="status">${star ? starIc() : ""}${esc(text)}</div>`;
+  clearTimeout(toastT); toastT = setTimeout(() => { $("#toast").innerHTML = ""; }, 2400);
+}
+
+/* ---- Tarjeta para redes sociales (canvas) ---- */
+function hexRGB(h){ let m = String(h).replace("#",""); if(m.length === 3) m = m.split("").map(x => x+x).join(""); const n = parseInt(m,16) || 0; return [n>>16&255, n>>8&255, n&255]; }
+function mixHex(a, b, t){ const A = hexRGB(a), B = hexRGB(b); return `rgb(${A.map((v,i) => Math.round(v + (B[i]-v)*t)).join(",")})`; }
+function rr(x, X, Y, w, h, r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r); x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); }
+function fitFont(x, text, weight, max, family, width){ let s = max; do { x.font = `${weight} ${s}px ${family}`; s -= 2; } while(x.measureText(text).width > width && s > 18); }
+let shareBlob = null;
+async function drawShare(){
+  const c = curClient(), img = $("#shareImg"); if(!c || !img) return;
+  const o = calc(c, tplOf(c)), st = starsOf(c), t = tplOf(c), {past, hist} = history(c,o);
+  try{ if(document.fonts) await Promise.all([document.fonts.load('700 120px "Barlow Condensed"'), document.fonts.load('600 40px "Onest"'), document.fonts.load('500 40px "Onest"')]); }catch(e){}
+  const story = S.share.fmt === "story", W = 1080, H = story ? 1920 : 1350, M = 84;
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H; const x = cv.getContext("2d");
+  const brand = S.brand.color, D = '"Barlow Condensed","Arial Narrow",sans-serif', B = '"Onest",system-ui,sans-serif';
+  let g = x.createLinearGradient(0, 0, W*.4, H); g.addColorStop(0, mixHex(brand,"#0B0F14",.28)); g.addColorStop(1, mixHex(brand,"#0B0F14",.74));
+  x.fillStyle = g; x.fillRect(0,0,W,H);
+  const rg = x.createRadialGradient(W*.95, H*.04, 10, W*.95, H*.04, W*.95); rg.addColorStop(0,"rgba(255,255,255,.22)"); rg.addColorStop(1,"rgba(255,255,255,0)");
+  x.fillStyle = rg; x.fillRect(0,0,W,H);
+  x.strokeStyle = "rgba(255,255,255,.045)"; x.lineWidth = 3;
+  for(let k = -H; k < W; k += 34){ x.beginPath(); x.moveTo(k, H); x.lineTo(k + H*.47, 0); x.stroke(); }
+  // Cabecera: logo + gimnasio
+  rr(x, M, M, 112, 112, 30); x.fillStyle = "#FFFFFF"; x.fill();
+  x.fillStyle = mixHex(brand,"#0B0F14",.2); x.font = `700 54px ${D}`; x.textAlign = "center"; x.textBaseline = "middle";
+  x.fillText((S.brand.initials || "GYM").toUpperCase(), M+56, M+59);
+  x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#FFFFFF"; fitFont(x, S.brand.name, 600, 42, B, W - M*2 - 140); x.fillText(S.brand.name, M+140, M+50);
+  x.fillStyle = "rgba(255,255,255,.72)"; x.font = `500 30px ${B}`; x.fillText("Entreno con " + S.brand.coach, M+140, M+94);
+  // Titular
+  const delta = o.W - hist[0][1], y0 = story ? 640 : 470;
+  x.fillStyle = mixHex(brand,"#FFFFFF",.55); x.font = `600 32px ${B}`; if("letterSpacing" in x) x.letterSpacing = "6px";
+  x.fillText("MI PROGRESO", M, y0 - (story ? 250 : 210)); if("letterSpacing" in x) x.letterSpacing = "0px";
+  const head = (delta < 0 ? "−" : "+") + fmt(Math.abs(delta),1) + " kg";
+  x.fillStyle = "#FFFFFF"; fitFont(x, head, 700, story ? 290 : 250, D, W - M*2);
+  const hs = parseInt((x.font.match(/(\d+)px/) || [0, 250])[1], 10);
+  x.fillText(head, M - 6, y0);
+  x.fillStyle = "rgba(255,255,255,.8)"; fitFont(x, `en ${past} semanas${t ? " · " + t.name : ""}`, 500, 44, B, W - M*2);
+  x.fillText(`en ${past} semanas${t ? " · " + t.name : ""}`, M, y0 + Math.round(hs*.26) + 46);
+  // Gráfica
+  const cy = story ? 880 : 640, ch = story ? 440 : 290, cw = W - M*2;
+  const ys = hist.map(p => p[1]), lo = Math.min(...ys) - .4, hi = Math.max(...ys) + .4;
+  const PX = i => M + i/(hist.length-1)*cw, PY = v => cy + (1 - (v - lo)/(hi - lo))*ch;
+  const ag = x.createLinearGradient(0, cy, 0, cy+ch); ag.addColorStop(0,"rgba(255,255,255,.26)"); ag.addColorStop(1,"rgba(255,255,255,0)");
+  x.beginPath(); hist.forEach((p,i) => i ? x.lineTo(PX(i), PY(p[1])) : x.moveTo(PX(i), PY(p[1]))); x.lineTo(PX(hist.length-1), cy+ch); x.lineTo(M, cy+ch); x.closePath(); x.fillStyle = ag; x.fill();
+  x.beginPath(); hist.forEach((p,i) => i ? x.lineTo(PX(i), PY(p[1])) : x.moveTo(PX(i), PY(p[1]))); x.strokeStyle = "#FFFFFF"; x.lineWidth = 9; x.lineJoin = "round"; x.lineCap = "round"; x.stroke();
+  const ex = PX(hist.length-1), ey = PY(hist[hist.length-1][1]);
+  x.beginPath(); x.arc(ex, ey, 17, 0, Math.PI*2); x.fillStyle = mixHex(brand,"#FFFFFF",.35); x.fill(); x.lineWidth = 7; x.strokeStyle = "#FFFFFF"; x.stroke();
+  // Indicadores
+  const sy = story ? 1440 : 1010, gap = 24, bw = (cw - gap*2)/3, bh = 170;
+  const boxes = [[String((c.starsLife || 0) + st.earned), "estrellas ganadas"], [String((c.retosTotal || 0) + st.completed), "retos cumplidos"],
+    S.share.weight ? [fmt(o.W,1) + " kg", "peso actual"] : [String(c.tasks.length ? Math.round(c.tasks.reduce((s,k) => s + Math.min(k.done,k.target), 0) / c.tasks.reduce((s,k) => s + k.target, 0)*100) : 0) + " %", "semana completada"]];
+  boxes.forEach(([v, l], i) => {
+    const bx = M + i*(bw + gap); rr(x, bx, sy, bw, bh, 28); x.fillStyle = "rgba(255,255,255,.1)"; x.fill();
+    x.fillStyle = "#FFFFFF"; fitFont(x, v, 700, 82, D, bw - 48); x.fillText(v, bx + 26, sy + 96);
+    x.fillStyle = "rgba(255,255,255,.75)"; x.font = `500 28px ${B}`; x.fillText(l, bx + 26, sy + 140);
+  });
+  // Pie
+  const tag = "#" + S.brand.name.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9]/g,"");
+  x.fillStyle = "rgba(255,255,255,.85)"; x.font = `600 32px ${B}`; x.fillText(tag, M, H - M);
+  x.textAlign = "right"; x.fillStyle = "rgba(255,255,255,.55)"; x.font = `500 26px ${B}`; x.fillText("Hecho con CoachRD", W - M, H - M);
+  shareBlob = null; cv.toBlob(b => { shareBlob = b; }, "image/png");
+  img.src = cv.toDataURL("image/png");
+}
+function openShare(){
+  const f = S.share.fmt;
+  openSheet(`<b style="font-size:17px">Comparte tu progreso</b>
+    <div class="chips">
+      <button class="chip" data-action="share-fmt" data-f="post" aria-pressed="${f==="post"}">Publicación 4:5</button>
+      <button class="chip" data-action="share-fmt" data-f="story" aria-pressed="${f==="story"}">Historia 9:16</button>
+      <button class="chip" data-action="share-weight" aria-pressed="${S.share.weight}">Mostrar peso actual</button>
+    </div>
+    <img id="shareImg" class="shareimg" alt="Tarjeta con tu progreso para redes sociales">
+    <div class="sheet-actions"><button class="btn-app" data-action="share-do">${icon("share")} Compartir</button><button class="btn-app ghost" data-action="save-img">Guardar imagen</button></div>
+    <p class="note" id="share-hint" style="text-align:center">Tú eliges qué se muestra: por defecto no aparece tu peso, solo el cambio.</p>`);
+  drawShare();
+}
+function appPerfil(c,t){
+  const mail = firstName(c.name).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase() + "@ejemplo.com";
+  const row = (l, r) => `<div class="menu-row"><span>${l}</span><span class="r">${r}${icon("chev")}</span></div>`;
+  return `<div class="prof"><div class="avatar">${esc(firstName(c.name).charAt(0))}</div><div><b>${esc(c.name)}</b><div class="note">${esc(mail)}</div></div></div>
+  <div><div class="sec-title">Mi gimnasio</div><div class="menu">
+    <div class="menu-row"><span style="display:flex;gap:10px;align-items:center"><span class="logo sm">${esc(S.brand.initials)}</span>${esc(S.brand.name)}</span><span class="r">${icon("chev")}</span></div>
+    ${row("Mi coach", esc(S.brand.coach))}
+    ${row("Forma dietética", t ? esc(t.name) : "Pendiente")}
+  </div></div>
+  <div><div class="sec-title">Cuenta</div><div class="menu">
+    ${row("Datos personales", "")}
+    ${row("Alergias", c.allergens.length ? c.allergens.map(a => AL[a]).join(", ") : "Ninguna")}
+    ${row("Método de pago", "En la web del gimnasio")}
+    ${row("Notificaciones", "Activadas")}
+  </div></div>
+  <button class="out" data-action="noop">Cerrar sesión</button>`;
+}
+
+function qrSVG(seed){
+  const n = 25, s = 7; let d = "";
+  const finder = (x,y) => (x>=0&&x<7&&y>=0&&y<7);
+  const inF = (x,y) => finder(x,y) || finder(x-(n-7),y) || finder(x,y-(n-7));
+  const fpix = (x,y) => { const fx = x>=n-7 ? x-(n-7) : x, fy = y>=n-7 ? y-(n-7) : y; return (fx===0||fx===6||fy===0||fy===6) || (fx>=2&&fx<=4&&fy>=2&&fy<=4); };
+  for(let y=0;y<n;y++) for(let x=0;x<n;x++){
+    const on = inF(x,y) ? fpix(x,y) : (x===7||y===7||x===n-8||y===n-8) && (inF(x-1,y)||inF(x+1,y)||inF(x,y-1)||inF(x,y+1)) ? false : (hash(seed+":"+x+":"+y) % 100) < 47;
+    if(on) d += `M${x*s} ${y*s}h${s}v${s}h-${s}z`;
+  }
+  return `<svg width="${n*s}" height="${n*s}" viewBox="0 0 ${n*s} ${n*s}" role="img" aria-label="Código QR de ejemplo"><path d="${d}" fill="#111"/></svg>`;
+}
+function openSheet(html){
+  $("#modal").innerHTML = `<div class="modal" data-action="close-modal"><div class="sheet" data-stop="1"><span class="grab"></span>${html}</div></div>`;
+}
+
+/* ===================== Render global ===================== */
+function renderTop(){
+  $("#layout").dataset.view = S.view;
+  $("#seg-app").setAttribute("aria-selected", S.view === "app");
+  $("#seg-coach").setAttribute("aria-selected", S.view === "coach");
+}
+function renderAll(){ applyBrand(); renderTop(); renderCoach(); renderApp(); }
+function refreshLive(){
+  if(S.tab === "socios"){ const c = curClient(); const out = $("#cOut"); if(out && c) out.innerHTML = clientOut(c); const l = $("#clientList"); if(l) l.innerHTML = clientList(); }
+  if(S.tab === "formas"){ const t = S.templates.find(x => x.id === S.selT); const out = $("#tOut"); if(out && t) out.innerHTML = tplOut(t); const l = $("#tplList"); if(l) l.innerHTML = tplList(); }
+  renderApp(); save();
+}
+function flashPhone(){ const p = $("#phone"); p.classList.remove("flash"); void p.offsetWidth; p.classList.add("flash"); }
+
+/* ===================== Eventos ===================== */
+document.addEventListener("click", (ev) => {
+  const modalBg = ev.target.closest("[data-action='close-modal']");
+  if(modalBg && !ev.target.closest("[data-stop]")){ $("#modal").innerHTML = ""; return; }
+  const v = ev.target.closest("[data-view]");
+  if(v && v.tagName === "BUTTON"){ S.view = v.dataset.view; renderTop(); save(); return; }
+  const tab = ev.target.closest("[data-tab]");
+  if(tab){ S.tab = tab.dataset.tab; renderCoach(); save(); return; }
+  const pt = ev.target.closest("[data-ptab]");
+  if(pt){ S.ptab = pt.dataset.ptab; renderApp(); $("#app").scrollTop = 0; save(); return; }
+  const a = ev.target.closest("[data-action]"); if(!a) return;
+  const act = a.dataset.action, c = curClient();
+  switch(act){
+    case "reset": {
+      if(a.dataset.armed){ const view = S.view; S = fresh(); S.view = view; try{ localStorage.removeItem(KEY); }catch(e){} renderAll(); a.textContent = "Restablecer"; delete a.dataset.armed; }
+      else { a.dataset.armed = "1"; a.textContent = "¿Seguro? Pulsa otra vez"; setTimeout(() => { if(a.dataset.armed){ delete a.dataset.armed; a.textContent = "Restablecer"; } }, 3500); }
+      return;
+    }
+    case "sel-client": S.sel = a.dataset.id; S.ptab = S.ptab || "inicio"; renderCoach(); renderApp(); flashPhone(); save(); return;
+    case "new-client": {
+      const id = "c" + uid();
+      S.clients.push(ensureClient({id,name:"Nuevo socio",sex:"M",age:30,weight:80,height:175,bf:22,tbf:16,lean:0,weeks:16,act:1.55,allergens:[],tpl:S.templates[0]?.id || ""}));
+      S.sel = id; renderCoach(); renderApp(); save(); const n = $("#c-name"); if(n){ n.focus(); n.select(); } return;
+    }
+    case "del-client": {
+      if(!c) return;
+      if(!a.dataset.armed){ a.dataset.armed = "1"; a.lastChild.textContent = " ¿Eliminar? Pulsa otra vez"; return; }
+      S.clients = S.clients.filter(x => x.id !== c.id); S.sel = S.clients[0]?.id || null; renderCoach(); renderApp(); save(); return;
+    }
+    case "toggle-al": {
+      if(!c) return; const k = a.dataset.k;
+      c.allergens = c.allergens.includes(k) ? c.allergens.filter(x => x !== k) : [...c.allergens, k];
+      a.setAttribute("aria-pressed", c.allergens.includes(k)); refreshLive(); return;
+    }
+    case "view-app": S.view = "app"; S.ptab = "plan"; renderTop(); renderApp(); flashPhone(); save(); if(window.innerWidth < 1080) window.scrollTo({top:0,behavior:"smooth"}); return;
+    case "sel-tpl": S.selT = a.dataset.id; renderCoach(); save(); return;
+    case "new-tpl": {
+      const id = "t" + uid();
+      S.templates.push({id,name:"Nueva forma",adjust:0,protein:2.0,fatPct:28,meals:4,exclude:[],note:""});
+      S.selT = id; renderCoach(); save(); const n = $("#t-name"); if(n){ n.focus(); n.select(); } return;
+    }
+    case "toggle-ex": {
+      const t = S.templates.find(x => x.id === S.selT); if(!t) return; const k = a.dataset.k;
+      t.exclude = t.exclude.includes(k) ? t.exclude.filter(x => x !== k) : [...t.exclude, k];
+      a.setAttribute("aria-pressed", t.exclude.includes(k)); refreshLive(); return;
+    }
+    case "del-tpl": {
+      const t = S.templates.find(x => x.id === S.selT); if(!t) return;
+      const users = S.clients.filter(x => x.tpl === t.id);
+      if(users.length){ $("#t-msg").textContent = `No se puede eliminar: la usan ${users.length} socio${users.length===1?"":"s"}. Reasígnalos primero.`; return; }
+      S.templates = S.templates.filter(x => x.id !== t.id); S.selT = S.templates[0]?.id || null; renderCoach(); renderApp(); save(); return;
+    }
+    case "nf-al": a.setAttribute("aria-pressed", a.getAttribute("aria-pressed") !== "true"); return;
+    case "add-food": {
+      const msg = $("#nf-msg"); msg.className = "msg";
+      const name = $("#nf-name").value.trim();
+      const vals = ["k","p","c","f"].map(k => parseFloat($("#nf-"+k).value));
+      if(!name){ msg.className = "msg err"; msg.textContent = "Escribe el nombre del alimento."; $("#nf-name").focus(); return; }
+      if(vals.some(x => !Number.isFinite(x) || x < 0)){ msg.className = "msg err"; msg.textContent = "Completa calorías, proteína, carbohidratos y grasa (0 o más)."; return; }
+      const [k,p,cc,f] = vals; const est = p*4 + cc*4 + f*9;
+      const al = [...document.querySelectorAll("#nf-al [aria-pressed='true']")].map(b => b.dataset.k);
+      S.foods.unshift({id:"f"+uid(),name,cat:$("#nf-cat").value,origin:$("#nf-origin").value,k,p,c:cc,f,allergens:al,d:$("#nf-d").value === "1"});
+      renderCoach(); renderApp(); save();
+      const m2 = $("#nf-msg");
+      if(k > 0 && Math.abs(est - k)/k > .15){ m2.className = "msg err"; m2.textContent = `Añadido. Ojo: los macros suman ${fmt(est)} kcal y declaraste ${fmt(k)}. Revisa los valores.`; }
+      else { m2.className = "msg ok"; m2.textContent = `«${name}» añadido al cuaderno.`; }
+      return;
+    }
+    case "del-food": S.foods = S.foods.filter(f => f.id !== a.dataset.id); renderCoach(); renderApp(); save(); return;
+    case "blank": {
+      if(!a.dataset.armed){ a.dataset.armed = "1"; a.textContent = "¿Vaciar alimentos y formas? Pulsa otra vez"; return; }
+      S.foods = []; S.templates = []; S.selT = null; S.clients.forEach(x => x.tpl = ""); renderCoach(); renderApp(); save(); return;
+    }
+    case "examples": {
+      const have = new Set(S.foods.map(f => f.id)); seedFoods().forEach(f => { if(!have.has(f.id)) S.foods.push(f); });
+      const haveT = new Set(S.templates.map(t => t.id)); seedTemplates().forEach(t => { if(!haveT.has(t.id)) S.templates.push(t); });
+      if(!S.selT) S.selT = S.templates[0]?.id;
+      S.clients.forEach(x => { if(!x.tpl){ const orig = seedClients().find(s => s.id === x.id); x.tpl = orig ? orig.tpl : S.templates[0].id; } });
+      renderCoach(); renderApp(); save(); return;
+    }
+    case "preset": {
+      S.brand.name = a.dataset.n; S.brand.initials = a.dataset.i; S.brand.color = a.dataset.c;
+      renderAll(); flashPhone(); save(); return;
+    }
+    case "done": {
+      if(!c) return; const i = +a.dataset.i, key = doneKey(c), d = doneSet(c);
+      d.has(i) ? d.delete(i) : d.add(i); S.done[key] = [...d]; renderApp(); save(); return;
+    }
+    case "reroll": S.seed++; renderApp(); save(); return;
+    /* ---- Retos y premios (coach) ---- */
+    case "quick-task": {
+      if(!c) return; const q = QUICK[+a.dataset.i];
+      c.tasks.push(T(q[0], q[1], q[2], q[3], q[4], 0)); renderCoach(); renderApp(); save(); return;
+    }
+    case "add-task": {
+      if(!c) return; const msg = $("#rt-msg"), title = $("#rt-title").value.trim();
+      if(!title){ msg.className = "msg err"; msg.textContent = "Escribe el reto."; $("#rt-title").focus(); return; }
+      const target = clamp(Math.round(+$("#rt-target").value || 1), 1, 7), stars = clamp(+$("#rt-stars").value || 1, 1, 3);
+      c.tasks.push(T($("#rt-type").value, title, $("#rt-detail").value.trim(), target, stars, 0));
+      renderCoach(); renderApp(); save(); const m2 = $("#rt-msg"); if(m2){ m2.className = "msg ok"; m2.textContent = "Reto añadido. Ya aparece en su app."; } return;
+    }
+    case "del-task": if(!c) return; c.tasks = c.tasks.filter(t => t.id !== a.dataset.id); renderCoach(); renderApp(); save(); return;
+    case "reward-idea": {
+      if(!c) return; const r = REWARD_IDEAS[+a.dataset.i];
+      c.reward = {name:r[0], cost:r[1], kcal:r[2]}; renderCoach(); renderApp(); save(); return;
+    }
+    case "note-idea": { const ta = $("#n-text"); if(ta){ ta.value = NOTE_IDEAS[+a.dataset.i]; ta.focus(); } return; }
+    case "send-note": {
+      if(!c) return; const ta = $("#n-text"), msg = $("#n-msg"), text = ta.value.trim();
+      if(!text){ msg.className = "msg err"; msg.textContent = "Escribe el aviso o elige una sugerencia."; ta.focus(); return; }
+      c.notes.push({id:"n"+uid(), text, ts:Date.now(), read:false}); ta.value = "";
+      msg.className = "msg ok"; msg.textContent = `Enviado al móvil de ${firstName(c.name)}.`;
+      if(window.innerWidth < 1080){ S.view = "app"; renderTop(); window.scrollTo({top:0, behavior:"smooth"}); }
+      renderApp(); showPush(text); save(); return;
+    }
+    case "close-week": {
+      if(!c) return;
+      if(!a.dataset.armed){ a.dataset.armed = "1"; a.textContent = "¿Cerrar la semana? Pulsa otra vez"; return; }
+      const st = starsOf(c); c.bank = st.total; c.retosTotal = (c.retosTotal || 0) + st.completed; c.starsLife = (c.starsLife || 0) + st.earned;
+      c.tasks.forEach(t => t.done = 0); c.redeemed = false; renderCoach(); renderApp(); save(); return;
+    }
+    /* ---- Retos (socio) ---- */
+    case "task-inc": {
+      if(!c) return; const t = c.tasks.find(x => x.id === a.dataset.id); if(!t) return;
+      const before = starsOf(c).total, wasFull = t.done >= t.target;
+      t.done = wasFull ? t.target - 1 : t.done + 1;
+      const after = starsOf(c).total;
+      renderApp(); if(S.tab === "retos") renderCoach(); save();
+      if(!wasFull && t.done >= t.target){
+        if(c.reward.name && !c.redeemed && before < c.reward.cost && after >= c.reward.cost) showToast(`¡Premio desbloqueado: ${c.reward.name}!`, true);
+        else showToast(`+${t.stars} estrella${t.stars === 1 ? "" : "s"}`, true);
+      }
+      return;
+    }
+    case "redeem": {
+      if(!c || c.redeemed) return; const st = starsOf(c); if(st.total < c.reward.cost) return;
+      c.bank -= c.reward.cost; c.redeemed = true; renderApp(); if(S.tab === "retos") renderCoach(); save();
+      showToast(+c.reward.kcal ? "Añadido a tu plan de hoy" : "Canjeado. Recógelo en recepción", true); return;
+    }
+    case "open-bell": {
+      if(!c) return; const list = [...c.notes].sort((x,y) => y.ts - x.ts);
+      openSheet(`<b style="font-size:17px">Avisos de ${esc(S.brand.coach)}</b>${list.length ? `<div class="note-list">${list.map(n => `<div class="note-item"><span class="logo sm">${esc(S.brand.initials)}</span><div>${esc(n.text)}<span class="when">${ago(n.ts)}</span></div></div>`).join("")}</div>` : `<p class="note">Sin avisos por ahora.</p>`}<button class="btn-app" style="width:100%" data-action="close-modal">Cerrar</button>`);
+      c.notes.forEach(n => n.read = true); renderApp(); save(); return;
+    }
+    /* ---- Compartir progreso ---- */
+    case "share-open": openShare(); return;
+    case "share-fmt": S.share.fmt = a.dataset.f; document.querySelectorAll("[data-action='share-fmt']").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === S.share.fmt)); drawShare(); save(); return;
+    case "share-weight": S.share.weight = !S.share.weight; a.setAttribute("aria-pressed", S.share.weight); drawShare(); save(); return;
+    case "share-do": {
+      const hint = $("#share-hint");
+      const fail = () => { if(hint) hint.textContent = "Este navegador no permite compartir desde aquí. Mantén pulsada la imagen (o clic derecho) para guardarla y súbela a tus redes."; };
+      try{
+        if(!shareBlob) throw new Error("sin imagen");
+        const file = new File([shareBlob], "mi-progreso.png", {type:"image/png"});
+        if(navigator.canShare && navigator.canShare({files:[file]})) navigator.share({files:[file], title:"Mi progreso"}).catch(err => { if(!err || err.name !== "AbortError") fail(); });
+        else fail();
+      }catch(e){ fail(); }
+      return;
+    }
+    case "save-img": {
+      const hint = $("#share-hint");
+      try{ if(shareBlob){ const u = URL.createObjectURL(shareBlob), l = document.createElement("a"); l.href = u; l.download = "mi-progreso.png"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000); } }catch(e){}
+      if(hint) hint.textContent = "Si no se descargó, mantén pulsada la imagen (o clic derecho → Guardar imagen).";
+      return;
+    }
+    case "checkin": openSheet(`<b style="font-size:17px">Check-in · ${esc(S.brand.name)}</b><div class="qr">${qrSVG((c?.id || "x") + S.brand.name)}</div><span class="note">Código de ejemplo. Muéstralo en recepción.</span><button class="btn-app" style="width:100%" data-action="close-modal">Listo</button>`); return;
+    case "friend": openSheet(`<b style="font-size:17px">Trae a un amigo</b><p class="note" style="text-align:center">Comparte tu código y tu amigo entrena gratis su primera semana en ${esc(S.brand.name)}.</p><div class="big num" style="letter-spacing:.12em">${esc((S.brand.initials||"GYM").toUpperCase())}-${(hash(c?.id||"x")%9000)+1000}</div><span class="note">Código de ejemplo</span><button class="btn-app" style="width:100%" data-action="close-modal">Cerrar</button>`); return;
+  }
+});
+// El botón «Listo» del sheet está dentro de [data-stop]; ciérralo explícitamente.
+document.addEventListener("click", (ev) => { const b = ev.target.closest(".sheet [data-action='close-modal']"); if(b) $("#modal").innerHTML = ""; });
+
+document.addEventListener("input", (ev) => {
+  const el = ev.target;
+  if(el.dataset.field){
+    const c = curClient(); if(!c) return; const k = el.dataset.field;
+    if(["name","sex","tpl"].includes(k)) c[k] = el.value;
+    else { const v = parseFloat(el.value); if(!Number.isFinite(v)) return; c[k] = v; }
+    if(c.ej && k !== "tpl") delete c.ej;
+    refreshLive(); return;
+  }
+  if(el.dataset.tfield){
+    const t = S.templates.find(x => x.id === S.selT); if(!t) return; const k = el.dataset.tfield;
+    if(k === "name" || k === "note") t[k] = el.value;
+    else { const v = parseFloat(el.value); if(!Number.isFinite(v)) return; t[k] = k === "meals" ? Math.round(v) : v; }
+    const out = $("#" + el.id + "-o"); if(out) out.textContent = el.value + (k === "protein" ? " g" : " %");
+    refreshLive(); return;
+  }
+  if(el.dataset.rfield){
+    const c = curClient(); if(!c) return; const k = el.dataset.rfield;
+    if(k === "name") c.reward.name = el.value;
+    else { const v = parseFloat(el.value); if(!Number.isFinite(v)) return; c.reward[k] = k === "cost" ? clamp(Math.round(v),1,50) : clamp(v,0,1200); }
+    renderApp(); save(); return;
+  }
+  if(el.id === "rt-type"){ const tt = TASK_TYPES[el.value]; const ti = $("#rt-title"); if(tt && ti) ti.value = tt[0]; return; }
+  if(el.dataset.bfield){
+    const k = el.dataset.bfield; S.brand[k] = el.value;
+    applyBrand(); renderApp();
+    const eb = $(".coach-head .eyebrow"); if(eb) eb.textContent = "Cuaderno del coach · " + S.brand.name;
+    document.querySelectorAll("#swatches .sw").forEach(b => b.setAttribute("aria-pressed", b.dataset.c.toLowerCase() === S.brand.color.toLowerCase()));
+    save(); return;
+  }
+});
+
+function tick(){ const d = new Date(); $("#clock").textContent = d.getHours() + ":" + String(d.getMinutes()).padStart(2,"0"); }
+tick(); setInterval(tick, 30000);
+renderAll();
+})();
+</script>
+</body>
+</html>
