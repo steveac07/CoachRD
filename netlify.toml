@@ -1,0 +1,16 @@
+# Netlify publica la demo aprobada como página de inicio.
+# Solo se copia el HTML: el esquema SQL y la Edge Function de referencia/ no se publican.
+#
+# Cuando la app Expo sustituya a la demo, cambia a:
+#   command = "npx expo export -p web"
+#   (y define EXPO_PUBLIC_SUPABASE_URL y EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY en Netlify)
+[build]
+  command = "mkdir -p dist && cp referencia/coachrd-demo.html dist/index.html"
+  publish = "dist"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"

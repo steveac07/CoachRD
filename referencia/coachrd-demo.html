@@ -8,7 +8,9 @@
 <meta name="apple-mobile-web-app-title" content="CoachRD">
 <meta name="robots" content="noindex">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
-<title>CoachRD Demo</title>
+<meta name="description" content="CoachRD: app de marca blanca de nutrición y entrenamiento para gimnasios y coaches en República Dominicana.">
+<meta name="theme-color" content="#0E7C74">
+<title>CoachRD · Demo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -376,6 +378,62 @@ input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-rad
   .phone{height:calc(100dvh - 120px - env(safe-area-inset-top, 0px))}
 }
 @keyframes flash{30%{box-shadow:0 0 0 6px color-mix(in oklab, var(--brand) 45%, transparent),0 30px 60px -20px rgb(10 14 20 / .45)}}
+
+/* ---------- Resumen del coach, check-in semanal, rachas, agua, intercambios, ranking ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;background:var(--surface-2);min-width:0}
+.kpi b{display:block;font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.05}
+.kpi span{font-size:12px;color:var(--muted)}
+.arow-m{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:5px}
+.arow-m .mb{width:90px;flex:none}
+.arow-m .mb i{background:var(--brand)}
+.streak{display:inline-flex;align-items:center;gap:3px;font-weight:700;color:var(--warn);white-space:nowrap;font-size:12.5px}
+.streak svg{width:15px;height:15px}
+.scale{display:inline-flex;gap:3px;align-items:center}
+.scale i{width:14px;height:6px;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
+.scale i.on{background:var(--brand);border-color:var(--brand)}
+.hgroup{display:flex;gap:10px;align-items:center;min-width:0}
+.item,.btn,.chip,.tile,.tick,.inc,.btn-app,.glass,.opt{transition:transform .12s, background-color .15s, border-color .15s, color .15s}
+.btn:active,.chip:active,.tile:active,.tick:active,.inc:active,.btn-app:active,.glass:active,.opt:active{transform:scale(.96)}
+.app.enter>*{animation:rise .34s cubic-bezier(.2,.8,.2,1) both}
+.app.enter>*:nth-child(2){animation-delay:.04s}
+.app.enter>*:nth-child(3){animation-delay:.08s}
+.app.enter>*:nth-child(4){animation-delay:.12s}
+.app.enter>*:nth-child(n+5){animation-delay:.16s}
+@keyframes rise{from{transform:translateY(10px);opacity:0}}
+.tick[aria-pressed="true"] svg{animation:tickpop .3s}
+@keyframes tickpop{from{transform:scale(.3)}60%{transform:scale(1.25)}}
+.sheet{max-height:94%;overflow-y:auto;scrollbar-width:none}
+.sheet-form{display:flex;flex-direction:column;gap:12px;width:100%;text-align:left}
+.q{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;font-weight:600}
+.q .chips{gap:4px;flex-wrap:nowrap}
+.q .chip{width:34px;height:34px;padding:0;display:grid;place-items:center;font-weight:700}
+.q .chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.consent{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--muted)}
+.consent input{margin-top:2px;accent-color:var(--brand);width:17px;height:17px;flex:none}
+.acard.cta{border:1.5px solid color-mix(in oklab, var(--brand) 45%, transparent)}
+.water{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
+.glass{border:0;height:38px;border-radius:10px;background:var(--surface-2);color:var(--muted);display:grid;place-items:center;padding:0}
+.glass svg{width:18px;height:18px}
+.glass[aria-pressed="true"]{background:color-mix(in oklab, #2F80ED 18%, var(--surface));color:#2F80ED}
+.ing-b{display:flex;justify-content:space-between;gap:8px;width:100%;border:0;background:transparent;padding:3px 0;text-align:left;font-size:13px}
+.ing-b span:first-child{display:inline-flex;gap:6px;align-items:center;min-width:0}
+.ing-b svg{width:13px;height:13px;color:var(--muted);flex:none}
+.ing-b.sw span:first-child{color:var(--brand-ink);font-weight:600}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:14px;padding:11px 13px;text-align:left;font-size:13.5px}
+.opt b{font-weight:600}
+.opt span{color:var(--muted);white-space:nowrap;font-size:12.5px}
+.rank{display:grid;grid-template-columns:22px minmax(0,1fr) auto auto;gap:10px;align-items:center;font-size:13.5px;padding:7px 8px;border-radius:10px}
+.rank.me{background:var(--brand-soft);font-weight:600}
+.rank .pos{font-family:var(--f-display);font-weight:700;font-size:18px;color:var(--muted)}
+.shop{width:100%;display:flex;flex-direction:column;gap:12px;text-align:left}
+.plan-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#fx{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+#fx i{position:absolute;top:-14px;width:8px;height:12px;border-radius:2px;animation:fall 1.6s cubic-bezier(.3,.6,.5,1) forwards}
+@keyframes fall{to{transform:translate(var(--dx),760px) rotate(var(--rot));opacity:0}}
+#btn-theme svg{width:16px;height:16px}
+@media (max-width:560px){#btn-theme .th-l{display:none}}
 </style>
 </head>
 <body>
@@ -394,6 +452,7 @@ input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-rad
       <button role="tab" id="seg-app" data-view="app">App del socio</button>
       <button role="tab" id="seg-coach" data-view="coach">Panel del coach</button>
     </div>
+    <button class="btn" data-action="theme" id="btn-theme" title="Cambia entre tema automático, oscuro y claro"></button>
     <button class="btn" data-action="reset" id="btn-reset" title="Vuelve a cargar los datos de ejemplo">Restablecer</button>
   </div>
 </header>
@@ -414,6 +473,7 @@ input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-rad
         <div id="modal"></div>
         <div id="push"></div>
         <div id="toast"></div>
+        <div id="fx" aria-hidden="true"></div>
       </div>
     </div>
     <p class="device-cap"><span class="live-dot" aria-hidden="true"></span> Vista del socio · cambia en vivo con el panel</p>
@@ -421,7 +481,7 @@ input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-rad
 </main>
 
 <footer class="wrap foot">
-  Demo con datos de ejemplo. Gasto basal por Katch-McArdle a partir de la masa magra; macros y raciones calculados por reglas que define el coach, no por IA. Herramienta de apoyo para profesionales: cada plan lo revisa el coach o nutricionista antes de entregarlo.
+  Demo con datos de ejemplo. Gasto basal por Katch-McArdle a partir de la masa magra; macros, raciones, intercambios y ajustes sugeridos calculados por reglas que define el coach, no por IA. Las estrellas y el ranking se ganan con hábitos, nunca con el peso. Herramienta de apoyo para profesionales: cada plan lo revisa el coach o nutricionista antes de entregarlo.
 </footer>
 
 <script>
@@ -477,18 +537,26 @@ const seedTemplates = () => [
 ];
 const T = (type,title,detail,target,stars,done) => ({id:"k"+Math.random().toString(36).slice(2,8),type,title,detail,target,stars,done});
 const H_AGO = h => Date.now() - h*3600e3;
+// log: pesos semanales (del más antiguo al actual). checkin: último check-in semanal del socio.
+// consent: fecha en que aceptó el tratamiento de sus datos de salud (Ley 172-13).
 const seedClients = () => [
-  {id:"c1",name:"Carlos Peña",sex:"M",age:34,weight:88,height:178,bf:24,tbf:16,lean:0,weeks:16,act:1.55,allergens:["mani"],tpl:"def",ej:true,
-   tasks:[T("correr","Correr 30 minutos","",3,2,2),T("baloncesto","Jugar baloncesto","Con los panas del barrio cuenta.",2,1,1),T("cardio","Elíptica 30 minutos","Antes: 20 min. Si te ves bien, sube 5 min por sesión.",3,2,0),T("plan","Cumplir el plan del día","Seis de siete días cuentan como semana completa.",6,2,4)],
-   bank:3,retosTotal:9,starsLife:16,reward:{name:"Helado de coco",cost:6,kcal:300},redeemed:false,
-   notes:[{id:"n1",text:"Esta semana sube la elíptica de 20 a 30 minutos. Si te ves bien, 5 minutos más cada sesión.",ts:H_AGO(3),read:false}]},
-  {id:"c2",name:"Mariela Rosario",sex:"F",age:29,weight:64,height:163,bf:30,tbf:24,lean:0,weeks:20,act:1.375,allergens:["lacteos","gluten"],tpl:"recomp",ej:true,
+  {id:"c2",name:"Andrea Alvarez",sex:"F",age:29,weight:64,height:163,bf:30,tbf:24,lean:0,weeks:20,act:1.375,allergens:["lacteos","gluten"],tpl:"recomp",ej:true,
    tasks:[T("pasos","Caminar 8.000 pasos","",5,2,3),T("agua","Beber 2,5 litros de agua","",6,1,5),T("plan","Cumplir el plan del día","",6,2,4)],
    bank:1,retosTotal:6,starsLife:11,reward:{name:"Clase de baile gratis",cost:5,kcal:0},redeemed:false,
+   streak:12,consent:H_AGO(24*50),log:[65.1,64.9,64.8,64.6,64.4,64.2,64],
+   checkin:{ts:H_AGO(46),energy:4,sleep:4,hunger:2,note:"Me sentí con buena energía en los entrenos."},
    notes:[{id:"n2",text:"¡Buena semana! Este finde mantén tu plan: estás muy cerca de tu clase de baile.",ts:H_AGO(20),read:true}]},
-  {id:"c3",name:"Javier Tavárez",sex:"M",age:22,weight:70,height:180,bf:12,tbf:13,lean:4,weeks:24,act:1.725,allergens:["crustaceos"],tpl:"vol",ej:true,
+  {id:"c1",name:"Steve Alayon",sex:"M",age:34,weight:88,height:178,bf:24,tbf:16,lean:0,weeks:16,act:1.55,allergens:["mani"],tpl:"def",ej:true,
+   tasks:[T("correr","Correr 30 minutos","",3,2,2),T("baloncesto","Jugar baloncesto","Con los panas del barrio cuenta.",2,1,2),T("cardio","Elíptica 30 minutos","Antes: 20 min. Si te ves bien, sube 5 min por sesión.",3,2,2),T("plan","Cumplir el plan del día","Seis de siete días cuentan como semana completa.",6,2,5)],
+   bank:3,retosTotal:9,starsLife:16,reward:{name:"Helado de coco",cost:6,kcal:300},redeemed:false,
+   streak:3,consent:H_AGO(24*50),log:[90.6,90.1,89.5,88.9,88.4,88.1,88],
+   checkin:{ts:H_AGO(24*9),energy:3,sleep:2,hunger:4,note:"Semana de mucho trabajo, dormí poco."},
+   notes:[{id:"n1",text:"Esta semana sube la elíptica de 20 a 30 minutos. Si te ves bien, 5 minutos más cada sesión.",ts:H_AGO(3),read:false}]},
+  {id:"c3",name:"Liam Perez",sex:"M",age:22,weight:70,height:180,bf:12,tbf:13,lean:4,weeks:24,act:1.725,allergens:["crustaceos"],tpl:"vol",ej:true,
    tasks:[T("baloncesto","Jugar baloncesto","",3,2,2),T("plan","Hacer las 5 comidas","",6,2,5)],
-   bank:2,retosTotal:4,starsLife:8,reward:{name:"Batido de mamey",cost:4,kcal:350},redeemed:false,notes:[]}
+   bank:2,retosTotal:4,starsLife:8,reward:{name:"Batido de mamey",cost:4,kcal:350},redeemed:false,
+   streak:8,consent:H_AGO(24*50),log:[68.5,68.8,69,69.3,69.5,69.8,70],
+   checkin:{ts:H_AGO(26),energy:5,sleep:4,hunger:3,note:""},notes:[]}
 ];
 function ensureClient(c){
   if(!Array.isArray(c.tasks)) c.tasks = [];
@@ -498,14 +566,20 @@ function ensureClient(c){
   if(!c.reward || typeof c.reward !== "object") c.reward = {name:"",cost:5,kcal:0};
   if(typeof c.redeemed !== "boolean") c.redeemed = false;
   if(!Array.isArray(c.notes)) c.notes = [];
+  if(!Number.isFinite(c.streak)) c.streak = 0;
+  if(!Number.isFinite(c.kcalAdj)) c.kcalAdj = 0;
+  if(!Array.isArray(c.log)) c.log = [];
+  if(!c.checkin || typeof c.checkin !== "object") c.checkin = null;
+  if(!Number.isFinite(c.consent)) c.consent = null;
+  if(!c.water || typeof c.water !== "object") c.water = {day:"",n:0};
   return c;
 }
 
 /* ===================== Estado ===================== */
-const KEY = "coachrd-demo-v2";
-const fresh = () => ({v:2,brand:{name:"Atlántico Fit",initials:"AF",color:"#0E7C74",coach:"Coach Ramón"},foods:seedFoods(),templates:seedTemplates(),clients:seedClients(),sel:"c1",selT:"def",tab:"socios",ptab:"inicio",seed:0,done:{},view:"app",share:{fmt:"post",weight:false}});
+const KEY = "coachrd-demo-v3";
+const fresh = () => ({v:3,brand:{name:"Atlántico Fit",initials:"AF",color:"#0E7C74",coach:"Coach Ramón"},foods:seedFoods(),templates:seedTemplates(),clients:seedClients().map(ensureClient),sel:"c2",selT:"def",tab:"resumen",ptab:"inicio",seed:0,done:{},swaps:{},theme:"auto",view:"app",share:{fmt:"post",weight:false}});
 function load(){
-  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); if(o && o.v === 2){ const s = Object.assign(fresh(), o); s.clients.forEach(ensureClient); return s; } } }catch(e){}
+  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); if(o && o.v === 3){ const s = Object.assign(fresh(), o); s.clients.forEach(ensureClient); return s; } } }catch(e){}
   return fresh();
 }
 let S = load();
@@ -549,8 +623,15 @@ const ICONS = {
   steps:'<path d="M8.5 3c1.8 0 2.8 2 2.8 4.8S10.3 12 8.5 12 5.7 10.6 5.7 7.8 6.7 3 8.5 3zM15.5 11c1.8 0 2.8 2 2.8 4.8S17.3 20 15.5 20s-2.8-1.4-2.8-4.2 1-4.8 2.8-4.8z"/>',
   drop:'<path d="M12 3.5s6 6.3 6 10.8a6 6 0 0 1-12 0c0-4.5 6-10.8 6-10.8z"/>',
   checkc:'<circle cx="12" cy="12" r="8.5"/><path d="m8 12.3 2.8 2.8L16 9.5"/>',
-  target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>'
+  target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
+  flame:'<path d="M12 3c.5 3.5 5 5.5 5 10.5a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.6 1 2.4 1.8 2.6C10.5 8.5 11 5.5 12 3z"/>',
+  moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>',
+  cart:'<path d="M3 4h2.5l2.2 10.5h10.3l2-7.5H6.6"/><circle cx="9" cy="18.5" r="1.4"/><circle cx="17" cy="18.5" r="1.4"/>'
 };
+const DAY = 864e5;
+const today = () => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate(); };
+const buzz = () => { try{ if(navigator.vibrate) navigator.vibrate(12); }catch(e){} };
 const TASK_TYPES = {correr:["Correr 30 minutos","run","Correr"],baloncesto:["Jugar baloncesto","ball","Baloncesto"],cardio:["Elíptica 30 minutos","pulse","Elíptica o cardio"],pasos:["Caminar 8.000 pasos","steps","Pasos"],agua:["Beber 3 litros de agua","drop","Agua"],plan:["Cumplir el plan del día","checkc","Cumplir el plan"],otra:["Reto personalizado","target","Otro"]};
 const QUICK = [
   ["correr","Correr 30 minutos","",3,2],
@@ -586,10 +667,11 @@ function calc(cl, t){
   const targetW = (LBM + lean)/(1 - tbf), delta = targetW - W;
   const o = {W,H,bf:bf*100,tbf:tbf*100,weeks,LBM,FM,BMI,BMR,TDEE,targetW,delta,needWk:delta/weeks,needPct:delta/weeks/W*100,checks:[]};
   if(!t){ o.status = {lvl:"warn",label:"Sin forma",detail:"Asigna una forma dietética para calcular el plan."}; return o; }
-  const kcal = Math.round(TDEE*(1 + t.adjust/100));
+  // kcalAdj: ajuste fino (±300 kcal como máximo) que el coach aprueba a partir de los check-ins.
+  const kcal = Math.round(TDEE*(1 + t.adjust/100)) + clamp(+cl.kcalAdj || 0, -300, 300);
   const P = Math.round(t.protein*LBM), Fg = Math.round(kcal*t.fatPct/100/9);
   const C = Math.max(0, Math.round((kcal - P*4 - Fg*9)/4));
-  Object.assign(o, {kcal, P, C, F:Fg, expWk: TDEE*(t.adjust/100)*7/7700});
+  Object.assign(o, {kcal, P, C, F:Fg, expWk: (kcal - TDEE)*7/7700});
   if(Math.abs(delta) < 0.3) o.status = {lvl:"good",label:"Mantenimiento",detail:"El peso meta coincide con el actual."};
   else if(Math.abs(o.expWk) < 0.01 || Math.sign(o.expWk) !== Math.sign(delta))
     o.status = {lvl:"bad",label:"Dirección contraria",detail:`La meta pide ${delta<0?"bajar":"subir"} peso y «${t.name}» ${t.adjust<0?"tiene déficit":t.adjust>0?"tiene superávit":"es de mantenimiento"}.`};
@@ -625,6 +707,18 @@ function allowedFoods(cl, t){
 function macrosOf(f, g){ const k = g/100; return {k:f.k*k, p:f.p*k, c:f.c*k, f:f.f*k}; }
 function addM(a, b){ return {k:a.k+b.k, p:a.p+b.p, c:a.c+b.c, f:a.f+b.f}; }
 const ZERO = {k:0,p:0,c:0,f:0};
+
+function mealName(items){
+  const named = items.filter(x => x.f.cat !== "vegetal").map(x => x.f.name);
+  return named.length ? named[0] + (named.length > 1 ? " con " + named.slice(1).map(n => n.charAt(0).toLowerCase() + n.slice(1)).join(" y ") : "") : "Sin alimentos disponibles";
+}
+// Gramos del alimento alternativo que igualan el macro principal del original (proteína, carbohidrato o grasa).
+const SWAP_KEY = {proteina:"p", carbohidrato:"c", grasa:"f"};
+function swapGrams(it, alt){
+  const k = SWAP_KEY[it.f.cat];
+  const g = k && alt[k] > 0 ? it.m[k]/(alt[k]/100) : it.g;
+  return clamp(r5(g), 5, 400);
+}
 
 function buildPlan(cl, t, o){
   if(!t || !o.kcal) return null;
@@ -692,9 +786,19 @@ function buildPlan(cl, t, o){
     // Solo combinaciones cercanas a la mejor; la semilla rota entre ellas.
     const good = all.filter(r => r.score <= all[0].score*1.5 + .08).slice(0, 4);
     const {items, tot} = good[(S.seed + i) % good.length];
-    const named = items.filter(x => x.f.cat !== "vegetal").map(x => x.f.name);
-    const name = named.length ? named[0] + (named.length > 1 ? " con " + named.slice(1).map(n => n.charAt(0).toLowerCase() + n.slice(1)).join(" y ") : "") : "Sin alimentos disponibles";
-    return {slot, name, items, tot};
+    return {slot, name:mealName(items), items, tot};
+  });
+  // Intercambios elegidos por el socio: solo entre alimentos permitidos del mismo grupo; los gramos los recalcula el código.
+  const sw = S.swaps[cl.id + ":" + S.seed] || {};
+  meals.forEach((m, mi) => {
+    let changed = false;
+    m.items.forEach((it, ii) => {
+      const alt = ok.find(f => f.id === sw[mi + ":" + ii]);
+      if(!alt || alt === it.f || alt.cat !== it.f.cat) return;
+      const g = swapGrams(it, alt);
+      m.items[ii] = {f:alt, g, m:macrosOf(alt, g), orig:it}; changed = true;
+    });
+    if(changed){ m.tot = m.items.reduce((a, x) => addM(a, x.m), {...ZERO}); m.name = mealName(m.items); }
   });
   if(rk > 0) meals.push({slot:"Premio", name:rw.name, items:[], tot:{k:rk, p:0, c:rk*.6/4, f:rk*.4/9}, reward:true});
   const total = meals.reduce((a, m) => addM(a, m.tot), {...ZERO});
@@ -705,7 +809,7 @@ function buildPlan(cl, t, o){
 /* ===================== Panel del coach ===================== */
 function renderCoach(){
   const used = S.clients.length, nT = S.templates.length, nF = S.foods.length;
-  const tabs = [["socios","Socios",used],["retos","Retos y premios",null],["formas","Formas dietéticas",nT],["alimentos","Alimentos",nF],["marca","Marca",null]];
+  const tabs = [["resumen","Resumen",null],["socios","Socios",used],["retos","Retos y premios",null],["formas","Formas dietéticas",nT],["alimentos","Alimentos",nF],["marca","Marca",null]];
   $("#coach").innerHTML = `
     <div class="coach-head">
       <span class="eyebrow">Cuaderno del coach · ${esc(S.brand.name)}</span>
@@ -716,8 +820,105 @@ function renderCoach(){
       ${tabs.map(([id,l,n]) => `<button role="tab" id="tab-${id}" data-tab="${id}" aria-selected="${S.tab===id}">${l}${n!==null?` <span class="count num">${n}</span>`:""}</button>`).join("")}
     </div>
     <div class="coach-body" id="coachBody">${
-      S.tab === "socios" ? socios() : S.tab === "retos" ? retos() : S.tab === "formas" ? formas() : S.tab === "alimentos" ? alimentos() : marca()
+      S.tab === "resumen" ? resumen() : S.tab === "socios" ? socios() : S.tab === "retos" ? retos() : S.tab === "formas" ? formas() : S.tab === "alimentos" ? alimentos() : marca()
     }</div>`;
+}
+
+/* ---- Resumen: a quién atender hoy ---- */
+// Adherencia: parte de los retos de la semana ya cumplida (hábitos, no peso).
+function adh(c){
+  const tt = c.tasks.reduce((s, k) => s + k.target, 0);
+  return tt ? Math.round(c.tasks.reduce((s, k) => s + Math.min(k.done, k.target), 0)/tt*100) : null;
+}
+const ckDue = c => !c.checkin || Date.now() - c.checkin.ts > 7*DAY;
+// Ritmo real: kg por semana según los tres últimos registros.
+function rateOf(c){ const a = c.log.slice(-3); return a.length === 3 ? (a[2] - a[0])/2 : null; }
+// Ajuste sugerido por reglas (nunca por IA): compara el ritmo real con el esperado y propone ±100 kcal. El coach decide.
+function advice(c, o){
+  const rate = rateOf(c);
+  if(!o.kcal || rate === null || !o.expWk || Math.abs(o.delta) < 0.3 || c.adjAt === c.log.length) return null;
+  const down = o.delta < 0, a = adh(c);
+  const fast = down ? rate < -0.01*o.W : rate > 0.005*o.W;
+  const slow = down ? rate > o.expWk*0.5 : rate < o.expWk*0.5;
+  if(!fast && !slow) return null;
+  if(slow && a !== null && a < 60) return {d:0, txt:`Va más lento de lo esperado y lleva el ${a} % de sus retos. Antes de tocar calorías, refuerza los hábitos.`};
+  const d = down === fast ? 100 : -100;
+  if(Math.abs((+c.kcalAdj || 0) + d) > 300) return {d:0, txt:"Ya tiene el ajuste máximo de 300 kcal. Revisa su forma dietética o el plazo."};
+  if(d < 0 && o.kcal + d < o.BMR) return {d:0, txt:"Bajar más lo dejaría por debajo de su gasto basal. Revisa actividad y hábitos."};
+  const real = sgn(rate, 2) + " kg/sem";
+  return {d, txt: fast
+    ? (down ? `Baja ${real}: más del 1 % de su peso por semana. Sube 100 kcal para cuidar su masa magra.` : `Sube ${real}: más del 0,5 % semanal. Baja 100 kcal para ganar menos grasa.`)
+    : `Ritmo real ${real} frente a ${sgn(o.expWk, 2)} esperados. ${d < 0 ? "Baja" : "Sube"} 100 kcal para retomar el ritmo.`};
+}
+function triage(c){
+  const o = calc(c, tplOf(c)), a = adh(c), adv = advice(c, o), why = [];
+  if(o.status.lvl === "bad") why.push(o.status.label);
+  if(ckDue(c)) why.push(c.checkin ? "Check-in atrasado" : "Sin check-in");
+  else if(c.checkin.sleep <= 2) why.push("Duerme poco");
+  else if(c.checkin.energy <= 2) why.push("Energía baja");
+  if(a !== null && a < 60) why.push("Adherencia baja");
+  if(adv) why.push(adv.d ? "Ajuste sugerido" : "Ritmo por revisar");
+  const lvl = o.status.lvl === "bad" || (a !== null && a < 40) ? "bad" : why.length ? "warn" : "good";
+  return {o, a, adv, why, lvl};
+}
+const scale = v => `<span class="scale" role="img" aria-label="${v} de 5">${[1,2,3,4,5].map(k => `<i class="${k <= v ? "on" : ""}"></i>`).join("")}</span>`;
+const streakTag = n => `<span class="streak num">${icon("flame")}${n} día${n === 1 ? "" : "s"}</span>`;
+function resumen(){
+  if(!S.clients.length) return `<div class="empty"><b>Aún no hay socios</b><span>Crea el primero en la pestaña «Socios» y aquí verás a quién atender cada día.</span></div>`;
+  const order = {bad:0, warn:1, good:2};
+  const rows = S.clients.map(c => ({c, ...triage(c)})).sort((x, y) => order[x.lvl] - order[y.lvl]);
+  const withA = rows.filter(r => r.a !== null);
+  const avg = withA.length ? Math.round(withA.reduce((s, r) => s + r.a, 0)/withA.length) : 0;
+  const upToDate = rows.filter(r => !ckDue(r.c)).length, att = rows.filter(r => r.lvl !== "good").length;
+  const c = curClient();
+  return `<div class="editor">
+    <div class="kpis num">
+      <div class="kpi"><b>${rows.length}</b><span>Socios activos</span></div>
+      <div class="kpi"><b>${avg} %</b><span>Adherencia media</span></div>
+      <div class="kpi"><b>${upToDate}/${rows.length}</b><span>Check-ins al día</span></div>
+      <div class="kpi"><b>${att}</b><span>Por atender hoy</span></div>
+    </div>
+    <div>
+      <div class="sec-title">Prioridad de hoy</div>
+      <div class="list">${rows.map(r => `<button class="item" data-action="sel-client" data-id="${r.c.id}" aria-current="${r.c.id === S.sel}">
+        <span class="item-top"><span>${esc(r.c.name || "Sin nombre")}</span><span class="pill lvl-${r.lvl}">${r.lvl === "good" ? "Al día" : r.lvl === "warn" ? "Revisar" : "Atender"}</span></span>
+        <span class="item-sub">${r.why.length ? esc(r.why.join(" · ")) : "Todo en orden esta semana"}</span>
+        <span class="arow-m num">${r.a !== null ? `<span class="mb"><i style="width:${r.a}%"></i></span><span>${r.a} % de retos</span>` : `<span>Sin retos</span>`}${streakTag(r.c.streak)}<span>${r.c.checkin ? "Check-in " + ago(r.c.checkin.ts) : "Sin check-in"}</span></span>
+      </button>`).join("")}</div>
+    </div>
+    ${c ? resumenDetail(c) : ""}
+  </div>`;
+}
+function resumenDetail(c){
+  const {o, adv} = triage(c), k = c.checkin, adj = +c.kcalAdj || 0, rate = rateOf(c);
+  return `<div class="out-grid">
+    <div class="ocard">
+      <h4>Último check-in · ${esc(firstName(c.name))}</h4>
+      ${k ? `<div class="row"><span>Enviado</span><b>${ago(k.ts)}</b></div>
+      <div class="row"><span>Peso</span><b class="num">${fmt(o.W,1)} kg</b></div>
+      <div class="row"><span>Energía</span>${scale(k.energy)}</div>
+      <div class="row"><span>Sueño</span>${scale(k.sleep)}</div>
+      <div class="row"><span>Hambre</span>${scale(k.hunger)}</div>
+      ${k.note ? `<div class="bubble">«${esc(k.note)}»</div>` : ""}` : `<p class="note">Aún no envía su check-in semanal.</p>`}
+      <div class="actions"><button class="btn sm" data-action="remind">${icon("bell")} Recordar check-in</button><span class="msg ok" id="rm-msg" role="status"></span></div>
+    </div>
+    <div class="ocard">
+      <h4>Ajuste del plan · por reglas</h4>
+      <div class="row"><span>Plan diario</span><b class="num">${o.kcal ? fmt(o.kcal) + " kcal" : "—"}${adj ? ` (${sgn(adj,0)})` : ""}</b></div>
+      <div class="row"><span>Ritmo real</span><b class="num">${rate === null ? "—" : sgn(rate,2) + " kg/sem"}</b></div>
+      <div class="row"><span>Ritmo esperado</span><b class="num">${o.expWk ? sgn(o.expWk,2) + " kg/sem" : "—"}</b></div>
+      <p class="note">${adv ? esc(adv.txt) : c.adjAt === c.log.length && adj ? "Ajuste aplicado. Se vuelve a revisar con su próximo check-in." : rate === null ? "Con tres registros de peso la app compara su ritmo real con el esperado." : "Va en ritmo. Sin cambios sugeridos."}</p>
+      <div class="actions">
+        ${adv && adv.d ? `<button class="btn primary sm" data-action="apply-adj">${icon("bolt")} Aplicar ${sgn(adv.d,0)} kcal</button>` : ""}
+        ${adj ? `<button class="btn sm" data-action="clear-adj">Quitar ajuste</button>` : ""}
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn primary" data-action="view-app">${icon("bolt")} Ver su app</button>
+    <button class="btn" data-action="go-tab" data-t="socios">Abrir ficha</button>
+    <button class="btn" data-action="go-tab" data-t="retos">Retos y avisos</button>
+  </div>`;
 }
 
 /* ---- Socios ---- */
@@ -1045,13 +1246,18 @@ function appHome(c,t,o,plan){
               `Tu coach está revisando tu plan antes de la próxima semana.`;
   const st = starsOf(c), rw = c.reward, unread = c.notes.filter(n => !n.read).length, g = weekGoal(o);
   const rwPct = rw.name ? clamp(st.total/Math.max(1, rw.cost), 0, 1)*100 : 0;
+  const wn = c.water.day === today() ? c.water.n : 0;
   return `<div class="ahead-row">${appHead(c)}<button class="bell" data-action="open-bell" aria-label="Avisos${unread ? ", " + unread + " sin leer" : ""}">${icon("bell")}${unread ? `<span class="badge num">${unread}</span>` : ""}</button></div>
   <div class="tiles">
     <button class="tile t1" data-action="checkin"><span class="ti">${icon("qr")}</span>Check-in</button>
     <button class="tile t2" data-action="friend"><span class="ti">${icon("share")}</span>Trae a un amigo</button>
   </div>
+  ${ckDue(c) ? `<div class="acard cta">
+    <div class="next"><span class="ic">${icon("pulse")}</span><div style="min-width:0;flex:1"><div class="meal-slot">Check-in semanal</div><div class="meal-name">Cuéntale a tu coach cómo te fue. Toma un minuto.</div></div></div>
+    <button class="btn-app" data-action="ck-open">Hacer mi check-in</button>
+  </div>` : ""}
   ${plan ? `<div class="acard">
-    <div class="acard-h"><h3>Hoy</h3><button class="link" data-ptab="plan">Ver plan</button></div>
+    <div class="acard-h"><span class="hgroup"><h3>Hoy</h3>${c.streak > 0 ? streakTag(c.streak) : ""}</span><button class="link" data-ptab="plan">Ver plan</button></div>
     <div class="ring-row">
       <div class="ring">${ring(o.kcal ? e.k/o.kcal : 0)}<div class="ring-c"><b class="num">${fmt(Math.max(0, o.kcal - e.k))}</b><span>kcal restantes</span></div></div>
       <div class="mbars">${mbar("Proteína", e.p, o.P, "c-p")}${mbar("Carbohidratos", e.c, o.C, "c-c")}${mbar("Grasa", e.f, o.F, "c-f")}</div>
@@ -1062,6 +1268,10 @@ function appHome(c,t,o,plan){
     ${rw.name ? `<div class="row"><span style="color:var(--ink)">${c.redeemed ? "Premio canjeado: " : "Para tu premio: "}<b>${esc(rw.name)}</b></span><span class="stars num">${starIc()}${st.total}/${rw.cost}</span></div>
     <div class="mb"><i style="width:${rwPct}%;background:var(--star)"></i></div>` : ""}
     <div class="row"><span>Meta de la semana</span><b>${g.txt}</b></div>
+  </div>
+  <div class="acard">
+    <div class="acard-h"><h3>Agua</h3><span class="note num">${wn} de 8 vasos</span></div>
+    <div class="water">${Array.from({length:8}, (_,k) => `<button class="glass" data-action="water" data-k="${k}" aria-pressed="${k < wn}" aria-label="Vaso ${k+1} de 8">${icon("drop")}</button>`).join("")}</div>
   </div>
   ${plan && next >= 0 ? `<div class="acard"><div class="next"><span class="ic">${icon("plan")}</span><div style="min-width:0;flex:1"><div class="meal-slot">Próxima · ${esc(plan.meals[next].slot)}</div><div class="meal-name">${esc(plan.meals[next].name)}</div></div><button class="tick" data-action="done" data-i="${next}" aria-pressed="false" aria-label="Marcar como hecha">${icon("check")}</button></div></div>` : ""}
   <div class="acard">
@@ -1093,14 +1303,23 @@ function appPlan(c,t,o,plan){
   </div>` : `<div class="meal${d.has(i)?" done":""}">
     <div class="meal-h"><div style="min-width:0"><div class="meal-slot">${esc(m.slot)}</div><div class="meal-name">${esc(m.name)}</div></div>
       <button class="tick" data-action="done" data-i="${i}" aria-pressed="${d.has(i)}" aria-label="${d.has(i)?"Desmarcar":"Marcar como hecha"}">${icon("check")}</button></div>
-    <ul class="ing">${m.items.map(x => `<li><span>${esc(x.f.name)}</span><span>${fmt(x.g)} g</span></li>`).join("")}</ul>
+    <ul class="ing">${m.items.map((x,j) => `<li><button class="ing-b${x.orig ? " sw" : ""}" data-action="swap-open" data-m="${i}" data-i="${j}" aria-label="Cambiar ${esc(x.f.name)} por otro alimento"><span>${esc(x.f.name)}${icon("swap")}</span><span>${fmt(x.g)} g</span></button></li>`).join("")}</ul>
     <div class="mchips"><span>${fmt(m.tot.k)} kcal</span><span>P ${fmt(m.tot.p)}</span><span>C ${fmt(m.tot.c)}</span><span>G ${fmt(m.tot.f)}</span></div>
   </div>`).join("")}
-  <button class="btn-app ghost" data-action="reroll">${icon("swap").replace('aria-hidden="true"','aria-hidden="true" style="width:16px;height:16px;vertical-align:-3px"')} Otra combinación</button>
+  <p class="note">Toca un alimento para cambiarlo por otro equivalente de tu lista.</p>
+  <div class="plan-actions">
+    <button class="btn-app ghost" data-action="reroll">${icon("swap")} Otra combinación</button>
+    <button class="btn-app ghost" data-action="shop-open">${icon("cart")} Lista de compras</button>
+  </div>
   ${t.note ? `<p class="note">Nota del coach: ${esc(t.note)}</p>` : ""}`;
 }
 // Registros semanales de ejemplo: siguen el ritmo esperado con una pequeña oscilación.
 function history(c,o){
+  // Con registros reales (check-ins) se usan los últimos siete; el último siempre es el peso actual.
+  if(c.log && c.log.length >= 2){
+    const a = c.log.slice(-7), n = a.length - 1;
+    return {past:n, hist:a.map((w,i) => [i - n, i === n ? o.W : w]), real:true};
+  }
   const past = 6, hist = [];
   const slope = o.expWk ? o.expWk*0.9 : o.needWk;
   for(let k = past; k >= 0; k--){ const wob = k ? Math.sin(hash(c.id+k)%628/100)*0.25 : 0; hist.push([-k, o.W - slope*k + wob]); }
@@ -1144,7 +1363,11 @@ function appProg(c,t,o){
   <div class="acard">
     <div class="acard-h"><h3>Peso</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
     ${chart(c,o)}
-    <div class="legend"><span><i class="c-p"></i>Registros semanales (ejemplo)</span><span><i style="background:var(--muted)"></i>Proyección</span></div>
+    <div class="legend"><span><i class="c-p"></i>Registros semanales${c.ej ? " (ejemplo)" : ""}</span><span><i style="background:var(--muted)"></i>Proyección</span></div>
+  </div>
+  <div class="acard">
+    <div class="row"><span>Último check-in</span><b>${c.checkin ? ago(c.checkin.ts) : "Pendiente"}</b></div>
+    <button class="btn-app${ckDue(c) ? "" : " ghost"}" data-action="ck-open">${icon("pulse")} ${ckDue(c) ? "Hacer mi check-in" : "Actualizar mi check-in"}</button>
   </div>
   <div class="acard">
     <div class="row"><span>Peso meta</span><b class="num">${fmt(o.targetW,1)} kg</b></div>
@@ -1162,6 +1385,16 @@ function weekRange(){
 function ago(ts){
   const m = Math.round((Date.now() - ts)/60000);
   return m < 1 ? "ahora" : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m/60)} h` : `hace ${Math.round(m/1440)} d`;
+}
+// Ranking del gimnasio: ordena por estrellas de la semana y racha. Solo hábitos; el peso no cuenta.
+function ranking(c){
+  const short = n => { const p = String(n || "").trim().split(/\s+/); return (p[0] || "Socio") + (p[1] ? " " + p[1].charAt(0) + "." : ""); };
+  const rows = S.clients.map(x => ({x, s:starsOf(x).earned})).sort((a,b) => b.s - a.s || b.x.streak - a.x.streak);
+  return `<div class="acard">
+    <div class="acard-h"><h3>Ranking de la semana</h3><span class="note">${esc(S.brand.name)}</span></div>
+    <div>${rows.map((r,i) => `<div class="rank${r.x.id === c.id ? " me" : ""}"><span class="pos num">${i+1}</span><span>${esc(short(r.x.name))}${r.x.id === c.id ? " · tú" : ""}</span>${streakTag(r.x.streak)}<span class="stars num">${starIc()}${r.s}</span></div>`).join("")}</div>
+    <p class="note">Se sube cumpliendo hábitos, nunca por el peso.</p>
+  </div>`;
 }
 function appRetos(c,o){
   const st = starsOf(c), rw = c.reward, g = weekGoal(o);
@@ -1189,6 +1422,7 @@ function appRetos(c,o){
   <div class="acard"><div class="acard-h"><h3>Meta de la semana</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
     <div class="big">${g.txt}</div><p class="note">Un ritmo que puedes sostener. Tu coach la revisa cada lunes.</p></div>
   ${tasks || `<div class="a-empty"><b>Sin retos esta semana</b><span>Tu coach los añadirá pronto.</span></div>`}
+  ${S.clients.length > 1 ? ranking(c) : ""}
   ${notes.length ? `<div><div class="sec-title">Avisos de tu coach</div><div class="note-list">${notes.map(n => `<div class="note-item"><span class="logo sm">${esc(S.brand.initials)}</span><div>${esc(n.text)}<span class="when">${ago(n.ts)}</span></div></div>`).join("")}</div></div>` : ""}`;
 }
 
@@ -1288,6 +1522,7 @@ function appPerfil(c,t){
   <div><div class="sec-title">Cuenta</div><div class="menu">
     ${row("Datos personales", "")}
     ${row("Alergias", c.allergens.length ? c.allergens.map(a => AL[a]).join(", ") : "Ninguna")}
+    ${row("Datos de salud", c.consent ? "Consentimiento dado" : "Consentimiento pendiente")}
     ${row("Método de pago", "En la web del gimnasio")}
     ${row("Notificaciones", "Activadas")}
   </div></div>
@@ -1309,13 +1544,77 @@ function openSheet(html){
   $("#modal").innerHTML = `<div class="modal" data-action="close-modal"><div class="sheet" data-stop="1"><span class="grab"></span>${html}</div></div>`;
 }
 
+/* ---- Check-in semanal del socio ---- */
+let ckDraft = {energy:3, sleep:3, hunger:3};
+function openCheckin(){
+  const c = curClient(); if(!c) return;
+  ckDraft = {energy:3, sleep:3, hunger:3};
+  const q = (k, l, lo, hi) => `<div><div class="q"><span>${l}</span><div class="chips" role="group" aria-label="${l}, de 1 a 5">${[1,2,3,4,5].map(v => `<button type="button" class="chip" data-action="ck-set" data-q="${k}" data-v="${v}" aria-pressed="${v === 3}">${v}</button>`).join("")}</div></div><div class="note">1 = ${lo} · 5 = ${hi}</div></div>`;
+  openSheet(`<b style="font-size:17px">Check-in semanal</b>
+    <p class="note" style="text-align:center">Tu coach lo usa para ajustar tu plan a tu ritmo.</p>
+    <div class="sheet-form">
+      <div class="field"><label for="ck-w">Tu peso de hoy</label><div class="unit"><input id="ck-w" type="number" inputmode="decimal" step="0.1" min="30" max="250" value="${esc(c.weight)}"><span>kg</span></div></div>
+      ${q("energy","Energía","muy baja","muy alta")}${q("sleep","Sueño","muy poco","excelente")}${q("hunger","Hambre","ninguna","mucha")}
+      <div class="field"><label for="ck-n">Nota para tu coach (opcional)</label><textarea id="ck-n" rows="2" maxlength="240" placeholder="¿Cómo te sentiste esta semana?"></textarea></div>
+      ${c.consent ? "" : `<label class="consent"><input type="checkbox" id="ck-c"><span>Acepto que ${esc(S.brand.name)} guarde mis datos de salud para preparar mi plan (Ley 172-13). Puedo retirar mi consentimiento cuando quiera.</span></label>`}
+      <span class="msg err" id="ck-msg" role="status"></span>
+      <button class="btn-app" data-action="ck-send">${icon("send")} Enviar a mi coach</button>
+    </div>`);
+}
+
+/* ---- Intercambio de alimentos ---- */
+function openSwap(mi, ii){
+  const c = curClient(); if(!c) return;
+  const t = tplOf(c), plan = buildPlan(c, t, calc(c, t));
+  const m = plan && plan.meals[mi], it = m && m.items[ii]; if(!it) return;
+  const base = it.orig || it;
+  const alts = allowedFoods(c, t).ok.filter(f => f.cat === base.f.cat && f !== it.f && f !== base.f && !m.items.some(x => x.f === f))
+    .sort((x, y) => (x.d === base.f.d ? 0 : 1) - (y.d === base.f.d ? 0 : 1)).slice(0, 6); // primero los del mismo momento del día
+  const what = {proteina:"la misma proteína", carbohidrato:"los mismos carbohidratos", grasa:"la misma grasa"}[base.f.cat] || "la misma ración";
+  openSheet(`<b style="font-size:17px">Cambiar ${esc(it.f.name.charAt(0).toLowerCase() + it.f.name.slice(1))}</b>
+    <p class="note" style="text-align:center">Opciones con ${what}. La app calcula los gramos con las reglas de tu coach.</p>
+    <div class="note-list">${alts.map(f => { const g = swapGrams(base, f); return `<button class="opt" data-action="swap-set" data-m="${mi}" data-i="${ii}" data-f="${esc(f.id)}"><b>${esc(f.name)}</b><span class="num">${fmt(g)} g · ${fmt(f.k*g/100)} kcal</span></button>`; }).join("") || `<p class="note" style="text-align:center">Por ahora no hay otra opción compatible con tu plan.</p>`}</div>
+    ${it.orig ? `<button class="btn-app ghost" style="width:100%" data-action="swap-set" data-m="${mi}" data-i="${ii}" data-f="">Volver a ${esc(base.f.name.charAt(0).toLowerCase() + base.f.name.slice(1))}</button>` : ""}
+    <button class="btn-app" style="width:100%" data-action="close-modal">Cerrar</button>`);
+}
+
+/* ---- Lista de compras ---- */
+let shopText = "";
+function openShop(){
+  const c = curClient(); if(!c) return;
+  const t = tplOf(c), plan = buildPlan(c, t, calc(c, t)); if(!plan) return;
+  const sum = new Map();
+  plan.meals.forEach(m => m.items.forEach(x => sum.set(x.f, (sum.get(x.f) || 0) + x.g*7)));
+  const qty = g => g >= 1000 ? fmt(g/1000, 1) + " kg" : fmt(g) + " g";
+  const groups = CATS.map(([k,l]) => [l, [...sum].filter(([f]) => f.cat === k)]).filter(g => g[1].length);
+  shopText = `Lista de compras · 7 días · ${S.brand.name}\n\n` + groups.map(([l, list]) => l.toUpperCase() + "\n" + list.map(([f,g]) => `- ${f.name}: ${qty(g)}`).join("\n")).join("\n\n");
+  openSheet(`<b style="font-size:17px">Lista de compras · 7 días</b>
+    <div class="shop">${groups.map(([l, list]) => `<div><div class="sec-title">${l}</div><ul class="ing">${list.map(([f,g]) => `<li><span>${esc(f.name)}</span><span>${qty(g)}</span></li>`).join("")}</ul></div>`).join("")}</div>
+    <p class="note" id="shop-hint" style="text-align:center">Cantidades ya cocidas, según tu plan de hoy repetido 7 días.</p>
+    <div class="sheet-actions"><button class="btn-app" data-action="shop-copy">Copiar lista</button><button class="btn-app ghost" data-action="close-modal">Cerrar</button></div>`);
+}
+
+/* ---- Celebración breve dentro del teléfono ---- */
+function confetti(){
+  const fx = $("#fx");
+  if(!fx || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  const colors = [S.brand.color, "#E3A008", "#FFFFFF", "#47C285"];
+  fx.innerHTML = Array.from({length:28}, (_,k) => `<i style="left:${4 + (k*37 % 92)}%;background:${colors[k % 4]};--dx:${(k*53 % 120) - 60}px;--rot:${(k % 2 ? 1 : -1)*(240 + k*20)}deg;animation-delay:${(k % 7)*45}ms"></i>`).join("");
+  setTimeout(() => { fx.innerHTML = ""; }, 2200);
+}
+
 /* ===================== Render global ===================== */
 function renderTop(){
   $("#layout").dataset.view = S.view;
   $("#seg-app").setAttribute("aria-selected", S.view === "app");
   $("#seg-coach").setAttribute("aria-selected", S.view === "coach");
+  const th = ["dark","light"].includes(S.theme) ? S.theme : "auto", r = document.documentElement;
+  th === "auto" ? r.removeAttribute("data-theme") : r.setAttribute("data-theme", th);
+  $("#btn-theme").innerHTML = icon(th === "dark" ? "moon" : "sun") + `<span class="th-l">${th === "auto" ? "Auto" : th === "dark" ? "Oscuro" : "Claro"}</span>`;
+  $("#btn-theme").setAttribute("aria-label", "Tema: " + (th === "auto" ? "automático" : th === "dark" ? "oscuro" : "claro"));
 }
 function renderAll(){ applyBrand(); renderTop(); renderCoach(); renderApp(); }
+function enterApp(){ const el = $("#app"); el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter"); }
 function refreshLive(){
   if(S.tab === "socios"){ const c = curClient(); const out = $("#cOut"); if(out && c) out.innerHTML = clientOut(c); const l = $("#clientList"); if(l) l.innerHTML = clientList(); }
   if(S.tab === "formas"){ const t = S.templates.find(x => x.id === S.selT); const out = $("#tOut"); if(out && t) out.innerHTML = tplOut(t); const l = $("#tplList"); if(l) l.innerHTML = tplList(); }
@@ -1332,13 +1631,69 @@ document.addEventListener("click", (ev) => {
   const tab = ev.target.closest("[data-tab]");
   if(tab){ S.tab = tab.dataset.tab; renderCoach(); save(); return; }
   const pt = ev.target.closest("[data-ptab]");
-  if(pt){ S.ptab = pt.dataset.ptab; renderApp(); $("#app").scrollTop = 0; save(); return; }
+  if(pt){ S.ptab = pt.dataset.ptab; renderApp(); $("#app").scrollTop = 0; enterApp(); save(); return; }
   const a = ev.target.closest("[data-action]"); if(!a) return;
   const act = a.dataset.action, c = curClient();
   switch(act){
     case "reset": {
       if(a.dataset.armed){ const view = S.view; S = fresh(); S.view = view; try{ localStorage.removeItem(KEY); }catch(e){} renderAll(); a.textContent = "Restablecer"; delete a.dataset.armed; }
       else { a.dataset.armed = "1"; a.textContent = "¿Seguro? Pulsa otra vez"; setTimeout(() => { if(a.dataset.armed){ delete a.dataset.armed; a.textContent = "Restablecer"; } }, 3500); }
+      return;
+    }
+    case "theme": S.theme = {auto:"dark", dark:"light", light:"auto"}[S.theme] || "dark"; renderTop(); save(); return;
+    case "go-tab": S.tab = a.dataset.t; renderCoach(); save(); return;
+    case "remind": {
+      if(!c) return; const text = "¡Ya toca tu check-in semanal! Toma un minuto y ayuda a tu coach a afinar tu plan.";
+      c.notes.push({id:"n"+uid(), text, ts:Date.now(), read:false});
+      renderApp(); showPush(text); save();
+      const m = $("#rm-msg"); if(m) m.textContent = `Enviado al móvil de ${firstName(c.name)}.`;
+      return;
+    }
+    case "apply-adj": {
+      if(!c) return; const adv = advice(c, calc(c, tplOf(c))); if(!adv || !adv.d) return;
+      c.kcalAdj = clamp((+c.kcalAdj || 0) + adv.d, -300, 300); c.adjAt = c.log.length;
+      const text = `Tu coach afinó tu plan: ahora son ${fmt(calc(c, tplOf(c)).kcal)} kcal al día para mantener tu ritmo.`;
+      c.notes.push({id:"n"+uid(), text, ts:Date.now(), read:false});
+      renderCoach(); renderApp(); flashPhone(); showPush(text); save(); return;
+    }
+    case "clear-adj": if(!c) return; c.kcalAdj = 0; delete c.adjAt; renderCoach(); renderApp(); save(); return;
+    /* ---- Check-in, agua, intercambios y lista de compras (socio) ---- */
+    case "ck-open": openCheckin(); return;
+    case "ck-set": {
+      ckDraft[a.dataset.q] = +a.dataset.v;
+      a.parentElement.querySelectorAll(".chip").forEach(b => b.setAttribute("aria-pressed", b === a)); return;
+    }
+    case "ck-send": {
+      if(!c) return; const msg = $("#ck-msg"), w = parseFloat($("#ck-w").value), cb = $("#ck-c");
+      if(!Number.isFinite(w) || w < 30 || w > 250){ msg.textContent = "Escribe tu peso en kilos."; $("#ck-w").focus(); return; }
+      // Datos de salud: sin consentimiento no se guarda nada.
+      if(!c.consent && !(cb && cb.checked)){ msg.textContent = "Marca la casilla de consentimiento para guardar tu check-in."; return; }
+      if(Math.abs(w - c.weight) > 5 && !a.dataset.armed){ a.dataset.armed = "1"; msg.textContent = `Son ${fmt(Math.abs(w - c.weight),1)} kg de diferencia con tu último registro. Si está bien, pulsa otra vez.`; return; }
+      if(!c.consent) c.consent = Date.now();
+      if(!c.log.length) c.log = history(c, calc(c, tplOf(c))).hist.map(p => +p[1].toFixed(1));
+      c.log.push(+w.toFixed(1)); if(c.log.length > 26) c.log = c.log.slice(-26);
+      c.weight = +w.toFixed(1);
+      c.checkin = {ts:Date.now(), energy:ckDraft.energy, sleep:ckDraft.sleep, hunger:ckDraft.hunger, note:$("#ck-n").value.trim().slice(0,240)};
+      $("#modal").innerHTML = ""; renderCoach(); renderApp(); save(); buzz(); showToast("Check-in enviado a tu coach"); return;
+    }
+    case "water": {
+      if(!c) return; const k = +a.dataset.k, cur = c.water.day === today() ? c.water.n : 0, n = k + 1 === cur ? k : k + 1;
+      c.water = {day:today(), n}; buzz(); renderApp(); save();
+      if(n === 8 && cur < 8){ showToast("¡Meta de agua cumplida!"); confetti(); }
+      return;
+    }
+    case "swap-open": openSwap(+a.dataset.m, +a.dataset.i); return;
+    case "swap-set": {
+      if(!c) return; const key = c.id + ":" + S.seed, k = a.dataset.m + ":" + a.dataset.i;
+      const sw = S.swaps[key] || (S.swaps[key] = {});
+      if(a.dataset.f) sw[k] = a.dataset.f; else delete sw[k];
+      $("#modal").innerHTML = ""; renderApp(); save(); showToast("Plan actualizado"); return;
+    }
+    case "shop-open": openShop(); return;
+    case "shop-copy": {
+      const hint = $("#shop-hint"), set = t => { if(hint) hint.textContent = t; };
+      try{ navigator.clipboard.writeText(shopText).then(() => set("Lista copiada. Pégala en tus notas o en WhatsApp."), () => set("No se pudo copiar aquí. Selecciona la lista y cópiala a mano.")); }
+      catch(e){ set("No se pudo copiar aquí. Selecciona la lista y cópiala a mano."); }
       return;
     }
     case "sel-client": S.sel = a.dataset.id; S.ptab = S.ptab || "inicio"; renderCoach(); renderApp(); flashPhone(); save(); return;
@@ -1409,7 +1764,14 @@ document.addEventListener("click", (ev) => {
     }
     case "done": {
       if(!c) return; const i = +a.dataset.i, key = doneKey(c), d = doneSet(c);
-      d.has(i) ? d.delete(i) : d.add(i); S.done[key] = [...d]; renderApp(); save(); return;
+      d.has(i) ? d.delete(i) : d.add(i); S.done[key] = [...d]; buzz();
+      // Racha: día completo = todas las comidas del plan marcadas. Cuenta una sola vez por día.
+      const pl = buildPlan(c, tplOf(c), calc(c, tplOf(c)));
+      const full = !!pl && d.size >= pl.meals.length && c.streakDay !== today();
+      if(full){ c.streak++; c.streakDay = today(); }
+      renderApp(); save();
+      if(full){ if(S.tab === "resumen") renderCoach(); showToast(`¡Día completo! Racha de ${c.streak} días`, true); confetti(); }
+      return;
     }
     case "reroll": S.seed++; renderApp(); save(); return;
     /* ---- Retos y premios (coach) ---- */
@@ -1450,9 +1812,9 @@ document.addEventListener("click", (ev) => {
       const before = starsOf(c).total, wasFull = t.done >= t.target;
       t.done = wasFull ? t.target - 1 : t.done + 1;
       const after = starsOf(c).total;
-      renderApp(); if(S.tab === "retos") renderCoach(); save();
+      buzz(); renderApp(); if(S.tab === "retos" || S.tab === "resumen") renderCoach(); save();
       if(!wasFull && t.done >= t.target){
-        if(c.reward.name && !c.redeemed && before < c.reward.cost && after >= c.reward.cost) showToast(`¡Premio desbloqueado: ${c.reward.name}!`, true);
+        if(c.reward.name && !c.redeemed && before < c.reward.cost && after >= c.reward.cost){ showToast(`¡Premio desbloqueado: ${c.reward.name}!`, true); confetti(); }
         else showToast(`+${t.stars} estrella${t.stars === 1 ? "" : "s"}`, true);
       }
       return;
@@ -1460,7 +1822,7 @@ document.addEventListener("click", (ev) => {
     case "redeem": {
       if(!c || c.redeemed) return; const st = starsOf(c); if(st.total < c.reward.cost) return;
       c.bank -= c.reward.cost; c.redeemed = true; renderApp(); if(S.tab === "retos") renderCoach(); save();
-      showToast(+c.reward.kcal ? "Añadido a tu plan de hoy" : "Canjeado. Recógelo en recepción", true); return;
+      showToast(+c.reward.kcal ? "Añadido a tu plan de hoy" : "Canjeado. Recógelo en recepción", true); confetti(); return;
     }
     case "open-bell": {
       if(!c) return; const list = [...c.notes].sort((x,y) => y.ts - x.ts);
