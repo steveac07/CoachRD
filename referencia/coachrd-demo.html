@@ -7,440 +7,570 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="CoachRD">
 <meta name="robots" content="noindex">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
 <meta name="description" content="CoachRD: app de marca blanca de nutrición y entrenamiento para gimnasios y coaches en República Dominicana.">
 <meta name="theme-color" content="#0E7C74">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
 <title>CoachRD · Demo</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Onest:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Onest:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: cuaderno del coach (izquierda) + teléfono del socio en vivo (derecha). En móvil, un conmutador alterna ambas vistas. */
+/* Layout: cuaderno del coach con barra lateral (izquierda) + teléfono del socio en vivo (derecha). En móvil, conmutador entre ambos. */
 :root{
-  --bg:#ECEFF2; --surface:#FFFFFF; --surface-2:#F4F6F8; --ink:#12171D; --muted:#5A6570; --line:#DAE0E6;
-  --good:#17804A; --warn:#9A6208; --bad:#C0392B;
+  --bg:#F1F3F6; --surface:#FFFFFF; --surface-2:#F5F7FA; --ink:#0E1217; --muted:#5C6774; --line:#E2E6EB;
+  --good:#12814B; --warn:#A15C00; --bad:#C62F2F; --star:#F2A40A;
   --brand:#0E7C74; --on-brand:#FFFFFF;
-  --brand-ink:color-mix(in oklab, var(--brand) 80%, #12171D);
-  --brand-soft:color-mix(in oklab, var(--brand) 11%, #FFFFFF);
-  --app-bg:color-mix(in oklab, var(--brand) 9%, #F7F8FA);
-  --device:#1A1F25;
-  --shadow:0 1px 2px rgb(16 24 32 / .06), 0 10px 28px rgb(16 24 32 / .07);
-  --star:#E3A008;
-  --f-display:"Barlow Condensed","Roboto Condensed","Arial Narrow",sans-serif;
+  --brand-ink:color-mix(in oklab, var(--brand) 82%, #0E1217);
+  --brand-soft:color-mix(in oklab, var(--brand) 10%, #FFFFFF);
+  --glow:color-mix(in oklab, var(--brand) 22%, transparent);
+  --shadow:0 1px 2px rgb(14 18 23 / .05), 0 12px 32px -12px rgb(14 18 23 / .14);
+  --c-pro:#FF8A3D; --c-carb:#4D9DFF; --c-fat:#FF5C8A; --c-ret:#A98BFF;
+  --f-display:"Unbounded","Onest",ui-sans-serif,system-ui,sans-serif;
   --f-body:"Onest",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --r-lg:22px; --r-md:14px; --r-sm:10px;
+  --r-xl:28px; --r-lg:20px; --r-md:14px; --r-sm:11px;
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0B0E12; --surface:#151A20; --surface-2:#1B2129; --ink:#E6EBF0; --muted:#94A1AE; --line:#28313B;
-    --good:#47C285; --warn:#E2A33A; --bad:#F06B5C;
-    --brand-ink:color-mix(in oklab, var(--brand) 58%, #FFFFFF);
-    --brand-soft:color-mix(in oklab, var(--brand) 20%, #151A20);
-    --app-bg:color-mix(in oklab, var(--brand) 10%, #0E1216);
-    --device:#000000;
-    --shadow:0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .35);
+    --bg:#07090C; --surface:#0F1317; --surface-2:#161B21; --ink:#EDF1F5; --muted:#8E99A6; --line:#222A33;
+    --good:#3FD08A; --warn:#F0B44C; --bad:#FF6B6B;
+    --brand-ink:color-mix(in oklab, var(--brand) 62%, #FFFFFF);
+    --brand-soft:color-mix(in oklab, var(--brand) 18%, #0F1317);
+    --glow:color-mix(in oklab, var(--brand) 30%, transparent);
+    --shadow:0 1px 2px rgb(0 0 0 / .5), 0 16px 40px -16px rgb(0 0 0 / .6);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0B0E12; --surface:#151A20; --surface-2:#1B2129; --ink:#E6EBF0; --muted:#94A1AE; --line:#28313B;
-  --good:#47C285; --warn:#E2A33A; --bad:#F06B5C;
-  --brand-ink:color-mix(in oklab, var(--brand) 58%, #FFFFFF);
-  --brand-soft:color-mix(in oklab, var(--brand) 20%, #151A20);
-  --app-bg:color-mix(in oklab, var(--brand) 10%, #0E1216);
-  --device:#000000;
-  --shadow:0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .35);
+  --bg:#07090C; --surface:#0F1317; --surface-2:#161B21; --ink:#EDF1F5; --muted:#8E99A6; --line:#222A33;
+  --good:#3FD08A; --warn:#F0B44C; --bad:#FF6B6B;
+  --brand-ink:color-mix(in oklab, var(--brand) 62%, #FFFFFF);
+  --brand-soft:color-mix(in oklab, var(--brand) 18%, #0F1317);
+  --glow:color-mix(in oklab, var(--brand) 30%, transparent);
+  --shadow:0 1px 2px rgb(0 0 0 / .5), 0 16px 40px -16px rgb(0 0 0 / .6);
   color-scheme:dark;
 }
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+html{background:var(--bg)}
+body{
+  background:
+    radial-gradient(900px 620px at 88% -8%, var(--glow), transparent 62%),
+    radial-gradient(760px 520px at -12% 108%, color-mix(in oklab, var(--brand) 10%, transparent), transparent 60%),
+    var(--bg);
+  background-attachment:fixed;
+  color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh;
+}
 button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 h1,h2,h3,h4{margin:0;text-wrap:balance}
 p{margin:0}
 .num{font-variant-numeric:tabular-nums}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+.disp{font-family:var(--f-display);letter-spacing:-.01em}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 
-.wrap{max-width:1360px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.wrap{max-width:1400px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 
 /* ---------- Barra superior ---------- */
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
-.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:color-mix(in oklab, var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:color-mix(in oklab, var(--bg) 72%, transparent);backdrop-filter:saturate(1.6) blur(16px);-webkit-backdrop-filter:saturate(1.6) blur(16px);border-bottom:1px solid color-mix(in oklab, var(--line) 70%, transparent)}
 .top-in{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-block:12px}
-.mark{display:flex;align-items:center;gap:10px;min-width:0}
-.mark-badge{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--ink);color:var(--bg);font-family:var(--f-display);font-weight:700;font-size:18px;letter-spacing:.02em}
-.mark-name{font-family:var(--f-display);font-weight:700;font-size:21px;letter-spacing:.01em;line-height:1}
-.mark-sub{color:var(--muted);font-size:12.5px}
-.pill-demo{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px dashed var(--line);padding:4px 9px;border-radius:999px}
+.mark{display:flex;align-items:center;gap:11px;min-width:0}
+.mark-badge{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(140deg, var(--brand), color-mix(in oklab, var(--brand) 55%, #000));color:#fff;box-shadow:0 6px 18px -6px var(--brand)}
+.mark-badge svg{width:20px;height:20px}
+.mark-name{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1}
+.mark-sub{color:var(--muted);font-size:12.5px;margin-top:3px}
+.pill-demo{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--surface);padding:4px 10px;border-radius:999px}
 .top-sp{flex:1}
-.seg{display:none;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:3px}
-.seg button{border:0;background:transparent;padding:7px 12px;border-radius:9px;font-weight:600;font-size:13px;color:var(--muted)}
+.seg{display:none;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:3px}
+.seg button{border:0;background:transparent;padding:8px 12px;border-radius:11px;font-weight:600;font-size:13px;color:var(--muted)}
 .seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
-.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);padding:8px 12px;border-radius:10px;font-weight:600;font-size:13px}
-.btn:hover{border-color:color-mix(in oklab, var(--ink) 30%, var(--line))}
-.btn.primary{background:var(--brand);color:var(--on-brand);border-color:transparent}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);padding:9px 14px;border-radius:12px;font-weight:600;font-size:13px;transition:transform .15s var(--ease), border-color .15s, box-shadow .15s}
+.btn:hover{border-color:color-mix(in oklab, var(--ink) 25%, var(--line))}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(180deg, color-mix(in oklab, var(--brand) 88%, #fff), var(--brand));color:var(--on-brand);border-color:transparent;box-shadow:0 8px 20px -10px var(--brand)}
 .btn.danger{color:var(--bad)}
-.btn.sm{padding:5px 9px;font-size:12.5px}
+.btn.sm{padding:6px 10px;font-size:12.5px;border-radius:10px}
 .btn svg{width:16px;height:16px}
 
 /* ---------- Disposición principal ---------- */
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:28px;padding-block:24px 40px;align-items:start}
-.device-col{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 76px);display:flex;flex-direction:column;align-items:center;gap:10px}
-.device-cap{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:6px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:32px;padding-block:24px 40px;align-items:start}
+.device-col{position:sticky;top:calc(env(safe-area-inset-top, 0px) + 78px);display:flex;flex-direction:column;align-items:center;gap:12px}
+.device-cap{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 color-mix(in oklab, var(--good) 60%, transparent);animation:pulse 2s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
-.fgrid .w2{grid-column:span 2}
-@media (max-width:420px){.fgrid .w2{grid-column:1/-1}}
-@media (max-width:1079px){
-  .layout{grid-template-columns:minmax(0,1fr)}
+.mini-seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.mini-seg button{border:0;background:transparent;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:var(--muted);display:flex;gap:5px;align-items:center}
+.mini-seg button svg{width:14px;height:14px}
+.mini-seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+@media (max-width:1099px){
+  .layout{grid-template-columns:minmax(0,1fr);padding-block:16px 32px}
   .seg{display:flex;order:5;flex-basis:100%}
   .seg button{flex:1}
-  .layout{padding-block:16px 32px}
   .layout[data-view="app"] .coach{display:none}
   .layout[data-view="coach"] .device-col{display:none}
   .device-col{position:static}
 }
 
 /* ---------- Panel del coach ---------- */
-.coach{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);min-width:0;overflow:hidden}
-.coach-head{padding:22px 24px 6px;display:flex;flex-direction:column;gap:6px}
+.coach{background:color-mix(in oklab, var(--surface) 92%, transparent);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow);min-width:0;overflow:hidden;display:grid;grid-template-columns:216px minmax(0,1fr)}
+.side{border-right:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:3px;background:color-mix(in oklab, var(--surface-2) 70%, transparent)}
+.side-h{padding:4px 10px 14px;display:flex;flex-direction:column;gap:2px}
+.side-h b{font-family:var(--f-display);font-size:13px;font-weight:600;letter-spacing:-.01em}
+.side-h span{color:var(--muted);font-size:12px}
+.side button{display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:10px 11px;border-radius:12px;font-weight:600;color:var(--muted);text-align:left;white-space:nowrap;position:relative;transition:background .15s, color .15s}
+.side button svg{width:18px;height:18px;flex:none}
+.side button:hover{background:var(--surface);color:var(--ink)}
+.side button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgb(0 0 0 / .06)}
+.side button[aria-selected="true"] svg{color:var(--brand-ink)}
+.side button[aria-selected="true"]::before{content:"";position:absolute;left:-12px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--brand)}
+.side .count{margin-left:auto;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.side-foot{margin-top:auto;padding:14px 10px 4px;color:var(--muted);font-size:11.5px;line-height:1.4}
+.main{min-width:0;display:flex;flex-direction:column}
+.coach-head{padding:24px 28px 4px;display:flex;flex-direction:column;gap:7px}
 .eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-ink)}
-.coach-head h1{font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1;letter-spacing:.005em}
-.coach-head p{color:var(--muted);max-width:62ch}
-.tabs{display:flex;gap:4px;padding:12px 20px 0;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
-.tabs button{border:0;background:transparent;padding:10px 12px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent;white-space:nowrap;display:flex;gap:7px;align-items:center}
-.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
-.tabs .count{font-size:11px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:0 7px;color:var(--muted)}
-.coach-body{padding:20px 24px 26px}
-@media (max-width:560px){.coach-head,.coach-body{padding-left:16px;padding-right:16px}.tabs{padding-left:10px;padding-right:10px}}
+.coach-head h1{font-family:var(--f-display);font-weight:600;font-size:26px;line-height:1.1;letter-spacing:-.02em}
+.coach-head p{color:var(--muted);max-width:66ch}
+.coach-body{padding:18px 28px 30px}
+@media (max-width:860px){
+  .coach{grid-template-columns:minmax(0,1fr)}
+  .side{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px;scrollbar-width:none;gap:4px}
+  .side-h,.side-foot{display:none}
+  .side button{padding:8px 11px}
+  .side button[aria-selected="true"]::before{left:12px;right:12px;top:auto;bottom:-10px;width:auto;height:3px;border-radius:3px 3px 0 0}
+}
+@media (max-width:560px){.coach-head,.coach-body{padding-left:16px;padding-right:16px}}
 
-.split{display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px;align-items:start}
-@media (max-width:760px){.split{grid-template-columns:minmax(0,1fr)}}
+.split{display:grid;grid-template-columns:236px minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:980px){.split{grid-template-columns:minmax(0,1fr)}}
 .list{display:flex;flex-direction:column;gap:8px;min-width:0}
-.list-head{display:flex;align-items:center;justify-content:space-between;font-weight:600;color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.06em}
-.item{display:flex;flex-direction:column;gap:3px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-md);padding:10px 12px;width:100%}
-.item:hover{border-color:color-mix(in oklab, var(--brand) 40%, var(--line))}
-.item[aria-current="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.list-head{display:flex;align-items:center;justify-content:space-between;font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.07em}
+.item{display:flex;gap:11px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 11px;width:100%;transition:border-color .15s, transform .15s var(--ease), box-shadow .15s}
+.item:hover{border-color:color-mix(in oklab, var(--brand) 40%, var(--line));transform:translateY(-1px)}
+.item[aria-current="true"]{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 8px 22px -14px var(--brand)}
+.item-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
 .item-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600}
-.item-sub{color:var(--muted);font-size:12.5px}
-.tag-ej{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 5px}
+.item-top > span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-sub{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag-ej{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 5px}
+.av{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;font-size:13.5px;color:#fff;position:relative}
+.av.lg{width:52px;height:52px;font-size:17px}
+.av.sm{width:30px;height:30px;font-size:11.5px}
 
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.lvl-good{color:var(--good);background:color-mix(in oklab, var(--good) 13%, transparent)}
-.lvl-warn{color:var(--warn);background:color-mix(in oklab, var(--warn) 15%, transparent)}
-.lvl-bad{color:var(--bad);background:color-mix(in oklab, var(--bad) 13%, transparent)}
+.lvl-good{color:var(--good);background:color-mix(in oklab, var(--good) 14%, transparent)}
+.lvl-warn{color:var(--warn);background:color-mix(in oklab, var(--warn) 16%, transparent)}
+.lvl-bad{color:var(--bad);background:color-mix(in oklab, var(--bad) 14%, transparent)}
 
-.editor{display:flex;flex-direction:column;gap:18px;min-width:0}
-.sec-title{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px 12px}
+.editor{display:flex;flex-direction:column;gap:20px;min-width:0}
+.sec-title{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:12px}
 .fgrid .wide{grid-column:1/-1}
-.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fgrid .w2{grid-column:span 2}
+@media (max-width:420px){.fgrid .w2{grid-column:1/-1}}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
 .field label{font-size:12px;color:var(--muted);font-weight:500}
-.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-sm);padding:8px 10px;min-width:0}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand);background:var(--surface)}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-sm);padding:10px 12px;min-width:0;transition:border-color .15s, box-shadow .15s, background .15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand);background:var(--surface);box-shadow:0 0 0 4px color-mix(in oklab, var(--brand) 16%, transparent)}
 .field .unit{position:relative}
-.field .unit input{padding-right:38px}
-.field .unit span{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:500}
+.field .unit input{padding-right:40px}
+.field .unit span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:500;transition:transform .12s var(--ease), background .15s}
+.chip:active{transform:scale(.96)}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .chip.al[aria-pressed="true"]{background:var(--bad);border-color:var(--bad);color:#fff}
 
 .out-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 @media (max-width:620px){.out-grid{grid-template-columns:minmax(0,1fr)}}
-.ocard{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:var(--surface);display:flex;flex-direction:column;gap:8px;min-width:0}
+.ocard{border:1px solid var(--line);border-radius:18px;padding:16px 18px;background:var(--surface);display:flex;flex-direction:column;gap:9px;min-width:0}
 .ocard.wide{grid-column:1/-1}
-.ocard h4{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.ocard h4{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ocard.hero{background:linear-gradient(135deg, var(--brand-soft), var(--surface) 70%);border-color:color-mix(in oklab, var(--brand) 30%, var(--line))}
 .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .row span:first-child{color:var(--muted)}
 .row b{font-weight:600}
-.big{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;letter-spacing:.01em}
+.big{font-family:var(--f-display);font-weight:600;font-size:26px;line-height:1.05;letter-spacing:-.02em}
 .big small{font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0}
-.meta-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.arrow{color:var(--muted);font-family:var(--f-display);font-size:22px}
-.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--surface-2)}
+.meta-line{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.arrow{color:var(--muted);font-size:20px}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--surface-2);gap:2px}
 .bar i{display:block;height:100%}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:9px;height:9px;border-radius:3px;display:inline-block}
-.c-p{background:var(--brand)} .c-c{background:color-mix(in oklab, var(--brand) 45%, #E9B44C)} .c-f{background:color-mix(in oklab, var(--ink) 55%, var(--surface))}
-.checks{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
-.checks li{display:flex;gap:8px;align-items:flex-start;font-size:13px}
+.c-p{background:var(--c-pro)} .c-c{background:var(--c-carb)} .c-f{background:var(--c-fat)}
+.checks{display:flex;flex-direction:column;gap:7px;margin:0;padding:0;list-style:none}
+.checks li{display:flex;gap:9px;align-items:flex-start;font-size:13px}
 .checks li .pill{flex:none;margin-top:1px}
 .blocked{display:flex;flex-wrap:wrap;gap:6px}
-.blocked span{font-size:12px;border:1px solid color-mix(in oklab, var(--bad) 35%, var(--line));color:var(--bad);border-radius:8px;padding:2px 8px;text-decoration:line-through;text-decoration-color:color-mix(in oklab, var(--bad) 50%, transparent)}
+.blocked span{font-size:12px;border:1px solid color-mix(in oklab, var(--bad) 30%, var(--line));color:var(--bad);border-radius:8px;padding:2px 8px;text-decoration:line-through;text-decoration-color:color-mix(in oklab, var(--bad) 50%, transparent)}
 .note{color:var(--muted);font-size:12.5px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-
-.range-row{display:grid;grid-template-columns:minmax(0,1fr) 74px;gap:10px;align-items:center}
+.range-row{display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:12px;align-items:center}
 .range-row input[type=range]{accent-color:var(--brand);width:100%}
-.range-row output{font-family:var(--f-display);font-weight:600;font-size:20px;text-align:right}
-
-.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md)}
+.range-row output{font-family:var(--f-display);font-weight:600;font-size:17px;text-align:right}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
 table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
-th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2)}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
 tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:color-mix(in oklab, var(--brand) 4%, transparent)}
 .al-tags{display:flex;gap:4px;flex-wrap:wrap;white-space:normal}
 .al-tags span{font-size:11px;background:color-mix(in oklab, var(--bad) 12%, transparent);color:var(--bad);border-radius:6px;padding:1px 6px}
-.icon-btn{border:0;background:transparent;color:var(--muted);padding:4px;border-radius:8px;display:inline-grid;place-items:center}
+.icon-btn{border:0;background:transparent;color:var(--muted);padding:6px;border-radius:9px;display:inline-grid;place-items:center}
 .icon-btn:hover{color:var(--bad);background:var(--surface-2)}
 .icon-btn svg{width:16px;height:16px}
-.addbox{border:1px dashed color-mix(in oklab, var(--brand) 45%, var(--line));border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:12px;background:color-mix(in oklab, var(--brand) 4%, var(--surface))}
+.addbox{border:1px dashed color-mix(in oklab, var(--brand) 45%, var(--line));border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:13px;background:color-mix(in oklab, var(--brand) 4%, var(--surface))}
 .msg{font-size:12.5px;min-height:1em}
 .msg.err{color:var(--bad)} .msg.ok{color:var(--good)}
-.empty{border:1px dashed var(--line);border-radius:var(--r-md);padding:26px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:6px;align-items:center}
+.empty{border:1px dashed var(--line);border-radius:18px;padding:28px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:6px;align-items:center}
 .empty b{color:var(--ink);font-size:15px}
-
 .swatches{display:flex;gap:10px;flex-wrap:wrap}
-.sw{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 12px 6px 6px;font-weight:600;font-size:13px}
-.sw i{width:26px;height:26px;border-radius:8px;display:block}
+.sw{display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:6px 13px 6px 6px;font-weight:600;font-size:13px}
+.sw i{width:28px;height:28px;border-radius:9px;display:block}
 .sw[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);padding:3px}
-
-@media (max-width:560px){.mark-sub{display:none}.top-in{gap:10px;padding-block:10px}.pill-demo{font-size:10.5px;padding:3px 7px}}
-.foot{color:var(--muted);font-size:12.5px;padding-block:0 30px;max-width:900px}
-
-/* ---------- Teléfono ---------- */
-.phone{width:390px;max-width:100%;height:800px;border-radius:52px;background:var(--device);padding:11px;box-shadow:0 30px 60px -20px rgb(10 14 20 / .45), inset 0 0 0 1.5px rgb(255 255 255 / .08)}
-@media (max-width:1079px){.phone{height:min(800px, calc(100dvh - 150px));min-height:620px}}
-@media (max-width:480px){
-  .phone{background:none;padding:0;box-shadow:none;border-radius:0;width:100%;height:calc(100dvh - 128px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));min-height:540px}
-  .device-cap{display:none}
-}
-.screen{position:relative;height:100%;border-radius:42px;overflow:hidden;background:var(--app-bg);display:flex;flex-direction:column}
-
-.sbar{display:flex;justify-content:space-between;align-items:center;padding:15px 28px 6px;font-weight:600;font-size:14.5px;flex:none}
-.sbar .isl{width:104px;height:30px;background:#000;border-radius:20px;position:absolute;left:50%;top:10px;transform:translateX(-50%)}
-.sbar .sig{display:flex;gap:5px;align-items:center}
-.sbar svg{height:12px}
-.app{flex:1;overflow-y:auto;overflow-x:hidden;padding:10px 18px 18px;scrollbar-width:none;display:flex;flex-direction:column;gap:18px}
-.app::-webkit-scrollbar{display:none}
-.anav{flex:none;display:grid;grid-template-columns:repeat(5,1fr);background:var(--surface);border-top:1px solid var(--line);padding:6px 6px 22px;position:relative}
-.anav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--muted);padding:6px 0;position:relative}
-.anav button svg{width:23px;height:23px}
-.anav button[aria-current="true"]{color:var(--brand-ink)}
-.anav button[aria-current="true"]::before{content:"";position:absolute;top:-7px;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
-
-.a-head{display:flex;align-items:center;gap:13px;padding-top:6px}
-.logo{width:54px;height:54px;border-radius:16px;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:23px;letter-spacing:.02em;flex:none;box-shadow:inset 0 -2px 0 rgb(0 0 0 / .12)}
-.logo.sm{width:30px;height:30px;border-radius:9px;font-size:14px}
-.a-head h2{font-family:var(--f-display);font-weight:700;font-size:32px;line-height:1}
-.a-head p{color:var(--muted);font-size:13.5px}
-.a-title{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1}
-.a-sub{color:var(--muted);font-size:13px;margin-top:3px}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.tile{position:relative;height:118px;border-radius:18px;border:0;overflow:hidden;text-align:left;padding:12px;display:flex;flex-direction:column;justify-content:space-between;font-weight:700;font-size:15.5px}
-.tile .ti{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgb(255 255 255 / .18);backdrop-filter:blur(4px)}
-.tile .ti svg{width:22px;height:22px}
-.tile.t1{background:radial-gradient(120% 90% at 100% 0%, color-mix(in oklab, var(--brand) 55%, #FFFFFF) 0%, var(--brand) 55%, color-mix(in oklab, var(--brand) 70%, #000) 100%);color:var(--on-brand)}
-.tile.t2{background:radial-gradient(120% 90% at 100% 0%, #3A434D 0%, #1C2229 60%, #11161B 100%);color:#fff}
-.tile::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg, rgb(255 255 255 / .06) 0 2px, transparent 2px 14px);pointer-events:none}
-.acard{background:var(--surface);border-radius:20px;padding:15px 16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 2px rgb(16 24 32 / .05)}
-.acard-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.acard-h h3{font-family:var(--f-display);font-weight:700;font-size:22px;line-height:1}
-.link{border:0;background:transparent;color:var(--brand-ink);font-weight:700;font-size:13.5px;padding:0}
-.ring-row{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;align-items:center}
-.ring{position:relative;width:112px;height:112px}
-.ring svg{transform:rotate(-90deg)}
-.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring-c b{font-family:var(--f-display);font-size:27px;line-height:1}
-.ring-c span{font-size:11px;color:var(--muted)}
-.mbars{display:flex;flex-direction:column;gap:9px}
-.mb-top{display:flex;justify-content:space-between;font-size:12.5px}
-.mb-top span:last-child{color:var(--muted)}
-.mb{height:7px;background:var(--surface-2);border-radius:999px;overflow:hidden}
-.mb i{display:block;height:100%;border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.next{display:flex;gap:12px;align-items:center}
-.next .ic{width:44px;height:44px;border-radius:13px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center;flex:none}
-.next .ic svg{width:22px;height:22px}
-.aforo{display:flex;align-items:flex-end;gap:3px;height:56px}
-.aforo i{flex:1;border-radius:3px 3px 1px 1px;background:color-mix(in oklab, var(--brand) 22%, var(--surface-2))}
-.aforo i.now{background:var(--brand)}
-.coachmsg{display:flex;gap:10px;align-items:flex-start}
-.bubble{background:var(--surface-2);border-radius:4px 16px 16px 16px;padding:10px 12px;font-size:13.5px}
-
-.meal{background:var(--surface);border-radius:18px;padding:13px 14px;display:flex;flex-direction:column;gap:9px}
-.meal.done{opacity:.62}
-.meal-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.meal-slot{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-ink)}
-.meal-name{font-weight:600;font-size:14.5px;line-height:1.3;margin-top:2px}
-.tick{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:none;color:transparent}
-.tick svg{width:18px;height:18px}
-.tick[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
-.ing{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
-.ing li{display:flex;justify-content:space-between;gap:8px;font-size:13px}
-.ing li span:last-child{color:var(--muted);font-variant-numeric:tabular-nums}
-.mchips{display:flex;gap:6px;flex-wrap:wrap}
-.mchips span{font-size:11.5px;font-weight:600;background:var(--surface-2);border-radius:7px;padding:2px 7px;font-variant-numeric:tabular-nums}
-.sumline{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--surface);border-radius:16px;padding:11px 8px;text-align:center}
-.sumline b{display:block;font-family:var(--f-display);font-size:21px;line-height:1.05}
-.sumline span{font-size:11px;color:var(--muted)}
-.al-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.al-row .al{font-size:11.5px;font-weight:600;color:var(--bad);background:color-mix(in oklab, var(--bad) 11%, var(--surface));border-radius:7px;padding:2px 8px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:var(--surface);border-radius:16px;padding:11px 12px}
-.stat b{display:block;font-family:var(--f-display);font-size:24px;line-height:1.05}
-.stat span{font-size:11.5px;color:var(--muted)}
-.chart text{font-family:var(--f-body);font-size:10px;fill:var(--muted)}
-.menu{background:var(--surface);border-radius:18px;overflow:hidden}
-.menu-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 15px;border-bottom:1px solid var(--line);font-size:14.5px}
-.menu-row:last-child{border-bottom:0}
-.menu-row .r{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:4px;text-align:right}
-.menu-row svg{width:16px;height:16px;color:var(--brand-ink);flex:none}
-.out{color:var(--bad);font-weight:700;font-size:15px;border:0;background:transparent;text-align:left;padding:0}
-.prof{display:flex;align-items:center;gap:12px}
-.avatar{width:46px;height:46px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-weight:700;color:var(--muted);border:1px solid var(--line)}
-.a-empty{background:var(--surface);border-radius:18px;padding:22px;text-align:center;color:var(--muted);display:flex;flex-direction:column;gap:6px}
-.a-empty b{color:var(--ink)}
-.btn-app{border:0;border-radius:14px;background:var(--brand);color:var(--on-brand);font-weight:700;padding:12px;font-size:14px}
-.btn-app.ghost{background:var(--surface);color:var(--brand-ink)}
-
-.modal{position:absolute;inset:0;background:rgb(8 10 14 / .5);display:flex;align-items:flex-end;z-index:3;animation:fade .2s}
-.sheet{background:var(--surface);width:100%;border-radius:26px 26px 0 0;padding:18px 20px 30px;display:flex;flex-direction:column;align-items:center;gap:12px;animation:up .28s cubic-bezier(.2,.8,.2,1)}
-.grab{width:40px;height:5px;border-radius:9px;background:var(--line)}
-.qr{background:#fff;padding:12px;border-radius:16px}
-@keyframes fade{from{opacity:0}}
-@keyframes up{from{transform:translateY(40px);opacity:0}}
-.flash{animation:flash .9s}
-
-/* Retos, premios, avisos y tarjeta para redes */
-.ahead-row{display:flex;align-items:center;gap:10px}
-.ahead-row .a-head{flex:1;min-width:0}
-.ahead-row .a-head h2{font-size:29px}
-.bell{position:relative;width:42px;height:42px;border-radius:50%;border:0;background:var(--surface);display:grid;place-items:center;flex:none;margin-top:6px}
-.bell svg{width:21px;height:21px}
-.bell .badge{position:absolute;top:3px;right:3px;min-width:18px;height:18px;border-radius:9px;background:var(--bad);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px;border:2px solid var(--app-bg)}
-.stars{display:inline-flex;align-items:center;gap:3px;font-weight:700;color:var(--star);white-space:nowrap}
-.stars svg{width:15px;height:15px;fill:currentColor;stroke:none}
-.task{background:var(--surface);border-radius:18px;padding:12px 13px;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:11px;align-items:center}
-.task .ic{width:42px;height:42px;border-radius:13px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center}
-.task .ic svg{width:22px;height:22px}
-.task-t{font-weight:600;font-size:14px;line-height:1.25}
-.task-d{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.35}
-.task-r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-.dots{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
-.dots i{width:16px;height:6px;border-radius:3px;background:var(--surface-2)}
-.dots i.on{background:var(--brand)}
-.inc{min-width:46px;height:36px;border-radius:12px;border:0;background:var(--brand);color:var(--on-brand);font-weight:700;font-size:14px;display:grid;place-items:center;padding:0 10px}
-.inc.ok{background:color-mix(in oklab, var(--good) 16%, var(--surface));color:var(--good)}
-.inc svg{width:18px;height:18px}
-.reward{background:linear-gradient(135deg, color-mix(in oklab, var(--brand) 80%, #000) 0%, var(--brand) 100%);color:var(--on-brand)}
-.rw-top{display:flex;gap:12px;align-items:center}
-.rw-ic{width:46px;height:46px;border-radius:14px;background:rgb(255 255 255 / .18);display:grid;place-items:center;flex:none}
-.rw-ic svg{width:24px;height:24px}
-.rw-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.82}
-.rw-name{font-family:var(--f-display);font-weight:700;font-size:25px;line-height:1.05}
-.rw-bar{height:9px;border-radius:999px;background:rgb(255 255 255 / .22);overflow:hidden}
-.rw-bar i{display:block;height:100%;background:var(--star);border-radius:999px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.rw-note{font-size:13px;opacity:.88}
-.rw-btn{border:0;border-radius:12px;background:var(--on-brand);color:var(--brand);font-weight:700;padding:11px 14px;font-size:14px}
-.rw-meal{border:1.5px dashed var(--brand)}
-.push{position:absolute;left:10px;right:10px;top:12px;z-index:4;background:color-mix(in oklab, var(--surface) 90%, transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:20px;padding:11px 13px;display:flex;gap:11px;align-items:flex-start;box-shadow:0 12px 32px rgb(0 0 0 / .2);animation:drop .45s cubic-bezier(.2,.8,.2,1)}
-.push-h{display:flex;gap:6px;align-items:baseline}
-.push b{font-size:13px}
-.push p{font-size:13px;line-height:1.35;margin-top:1px}
-.push .when,.note-item .when{color:var(--muted);font-size:11.5px}
-.push .when{margin-left:auto}
-@keyframes drop{from{transform:translateY(-130%);opacity:0}}
-.toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);z-index:4;background:var(--ink);color:var(--surface);border-radius:999px;padding:9px 16px;font-weight:600;font-size:13.5px;white-space:nowrap;display:flex;gap:7px;align-items:center;animation:pop .35s cubic-bezier(.2,.8,.2,1)}
-.toast svg{width:16px;height:16px;fill:var(--star);stroke:none}
-@keyframes pop{from{transform:translate(-50%,12px) scale(.92);opacity:0}}
-.note-list{display:flex;flex-direction:column;gap:8px;width:100%}
-.note-item{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border-radius:14px;padding:10px 12px;font-size:13.5px;text-align:left}
-.sheet .note-item{background:var(--surface-2)}
-.note-item .when{display:block;margin-top:2px}
-.shareimg{max-height:min(48vh,400px);width:auto;max-width:100%;border-radius:14px;box-shadow:0 8px 24px rgb(0 0 0 / .22);background:var(--surface-2);min-height:120px}
-.sheet .chips{justify-content:center}
-.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
-.btn-app{display:flex;align-items:center;justify-content:center;gap:7px}
-.btn-app svg{width:17px;height:17px}
-.btn-app.ghost{border:1px solid var(--line)}
-.trow{display:grid;grid-template-columns:36px minmax(0,1fr) auto auto auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:var(--r-md);padding:9px 8px 9px 12px}
-.trow .ic{width:36px;height:36px;border-radius:10px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center}
+input[type=color]{width:52px;height:42px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);padding:3px}
+.trow{display:grid;grid-template-columns:38px minmax(0,1fr) auto auto auto;gap:11px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:9px 8px 9px 11px}
+.trow .ic{width:38px;height:38px;border-radius:12px;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center}
 .trow .ic svg{width:19px;height:19px}
 .trow .t{font-weight:600}
 .trow .d{color:var(--muted);font-size:12.5px}
 .tlist{display:flex;flex-direction:column;gap:8px}
 .weekgoal{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
-/* Móvil real: la app ocupa la pantalla, sin marco de teléfono simulado */
-@media (max-width:480px){
-  .pill-demo{display:none}
-  .screen{border-radius:22px;border:1px solid var(--line)}
-  .sbar{display:none}
-  .app{padding-top:16px}
-  .anav{padding-bottom:calc(8px + env(safe-area-inset-bottom, 0px))}
-  .phone{height:calc(100dvh - 120px - env(safe-area-inset-top, 0px))}
-}
-@keyframes flash{30%{box-shadow:0 0 0 6px color-mix(in oklab, var(--brand) 45%, transparent),0 30px 60px -20px rgb(10 14 20 / .45)}}
+.stars{display:inline-flex;align-items:center;gap:3px;font-weight:700;color:var(--star);white-space:nowrap}
+.stars svg{width:15px;height:15px;fill:currentColor;stroke:none}
 
-/* ---------- Resumen del coach, check-in semanal, rachas, agua, intercambios, ranking ---------- */
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-@media (max-width:620px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.kpi{border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;background:var(--surface-2);min-width:0}
-.kpi b{display:block;font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.05}
-.kpi span{font-size:12px;color:var(--muted)}
-.arow-m{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:5px}
-.arow-m .mb{width:90px;flex:none}
-.arow-m .mb i{background:var(--brand)}
-.streak{display:inline-flex;align-items:center;gap:3px;font-weight:700;color:var(--warn);white-space:nowrap;font-size:12.5px}
-.streak svg{width:15px;height:15px}
+/* Resumen del coach */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:1180px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:440px){.kpis{grid-template-columns:minmax(0,1fr)}}
+.kpi{border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:15px 16px 12px;display:flex;flex-direction:column;gap:6px;min-width:0;position:relative;overflow:hidden}
+.kpi .k-l{font-size:12px;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:7px}
+.kpi .k-l svg{width:15px;height:15px;color:var(--brand-ink)}
+.kpi .k-v{font-family:var(--f-display);font-weight:600;font-size:28px;line-height:1;letter-spacing:-.02em}
+.kpi .k-v small{font-family:var(--f-body);font-size:13px;color:var(--muted);font-weight:500;letter-spacing:0}
+.kpi .spark{height:34px;width:100%;margin-top:2px}
+.delta{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:999px;align-self:flex-start}
+.delta.up{color:var(--good);background:color-mix(in oklab, var(--good) 14%, transparent)}
+.delta.dn{color:var(--bad);background:color-mix(in oklab, var(--bad) 14%, transparent)}
+.two{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px}
+@media (max-width:1100px){.two{grid-template-columns:minmax(0,1fr)}}
+.lrow{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid var(--line)}
+.lrow:last-child{border-bottom:0}
+.lrow .grow{flex:1;min-width:0}
+.lrow .grow > b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lrow .grow > span{color:var(--muted);font-size:12.5px;display:block}
+.rank{width:24px;font-family:var(--f-display);font-weight:600;color:var(--muted);text-align:center;font-size:13px}
+.rank.r1{color:var(--star)}
+.meter{height:6px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;border-radius:999px;background:var(--brand)}
+
+.foot{color:var(--muted);font-size:12.5px;padding-block:0 30px;max-width:900px}
+
+/* ---------- Teléfono ---------- */
+.phone{width:400px;max-width:100%;height:820px;border-radius:58px;background:linear-gradient(145deg,#2A3038,#0B0D10 40%,#1B2027);padding:12px;box-shadow:0 40px 80px -30px rgb(5 8 12 / .55), 0 0 0 1px rgb(255 255 255 / .06) inset, 0 0 0 2px #05070A}
+@media (max-width:1099px){.phone{height:min(820px, calc(100dvh - 160px));min-height:640px}}
+
+/* Tokens de la app (modo noche por defecto; modo día opcional) */
+.screen{
+  --a-bg:#08090B; --a-card:#121519; --a-card-2:#1A1E24; --a-line:rgb(255 255 255 / .07); --a-ink:#F3F5F7; --a-muted:#8B95A1;
+  --a-brand:color-mix(in oklab, var(--brand) 72%, #FFFFFF); --a-glass:rgb(22 26 31 / .72); --a-shadow:0 20px 40px -20px rgb(0 0 0 / .8);
+  color-scheme:dark;
+  position:relative;height:100%;border-radius:46px;overflow:hidden;background:var(--a-bg);color:var(--a-ink);display:flex;flex-direction:column;isolation:isolate
+}
+.screen[data-app="light"]{
+  --a-bg:color-mix(in oklab, var(--brand) 5%, #F2F4F7); --a-card:#FFFFFF; --a-card-2:#F1F3F6; --a-line:rgb(12 20 30 / .07); --a-ink:#0F1318; --a-muted:#5E6A77;
+  --a-brand:color-mix(in oklab, var(--brand) 86%, #000000); --a-glass:rgb(255 255 255 / .78); --a-shadow:0 18px 36px -22px rgb(15 25 35 / .35);
+  color-scheme:light;
+}
+.screen::before{content:"";position:absolute;inset:-20% -30% auto;height:420px;background:radial-gradient(closest-side, color-mix(in oklab, var(--brand) 38%, transparent), transparent);opacity:.55;z-index:-1;pointer-events:none;filter:blur(10px)}
+.screen[data-app="light"]::before{opacity:.35}
+.sbar{display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font-weight:600;font-size:14.5px;flex:none}
+.sbar .isl{width:108px;height:31px;background:#000;border-radius:20px;position:absolute;left:50%;top:10px;transform:translateX(-50%);z-index:6}
+.sbar .sig{display:flex;gap:5px;align-items:center}
+.sbar svg{height:12px}
+.app{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px 18px 110px;scrollbar-width:none;display:flex;flex-direction:column;gap:16px}
+.app::-webkit-scrollbar{display:none}
+.app > *{flex-shrink:0}
+.app.enter > *{animation:rise .55s var(--ease) both}
+.app.enter > *:nth-child(2){animation-delay:.04s} .app.enter > *:nth-child(3){animation-delay:.08s} .app.enter > *:nth-child(4){animation-delay:.12s}
+.app.enter > *:nth-child(5){animation-delay:.16s} .app.enter > *:nth-child(6){animation-delay:.2s} .app.enter > *:nth-child(n+7){animation-delay:.24s}
+@keyframes rise{from{opacity:.25;transform:translateY(10px)}}
+.anav{position:absolute;left:14px;right:14px;bottom:14px;z-index:3;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--a-glass);backdrop-filter:saturate(1.8) blur(18px);-webkit-backdrop-filter:saturate(1.8) blur(18px);border:1px solid var(--a-line);border-radius:26px;padding:6px;box-shadow:var(--a-shadow)}
+.anav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;font-weight:600;color:var(--a-muted);padding:7px 0 6px;border-radius:20px;transition:color .2s, background .25s var(--ease)}
+.anav button svg{width:22px;height:22px;transition:transform .25s var(--ease)}
+.anav button[aria-current="true"]{color:var(--a-ink);background:color-mix(in oklab, var(--brand) 26%, transparent)}
+.anav button[aria-current="true"] svg{color:var(--a-brand);transform:translateY(-1px) scale(1.06)}
+
+.a-top{display:flex;align-items:center;gap:11px;padding-top:4px}
+.a-top .grow{flex:1;min-width:0}
+.a-top small{display:block;color:var(--a-muted);font-size:12.5px;font-weight:500}
+.a-top h2{font-family:var(--f-display);font-weight:600;font-size:21px;line-height:1.15;letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.round{position:relative;width:42px;height:42px;border-radius:50%;border:1px solid var(--a-line);background:var(--a-card);display:grid;place-items:center;flex:none;color:var(--a-ink)}
+.round svg{width:20px;height:20px}
+.round .badge{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;border-radius:9px;background:var(--c-fat);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px;border:2px solid var(--a-bg)}
+.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(140deg, color-mix(in oklab, var(--brand) 80%, #fff), var(--brand) 55%, color-mix(in oklab, var(--brand) 60%, #000));color:var(--on-brand);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:14px;letter-spacing:-.02em;flex:none;box-shadow:0 8px 20px -10px var(--brand)}
+.logo.sm{width:30px;height:30px;border-radius:10px;font-size:10.5px}
+.a-title{font-family:var(--f-display);font-weight:600;font-size:26px;line-height:1.1;letter-spacing:-.025em}
+.a-sub{color:var(--a-muted);font-size:13px;margin-top:4px}
+.a-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--a-muted)}
+
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0 7px;border-radius:16px;background:var(--a-card);border:1px solid var(--a-line);font-size:10.5px;color:var(--a-muted);font-weight:600}
+.day b{font-family:var(--f-display);font-size:14px;color:var(--a-ink);font-weight:600}
+.day i{width:5px;height:5px;border-radius:50%;background:var(--a-line)}
+.day i.ok{background:var(--good)}
+.day.today{background:linear-gradient(170deg, color-mix(in oklab, var(--brand) 90%, #fff), var(--brand));border-color:transparent;color:color-mix(in oklab, var(--on-brand) 80%, transparent);box-shadow:0 10px 24px -12px var(--brand)}
+.day.today b{color:var(--on-brand)}
+.day.today i{background:var(--on-brand)}
+.streak{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--a-muted)}
+.streak svg{width:16px;height:16px;color:var(--c-pro);fill:currentColor;stroke:none}
+.streak b{color:var(--a-ink)}
+
+.hero{position:relative;border-radius:28px;padding:18px;overflow:hidden;background:var(--a-card);border:1px solid var(--a-line);isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-40%;z-index:-1;background:
+  radial-gradient(40% 35% at 20% 20%, color-mix(in oklab, var(--brand) 55%, transparent), transparent 70%),
+  radial-gradient(35% 30% at 85% 35%, color-mix(in oklab, var(--c-ret) 35%, transparent), transparent 70%),
+  radial-gradient(40% 35% at 60% 90%, color-mix(in oklab, var(--c-pro) 26%, transparent), transparent 70%);
+  animation:drift 18s ease-in-out infinite alternate;opacity:.75}
+.screen[data-app="light"] .hero::before{opacity:.45}
+@keyframes drift{to{transform:translate(6%,-4%) rotate(8deg)}}
+.hero-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rings-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;margin-top:10px}
+.rings{position:relative;width:150px;height:150px}
+.rings svg{transform:rotate(-90deg);overflow:visible}
+.rings .arc{transition:stroke-dashoffset .8s var(--ease)}
+.app.enter .rings .arc{animation:ringIn 1.1s var(--ease) both}
+@keyframes ringIn{from{stroke-dashoffset:var(--C)}}
+.rings-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.rings-c b{font-family:var(--f-display);font-size:24px;font-weight:600;line-height:1;letter-spacing:-.03em}
+.rings-c span{font-size:10.5px;color:var(--a-muted);margin-top:3px}
+.rleg{display:flex;flex-direction:column;gap:11px}
+.rleg div{display:grid;grid-template-columns:10px minmax(0,1fr);gap:9px;align-items:start}
+.rleg i{width:10px;height:10px;border-radius:50%;margin-top:4px}
+.rleg b{display:block;font-size:12.5px;font-weight:600}
+.rleg span{font-size:12px;color:var(--a-muted);font-variant-numeric:tabular-nums}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qa button{border:1px solid var(--a-line);background:var(--a-card);border-radius:20px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--a-ink);transition:transform .15s var(--ease)}
+.qa button:active,.press:active{transform:scale(.95)}
+.qa .qi{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:color-mix(in oklab, var(--brand) 20%, transparent);color:var(--a-brand)}
+.qa .qi svg{width:21px;height:21px}
+.card{background:var(--a-card);border:1px solid var(--a-line);border-radius:24px;padding:15px 16px;display:flex;flex-direction:column;gap:12px}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card-h h3{font-family:var(--f-display);font-weight:600;font-size:15.5px;letter-spacing:-.02em}
+.link{border:0;background:transparent;color:var(--a-brand);font-weight:700;font-size:13px;padding:0;display:inline-flex;align-items:center;gap:2px}
+.link svg{width:15px;height:15px}
+.plate{width:56px;height:56px;flex:none;position:relative}
+.plate svg{transform:rotate(-90deg)}
+.plate .pc{position:absolute;inset:0;display:grid;place-items:center;font-size:10px;font-weight:700;color:var(--a-muted);font-variant-numeric:tabular-nums}
+.nextm{display:flex;gap:13px;align-items:center}
+.nextm .grow{flex:1;min-width:0}
+.slot{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--a-brand)}
+.mname{font-weight:600;font-size:14.5px;line-height:1.3;margin-top:2px}
+.mk{font-size:12px;color:var(--a-muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.tick{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--a-line);background:var(--a-card-2);display:grid;place-items:center;flex:none;color:var(--a-muted);transition:transform .2s var(--ease), background .2s}
+.tick svg{width:19px;height:19px}
+.tick[aria-pressed="true"]{background:var(--brand);border-color:transparent;color:var(--on-brand);box-shadow:0 8px 18px -8px var(--brand)}
+.tick:active{transform:scale(.88)}
+.pbar{height:8px;border-radius:999px;background:var(--a-card-2);overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg, var(--star), color-mix(in oklab, var(--star) 70%, #fff));transition:width .6s var(--ease)}
+.coachmsg{display:flex;gap:10px;align-items:flex-start}
+.bubble{background:var(--a-card-2);border-radius:6px 18px 18px 18px;padding:10px 12px;font-size:13.5px;line-height:1.4}
+.bubble b{display:block;font-size:12px;color:var(--a-brand);margin-bottom:2px}
+.aforo{display:flex;align-items:flex-end;gap:3px;height:58px}
+.aforo i{flex:1;border-radius:4px 4px 2px 2px;background:color-mix(in oklab, var(--brand) 26%, var(--a-card-2))}
+.aforo i.now{background:linear-gradient(180deg, color-mix(in oklab, var(--brand) 70%, #fff), var(--brand));box-shadow:0 0 14px -2px var(--brand)}
+.trow-a{display:flex;justify-content:space-between;font-size:11px;color:var(--a-muted);font-variant-numeric:tabular-nums}
+
+.sumrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mtile{background:var(--a-card);border:1px solid var(--a-line);border-radius:18px;padding:11px 12px;display:flex;flex-direction:column;gap:7px}
+.mtile span{font-size:11px;color:var(--a-muted);font-weight:600}
+.mtile b{font-family:var(--f-display);font-size:17px;font-weight:600;letter-spacing:-.02em}
+.mtile b small{font-family:var(--f-body);font-size:11px;color:var(--a-muted);font-weight:500;letter-spacing:0}
+.mtile .pbar{height:5px}
+.kband{display:flex;justify-content:space-between;align-items:center;background:var(--a-card);border:1px solid var(--a-line);border-radius:20px;padding:12px 16px}
+.kband b{font-family:var(--f-display);font-size:22px;font-weight:600;letter-spacing:-.03em}
+.kband span{font-size:12px;color:var(--a-muted)}
+.al-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.al-row .al{font-size:11.5px;font-weight:600;color:var(--c-fat);background:color-mix(in oklab, var(--c-fat) 14%, transparent);border-radius:8px;padding:3px 9px}
+.al-row .al-l{font-size:12px;color:var(--a-muted)}
+.meal{background:var(--a-card);border:1px solid var(--a-line);border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:11px;transition:opacity .25s}
+.meal.done{opacity:.55}
+.meal-h{display:flex;gap:12px;align-items:center}
+.meal-h .grow{flex:1;min-width:0}
+.ing{display:flex;flex-direction:column;gap:6px;margin:0;padding:10px 0 0;list-style:none;border-top:1px solid var(--a-line)}
+.ing li{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.ing li span:last-child{color:var(--a-muted);font-variant-numeric:tabular-nums}
+.mchips{display:flex;gap:6px;flex-wrap:wrap}
+.mchips span{font-size:11px;font-weight:600;border-radius:8px;padding:3px 8px;font-variant-numeric:tabular-nums;background:var(--a-card-2)}
+.mchips .p{color:var(--c-pro)} .mchips .c{color:var(--c-carb)} .mchips .f{color:var(--c-fat)}
+.rw-meal{border:1.5px dashed color-mix(in oklab, var(--star) 70%, transparent);background:linear-gradient(135deg, color-mix(in oklab, var(--star) 12%, var(--a-card)), var(--a-card))}
+.skel{border-radius:24px;height:118px;background:linear-gradient(100deg, var(--a-card) 30%, var(--a-card-2) 50%, var(--a-card) 70%);background-size:300% 100%;animation:shimmer 1s linear infinite;border:1px solid var(--a-line)}
+@keyframes shimmer{to{background-position:-150% 0}}
+.btn-app{border:0;border-radius:18px;background:linear-gradient(180deg, color-mix(in oklab, var(--brand) 85%, #fff), var(--brand));color:var(--on-brand);font-weight:700;padding:14px;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 12px 26px -14px var(--brand);transition:transform .15s var(--ease)}
+.btn-app:active{transform:scale(.97)}
+.btn-app svg{width:17px;height:17px}
+.btn-app.ghost{background:var(--a-card);color:var(--a-ink);border:1px solid var(--a-line);box-shadow:none}
+.a-empty{background:var(--a-card);border:1px solid var(--a-line);border-radius:22px;padding:22px;text-align:center;color:var(--a-muted);display:flex;flex-direction:column;gap:6px}
+.a-empty b{color:var(--a-ink)}
+
+.reward{position:relative;overflow:hidden;border-radius:28px;padding:18px;color:#fff;background:linear-gradient(140deg, color-mix(in oklab, var(--brand) 85%, #000) 0%, color-mix(in oklab, var(--brand) 60%, var(--c-ret)) 100%);isolation:isolate;box-shadow:0 20px 40px -24px var(--brand)}
+.reward::after{content:"";position:absolute;width:220px;height:220px;right:-70px;top:-90px;border-radius:50%;background:radial-gradient(closest-side, rgb(255 255 255 / .3), transparent);z-index:-1}
+.rw-top{display:flex;gap:14px;align-items:center}
+.rw-ring{position:relative;width:74px;height:74px;flex:none}
+.rw-ring svg{transform:rotate(-90deg)}
+.rw-ring .ic{position:absolute;inset:0;display:grid;place-items:center}
+.rw-ring .ic svg{transform:none;width:26px;height:26px}
+.rw-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.rw-name{font-family:var(--f-display);font-weight:600;font-size:19px;line-height:1.15;letter-spacing:-.02em;margin-top:2px}
+.rw-note{font-size:13px;opacity:.88;margin-top:12px}
+.rw-btn{margin-top:14px;width:100%;border:0;border-radius:16px;background:#fff;color:#0E1217;font-weight:700;padding:13px 14px;font-size:14px;box-shadow:0 10px 24px -10px rgb(0 0 0 / .5);animation:glowb 1.8s ease-in-out infinite}
+@keyframes glowb{50%{box-shadow:0 0 0 6px rgb(255 255 255 / .18), 0 10px 24px -10px rgb(0 0 0 / .5)}}
+.wgoal{display:flex;align-items:center;gap:14px}
+.wgoal .ic{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:color-mix(in oklab, var(--good) 18%, transparent);color:var(--good);flex:none}
+.wgoal .ic svg{width:24px;height:24px}
+.wgoal b{font-family:var(--f-display);font-size:19px;font-weight:600;letter-spacing:-.02em;display:block}
+.task{background:var(--a-card);border:1px solid var(--a-line);border-radius:22px;padding:12px;display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center}
+.tring{position:relative;width:48px;height:48px}
+.tring svg{transform:rotate(-90deg)}
+.tring .ic{position:absolute;inset:0;display:grid;place-items:center;color:var(--a-brand)}
+.tring .ic svg{transform:none;width:20px;height:20px}
+.task-t{font-weight:600;font-size:14px;line-height:1.25}
+.task-d{font-size:12px;color:var(--a-muted);margin-top:2px;line-height:1.35}
+.task-m{display:flex;gap:8px;align-items:center;margin-top:5px;font-size:11.5px;color:var(--a-muted);font-variant-numeric:tabular-nums}
+.inc{min-width:48px;height:40px;border-radius:14px;border:0;background:var(--brand);color:var(--on-brand);font-weight:700;font-size:14px;display:grid;place-items:center;padding:0 10px;box-shadow:0 8px 18px -10px var(--brand);transition:transform .15s var(--ease)}
+.inc:active{transform:scale(.9)}
+.inc.ok{background:color-mix(in oklab, var(--good) 18%, transparent);color:var(--good);box-shadow:none}
+.inc svg{width:19px;height:19px}
+.note-list{display:flex;flex-direction:column;gap:8px;width:100%}
+.note-item{display:flex;gap:10px;align-items:flex-start;background:var(--a-card);border:1px solid var(--a-line);border-radius:18px;padding:11px 12px;font-size:13.5px;text-align:left;line-height:1.4}
+.note-item .when{display:block;margin-top:3px;color:var(--a-muted);font-size:11.5px}
+
+.pstat{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.pstat .bigv{font-family:var(--f-display);font-size:40px;font-weight:600;line-height:1;letter-spacing:-.04em}
+.pstat .bigv small{font-family:var(--f-body);font-size:15px;color:var(--a-muted);font-weight:500;letter-spacing:0;margin-left:3px}
+.dchip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:color-mix(in oklab, var(--good) 16%, transparent);color:var(--good)}
+.chart text{font-family:var(--f-body);font-size:10px;fill:var(--a-muted)}
+.comp{display:flex;height:14px;border-radius:999px;overflow:hidden;gap:3px}
+.comp i{display:block;height:100%;border-radius:999px}
+.comp-leg{display:flex;justify-content:space-between;font-size:12px;color:var(--a-muted);font-variant-numeric:tabular-nums}
+.comp-leg b{color:var(--a-ink)}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.minis div{background:var(--a-card);border:1px solid var(--a-line);border-radius:18px;padding:11px 12px}
+.minis b{display:block;font-family:var(--f-display);font-size:16px;font-weight:600;letter-spacing:-.02em}
+.minis span{font-size:11px;color:var(--a-muted)}
+
+.pass{position:relative;border-radius:26px;padding:18px;color:#fff;overflow:hidden;isolation:isolate;aspect-ratio:1.62/1;max-width:100%;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg, color-mix(in oklab, var(--brand) 70%, #000) 0%, var(--brand) 55%, color-mix(in oklab, var(--brand) 55%, #fff) 120%);box-shadow:0 24px 44px -24px var(--brand)}
+.pass::before{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(115deg, rgb(255 255 255 / .06) 0 2px, transparent 2px 16px)}
+.pass::after{content:"";position:absolute;width:260px;height:260px;right:-90px;bottom:-120px;border-radius:50%;background:radial-gradient(closest-side, rgb(255 255 255 / .25), transparent);z-index:-1}
+.pass-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.pass-top .logo{background:#fff;color:var(--brand);box-shadow:none}
+.pass-name{font-family:var(--f-display);font-weight:600;font-size:18px;letter-spacing:-.02em}
+.pass-sub{font-size:12px;opacity:.82}
+.pass-bot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.pass-qr{background:#fff;border-radius:12px;padding:6px;line-height:0}
+.menu{background:var(--a-card);border:1px solid var(--a-line);border-radius:22px;overflow:hidden}
+.menu-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 15px;border-bottom:1px solid var(--a-line);font-size:14px}
+.menu-row:last-child{border-bottom:0}
+.menu-row .r{color:var(--a-muted);font-size:12.5px;display:flex;align-items:center;gap:4px;text-align:right}
+.menu-row svg{width:16px;height:16px;color:var(--a-muted);flex:none}
+.out{color:var(--c-fat);font-weight:700;font-size:14.5px;border:0;background:transparent;text-align:left;padding:4px 2px}
+
+.modal{position:absolute;inset:0;background:rgb(4 6 9 / .55);backdrop-filter:blur(3px);display:flex;align-items:flex-end;z-index:7;animation:fade .2s}
+.sheet{background:var(--a-card);border-top:1px solid var(--a-line);width:100%;border-radius:30px 30px 0 0;padding:16px 20px 30px;display:flex;flex-direction:column;align-items:center;gap:13px;animation:up .32s var(--ease);max-height:92%;overflow-y:auto}
+.sheet .chips{justify-content:center}
+.sheet .chip{background:var(--a-card-2);border-color:var(--a-line);color:var(--a-ink)}
+.sheet .chip[aria-pressed="true"]{background:var(--a-ink);color:var(--a-bg)}
+.sheet .note,.sheet .note-item .when{color:var(--a-muted)}
+.sheet .note-item{background:var(--a-card-2)}
+.grab{width:40px;height:5px;border-radius:9px;background:var(--a-line)}
+.qr{background:#fff;padding:12px;border-radius:18px;line-height:0}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(60px);opacity:.3}}
+.shareimg{max-height:min(46vh,380px);width:auto;max-width:100%;border-radius:16px;box-shadow:0 12px 30px rgb(0 0 0 / .35);background:var(--a-card-2);min-height:120px}
+.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.push{position:absolute;left:10px;right:10px;top:12px;z-index:8;background:var(--a-glass);backdrop-filter:saturate(1.8) blur(18px);-webkit-backdrop-filter:saturate(1.8) blur(18px);border:1px solid var(--a-line);border-radius:22px;padding:11px 13px;display:flex;gap:11px;align-items:flex-start;box-shadow:var(--a-shadow);animation:drop .5s var(--ease)}
+.push-h{display:flex;gap:6px;align-items:baseline}
+.push b{font-size:13px}
+.push p{font-size:13px;line-height:1.35;margin-top:1px}
+.push .when{color:var(--a-muted);font-size:11.5px;margin-left:auto}
+@keyframes drop{from{transform:translateY(-130%);opacity:0}}
+.toast{position:absolute;left:50%;bottom:104px;transform:translateX(-50%);z-index:8;background:var(--a-ink);color:var(--a-bg);border-radius:999px;padding:10px 17px;font-weight:700;font-size:13.5px;white-space:nowrap;display:flex;gap:7px;align-items:center;animation:pop .4s var(--ease);box-shadow:var(--a-shadow)}
+.toast svg{width:16px;height:16px;fill:var(--star);stroke:none}
+@keyframes pop{from{transform:translate(-50%,14px) scale(.9);opacity:0}}
+#confetti{position:absolute;inset:0;z-index:9;pointer-events:none;width:100%;height:100%}
+.flash{animation:flash .9s}
+@keyframes flash{30%{box-shadow:0 0 0 6px color-mix(in oklab, var(--brand) 50%, transparent),0 40px 80px -30px rgb(5 8 12 / .55)}}
+
+/* ---------- Check-in semanal, ajuste sugerido, agua, intercambios, lista de compras y ranking ---------- */
 .scale{display:inline-flex;gap:3px;align-items:center}
-.scale i{width:14px;height:6px;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
+.scale i{width:15px;height:6px;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
 .scale i.on{background:var(--brand);border-color:var(--brand)}
-.hgroup{display:flex;gap:10px;align-items:center;min-width:0}
-.item,.btn,.chip,.tile,.tick,.inc,.btn-app,.glass,.opt{transition:transform .12s, background-color .15s, border-color .15s, color .15s}
-.btn:active,.chip:active,.tile:active,.tick:active,.inc:active,.btn-app:active,.glass:active,.opt:active{transform:scale(.96)}
-.app.enter>*{animation:rise .34s cubic-bezier(.2,.8,.2,1) both}
-.app.enter>*:nth-child(2){animation-delay:.04s}
-.app.enter>*:nth-child(3){animation-delay:.08s}
-.app.enter>*:nth-child(4){animation-delay:.12s}
-.app.enter>*:nth-child(n+5){animation-delay:.16s}
-@keyframes rise{from{transform:translateY(10px);opacity:0}}
-.tick[aria-pressed="true"] svg{animation:tickpop .3s}
-@keyframes tickpop{from{transform:scale(.3)}60%{transform:scale(1.25)}}
-.sheet{max-height:94%;overflow-y:auto;scrollbar-width:none}
-.sheet-form{display:flex;flex-direction:column;gap:12px;width:100%;text-align:left}
+.quote{background:var(--surface-2);border-radius:12px;padding:9px 12px;font-size:13px}
+.stk{display:inline-flex;gap:3px;align-items:center;font-size:12px;font-weight:700;color:var(--c-pro);white-space:nowrap;font-variant-numeric:tabular-nums}
+.stk svg{width:14px;height:14px;fill:currentColor;stroke:none}
+.lrow .why{white-space:normal}
+.card.cta{border-color:color-mix(in oklab, var(--brand) 55%, transparent)}
+.cta-ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:color-mix(in oklab, var(--brand) 20%, transparent);color:var(--a-brand);flex:none}
+.cta-ic svg{width:22px;height:22px}
+.water{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
+.glass{border:1px solid var(--a-line);height:40px;border-radius:13px;background:var(--a-card-2);color:var(--a-muted);display:grid;place-items:center;padding:0;transition:transform .15s var(--ease), background .2s, color .2s}
+.glass svg{width:18px;height:18px}
+.glass:active{transform:scale(.9)}
+.glass[aria-pressed="true"]{background:color-mix(in oklab, var(--c-carb) 22%, transparent);color:var(--c-carb);border-color:transparent}
+.glass[aria-pressed="true"] svg{fill:currentColor;fill-opacity:.35}
+.ing-b{display:flex;justify-content:space-between;gap:8px;width:100%;border:0;background:transparent;padding:2px 0;text-align:left;font-size:13px;color:inherit}
+.ing-b span:first-child{display:inline-flex;gap:6px;align-items:center;min-width:0}
+.ing-b svg{width:13px;height:13px;color:var(--a-muted);flex:none}
+.ing-b.sw span:first-child{color:var(--a-brand);font-weight:600}
+.plan-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.plan-actions .btn-app{padding:13px 8px;font-size:13px}
+.arank{display:grid;grid-template-columns:20px 30px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:7px 8px;border-radius:14px;font-size:13.5px}
+.arank.me{background:color-mix(in oklab, var(--brand) 18%, transparent);font-weight:600}
+.arank .pos{font-family:var(--f-display);font-weight:600;font-size:13px;color:var(--a-muted);text-align:center}
+.arank .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .note{color:var(--a-muted)}
+.sheet{scrollbar-width:none}
+.sheet-form{display:flex;flex-direction:column;gap:13px;width:100%;text-align:left}
+.sheet .field label,.sheet .sec-title{color:var(--a-muted)}
+.sheet .field input,.sheet .field textarea{background:var(--a-card-2);border-color:var(--a-line);color:var(--a-ink)}
+.sheet .field input:focus,.sheet .field textarea:focus{background:var(--a-card-2)}
+.sheet .field .unit span{color:var(--a-muted)}
 .q{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;font-weight:600}
 .q .chips{gap:4px;flex-wrap:nowrap}
-.q .chip{width:34px;height:34px;padding:0;display:grid;place-items:center;font-weight:700}
-.q .chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
-.consent{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--muted)}
+.sheet .q .chip{width:36px;height:36px;padding:0;display:grid;place-items:center;font-weight:700}
+.sheet .q .chip[aria-pressed="true"]{background:var(--brand);border-color:transparent;color:var(--on-brand)}
+.consent{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--a-muted)}
 .consent input{margin-top:2px;accent-color:var(--brand);width:17px;height:17px;flex:none}
-.acard.cta{border:1.5px solid color-mix(in oklab, var(--brand) 45%, transparent)}
-.water{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
-.glass{border:0;height:38px;border-radius:10px;background:var(--surface-2);color:var(--muted);display:grid;place-items:center;padding:0}
-.glass svg{width:18px;height:18px}
-.glass[aria-pressed="true"]{background:color-mix(in oklab, #2F80ED 18%, var(--surface));color:#2F80ED}
-.ing-b{display:flex;justify-content:space-between;gap:8px;width:100%;border:0;background:transparent;padding:3px 0;text-align:left;font-size:13px}
-.ing-b span:first-child{display:inline-flex;gap:6px;align-items:center;min-width:0}
-.ing-b svg{width:13px;height:13px;color:var(--muted);flex:none}
-.ing-b.sw span:first-child{color:var(--brand-ink);font-weight:600}
-.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:14px;padding:11px 13px;text-align:left;font-size:13.5px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;border:1px solid var(--a-line);background:var(--a-card-2);color:var(--a-ink);border-radius:16px;padding:12px 14px;text-align:left;font-size:13.5px;transition:transform .15s var(--ease)}
+.opt:active{transform:scale(.97)}
 .opt b{font-weight:600}
-.opt span{color:var(--muted);white-space:nowrap;font-size:12.5px}
-.rank{display:grid;grid-template-columns:22px minmax(0,1fr) auto auto;gap:10px;align-items:center;font-size:13.5px;padding:7px 8px;border-radius:10px}
-.rank.me{background:var(--brand-soft);font-weight:600}
-.rank .pos{font-family:var(--f-display);font-weight:700;font-size:18px;color:var(--muted)}
+.opt span{color:var(--a-muted);white-space:nowrap;font-size:12.5px}
 .shop{width:100%;display:flex;flex-direction:column;gap:12px;text-align:left}
-.plan-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-#fx{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:5}
-#fx i{position:absolute;top:-14px;width:8px;height:12px;border-radius:2px;animation:fall 1.6s cubic-bezier(.3,.6,.5,1) forwards}
-@keyframes fall{to{transform:translate(var(--dx),760px) rotate(var(--rot));opacity:0}}
-#btn-theme svg{width:16px;height:16px}
-@media (max-width:560px){#btn-theme .th-l{display:none}}
+.shop .ing{border-top:0;padding-top:0}
+
+/* Móvil real: la app ocupa la pantalla, sin marco de teléfono simulado */
+@media (max-width:480px){
+  .mark-sub,.pill-demo{display:none}
+  .top-in{gap:10px;padding-block:10px}
+  .phone{background:none;padding:0;box-shadow:none;border-radius:0;width:100%;height:calc(100dvh - 122px - env(safe-area-inset-top, 0px));min-height:560px}
+  .screen{border-radius:26px;border:1px solid var(--line)}
+  .sbar{display:none}
+  .app{padding-top:16px}
+  .device-cap .live-dot,.device-cap .cap-t{display:none}
+}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="wrap top-in">
     <div class="mark">
-      <span class="mark-badge" aria-hidden="true">C</span>
+      <span class="mark-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg></span>
       <div>
         <div class="mark-name">CoachRD</div>
         <div class="mark-sub">Plataforma marca blanca para gimnasios y coaches</div>
@@ -452,7 +582,6 @@ input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-rad
       <button role="tab" id="seg-app" data-view="app">App del socio</button>
       <button role="tab" id="seg-coach" data-view="coach">Panel del coach</button>
     </div>
-    <button class="btn" data-action="theme" id="btn-theme" title="Cambia entre tema automático, oscuro y claro"></button>
     <button class="btn" data-action="reset" id="btn-reset" title="Vuelve a cargar los datos de ejemplo">Restablecer</button>
   </div>
 </header>
@@ -461,7 +590,7 @@ input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-rad
   <section class="coach" id="coach" aria-label="Panel del coach"></section>
   <section class="device-col" aria-label="App del socio">
     <div class="phone" id="phone">
-      <div class="screen">
+      <div class="screen" id="screen" data-app="dark">
         <div class="sbar"><span id="clock" class="num">9:41</span><span class="isl" aria-hidden="true"></span>
           <span class="sig" aria-hidden="true">
             <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5" width="3" height="7" rx="1" fill="currentColor"/><rect x="10" y="2.5" width="3" height="9.5" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor" opacity=".35"/></svg>
@@ -473,10 +602,13 @@ input[type=color]{width:46px;height:38px;border:1px solid var(--line);border-rad
         <div id="modal"></div>
         <div id="push"></div>
         <div id="toast"></div>
-        <div id="fx" aria-hidden="true"></div>
+        <canvas id="confetti" aria-hidden="true"></canvas>
       </div>
     </div>
-    <p class="device-cap"><span class="live-dot" aria-hidden="true"></span> Vista del socio · cambia en vivo con el panel</p>
+    <div class="device-cap">
+      <span class="live-dot" aria-hidden="true"></span><span class="cap-t">Vista del socio en vivo</span>
+      <span class="mini-seg" role="group" aria-label="Estilo de la app" id="appTheme"></span>
+    </div>
   </section>
 </main>
 
@@ -576,10 +708,10 @@ function ensureClient(c){
 }
 
 /* ===================== Estado ===================== */
-const KEY = "coachrd-demo-v3";
-const fresh = () => ({v:3,brand:{name:"Atlántico Fit",initials:"AF",color:"#0E7C74",coach:"Coach Ramón"},foods:seedFoods(),templates:seedTemplates(),clients:seedClients().map(ensureClient),sel:"c2",selT:"def",tab:"resumen",ptab:"inicio",seed:0,done:{},swaps:{},theme:"auto",view:"app",share:{fmt:"post",weight:false}});
+const KEY = "coachrd-demo-v4";
+const fresh = () => ({v:4,brand:{name:"Atlántico Fit",initials:"AF",color:"#0E7C74",coach:"Coach Ramón"},foods:seedFoods(),templates:seedTemplates(),clients:seedClients().map(ensureClient),sel:"c2",selT:"def",tab:"resumen",ptab:"inicio",seed:0,done:{},swaps:{},view:"app",share:{fmt:"post",weight:false},appTheme:"dark"});
 function load(){
-  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); if(o && o.v === 3){ const s = Object.assign(fresh(), o); s.clients.forEach(ensureClient); return s; } } }catch(e){}
+  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); if(o && o.v === 4){ const s = Object.assign(fresh(), o); s.clients.forEach(ensureClient); return s; } } }catch(e){}
   return fresh();
 }
 let S = load();
@@ -598,6 +730,10 @@ function hash(s){ let h = 2166136261; for(const ch of String(s)){ h ^= ch.charCo
 const curClient = () => S.clients.find(c => c.id === S.sel) || S.clients[0] || null;
 const tplOf = c => c ? S.templates.find(t => t.id === c.tpl) || null : null;
 const firstName = n => String(n || "").trim().split(/\s+/)[0] || "socio";
+const lowerFirst = s => s.charAt(0).toLowerCase() + s.slice(1);
+const DAY = 864e5;
+const today = () => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate(); };
+const buzz = () => { try{ if(navigator.vibrate) navigator.vibrate(12); }catch(e){} };
 
 const ICONS = {
   home:'<path d="M3.5 10.5 12 4l8.5 6.5V19a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>',
@@ -613,6 +749,19 @@ const ICONS = {
   bolt:'<path d="M13 3 5 13h6l-1 8 8-10h-6z"/>',
   cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
   swap:'<path d="M4 8h13l-3-3M20 16H7l3 3"/>',
+  grid:'<rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/>',
+  users:'<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c1-3.5 3.6-5.3 6.5-5.3s5.5 1.8 6.5 5.3"/><path d="M16 5.2a3.3 3.3 0 0 1 0 6.6M18.5 14.9c1.6.8 2.6 2.4 3 5.1"/>',
+  layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+  leaf:'<path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19c3-4 6-6 10-8"/>',
+  palette:'<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.6-1-2.6c0-1.2 1-2 2.2-2H17a4 4 0 0 0 4-4c0-4.2-4-7.4-9-7.4z"/><circle cx="7.5" cy="11.5" r="1.2"/><circle cx="10.5" cy="7.5" r="1.2"/><circle cx="15.5" cy="8" r="1.2"/>',
+  flame:'<path d="M12 2.5c.5 3-1.5 4.5-3 6.5-1.6 2.1-2.5 4-2.5 6a5.5 5.5 0 0 0 11 0c0-2.4-1.3-4.3-2.2-5.4-.3 1.3-1 2.2-2 2.6.6-3.6-.2-7.1-1.3-9.7z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+  moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  trend:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+  alert:'<path d="M12 4 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17.2v.1"/>',
+  trophy:'<path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 14v4M8.5 20.5h7"/>',
+  utensil:'<path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17.5 21v-7.5c-2 0-3-1.5-3-5S16 3 17.5 3z"/>',
+  card:'<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/>',
   star:'<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z"/>',
   bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
   gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3-5.5-4-5.5-1.5S10 9 12 9zm0 0c1.5-3 5.5-4 5.5-1.5S14 9 12 9z"/>',
@@ -624,14 +773,8 @@ const ICONS = {
   drop:'<path d="M12 3.5s6 6.3 6 10.8a6 6 0 0 1-12 0c0-4.5 6-10.8 6-10.8z"/>',
   checkc:'<circle cx="12" cy="12" r="8.5"/><path d="m8 12.3 2.8 2.8L16 9.5"/>',
   target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8"/>',
-  flame:'<path d="M12 3c.5 3.5 5 5.5 5 10.5a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.6 1 2.4 1.8 2.6C10.5 8.5 11 5.5 12 3z"/>',
-  moon:'<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
-  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>',
   cart:'<path d="M3 4h2.5l2.2 10.5h10.3l2-7.5H6.6"/><circle cx="9" cy="18.5" r="1.4"/><circle cx="17" cy="18.5" r="1.4"/>'
 };
-const DAY = 864e5;
-const today = () => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate(); };
-const buzz = () => { try{ if(navigator.vibrate) navigator.vibrate(12); }catch(e){} };
 const TASK_TYPES = {correr:["Correr 30 minutos","run","Correr"],baloncesto:["Jugar baloncesto","ball","Baloncesto"],cardio:["Elíptica 30 minutos","pulse","Elíptica o cardio"],pasos:["Caminar 8.000 pasos","steps","Pasos"],agua:["Beber 3 litros de agua","drop","Agua"],plan:["Cumplir el plan del día","checkc","Cumplir el plan"],otra:["Reto personalizado","target","Otro"]};
 const QUICK = [
   ["correr","Correr 30 minutos","",3,2],
@@ -655,6 +798,17 @@ function applyBrand(){
   const r = document.documentElement;
   r.style.setProperty("--brand", S.brand.color);
   r.style.setProperty("--on-brand", onColor(S.brand.color));
+  const sc = $("#screen"); if(sc) sc.dataset.app = S.appTheme === "light" ? "light" : "dark";
+  const tg = $("#appTheme");
+  if(tg) tg.innerHTML = [["dark","Noche","moon"],["light","Día","sun"]].map(([k,l,ic]) => `<button data-action="app-theme" data-k="${k}" aria-pressed="${(S.appTheme||"dark")===k}">${icon(ic)}${l}</button>`).join("");
+}
+// Avatar con degradado estable por persona (iniciales, sin fotos)
+const AV_HUES = [[14,"#FF8A3D"],[200,"#4D9DFF"],[330,"#FF5C8A"],[262,"#A98BFF"],[160,"#2BB98A"],[40,"#F2A40A"]];
+function avatar(name, cls=""){
+  const n = String(name || "?").trim(), parts = n.split(/\s+/);
+  const ini = ((parts[0]||"?")[0] + (parts[1] ? parts[1][0] : "")).toUpperCase();
+  const [, col] = AV_HUES[hash(n) % AV_HUES.length];
+  return `<span class="av ${cls}" style="background:linear-gradient(140deg, ${col}, color-mix(in oklab, ${col} 55%, #000))" aria-hidden="true">${esc(ini)}</span>`;
 }
 
 /* ===================== Cálculo (determinista) ===================== */
@@ -710,7 +864,7 @@ const ZERO = {k:0,p:0,c:0,f:0};
 
 function mealName(items){
   const named = items.filter(x => x.f.cat !== "vegetal").map(x => x.f.name);
-  return named.length ? named[0] + (named.length > 1 ? " con " + named.slice(1).map(n => n.charAt(0).toLowerCase() + n.slice(1)).join(" y ") : "") : "Sin alimentos disponibles";
+  return named.length ? named[0] + (named.length > 1 ? " con " + named.slice(1).map(lowerFirst).join(" y ") : "") : "Sin alimentos disponibles";
 }
 // Gramos del alimento alternativo que igualan el macro principal del original (proteína, carbohidrato o grasa).
 const SWAP_KEY = {proteina:"p", carbohidrato:"c", grasa:"f"};
@@ -809,26 +963,44 @@ function buildPlan(cl, t, o){
 /* ===================== Panel del coach ===================== */
 function renderCoach(){
   const used = S.clients.length, nT = S.templates.length, nF = S.foods.length;
-  const tabs = [["resumen","Resumen",null],["socios","Socios",used],["retos","Retos y premios",null],["formas","Formas dietéticas",nT],["alimentos","Alimentos",nF],["marca","Marca",null]];
+  const tabs = [["resumen","Resumen","grid",null],["socios","Socios","users",used],["retos","Retos y premios","star",null],["formas","Formas dietéticas","layers",nT],["alimentos","Alimentos","leaf",nF],["marca","Marca","palette",null]];
+  const HEAD = {
+    resumen:["Hola, " + S.brand.coach, "Así va tu gimnasio esta semana: adherencia, metas y quién necesita un empujón."],
+    socios:["Socios", "Peso, altura, % de grasa, alergias y plazo. El plan se recalcula al instante y su app cambia en vivo."],
+    retos:["Retos y premios", "Hábitos que suman estrellas, premios que motivan y avisos directos a su móvil."],
+    formas:["Formas dietéticas", "Tus reglas: ajuste calórico, proteína, grasa, comidas al día y exclusiones."],
+    alimentos:["Alimentos", "Tu cuaderno de alimentos. La app solo propone lo que esté aquí."],
+    marca:["Tu marca", "Nombre, logo, color y estilo de la app que reciben tus socios."]
+  }[S.tab] || ["",""];
   $("#coach").innerHTML = `
-    <div class="coach-head">
-      <span class="eyebrow">Cuaderno del coach · ${esc(S.brand.name)}</span>
-      <h1>Tus reglas, tu marca</h1>
-      <p>Empieza en blanco o con ejemplos. Defines tus alimentos, tus formas dietéticas y tus límites; la app los aplica a cada socio según su peso, altura, % de grasa, alergias y plazo.</p>
-    </div>
-    <div class="tabs" role="tablist" aria-label="Secciones del panel">
-      ${tabs.map(([id,l,n]) => `<button role="tab" id="tab-${id}" data-tab="${id}" aria-selected="${S.tab===id}">${l}${n!==null?` <span class="count num">${n}</span>`:""}</button>`).join("")}
-    </div>
-    <div class="coach-body" id="coachBody">${
-      S.tab === "resumen" ? resumen() : S.tab === "socios" ? socios() : S.tab === "retos" ? retos() : S.tab === "formas" ? formas() : S.tab === "alimentos" ? alimentos() : marca()
-    }</div>`;
+    <nav class="side" role="tablist" aria-label="Secciones del panel" aria-orientation="vertical">
+      <div class="side-h"><b>${esc(S.brand.name)}</b><span>Panel del coach</span></div>
+      ${tabs.map(([id,l,ic,n]) => `<button role="tab" id="tab-${id}" data-tab="${id}" aria-selected="${S.tab===id}">${icon(ic)}<span>${l}</span>${n!==null?`<span class="count">${n}</span>`:""}</button>`).join("")}
+      <div class="side-foot">Los cálculos son deterministas: la IA nunca decide calorías ni macros.</div>
+    </nav>
+    <div class="main">
+      <div class="coach-head">
+        <span class="eyebrow">Cuaderno del coach</span>
+        <h1>${esc(HEAD[0])}</h1>
+        <p>${esc(HEAD[1])}</p>
+      </div>
+      <div class="coach-body" id="coachBody">${
+        S.tab === "resumen" ? resumen() : S.tab === "socios" ? socios() : S.tab === "retos" ? retos() : S.tab === "formas" ? formas() : S.tab === "alimentos" ? alimentos() : marca()
+      }</div>
+    </div>`;
 }
 
-/* ---- Resumen: a quién atender hoy ---- */
-// Adherencia: parte de los retos de la semana ya cumplida (hábitos, no peso).
-function adh(c){
-  const tt = c.tasks.reduce((s, k) => s + k.target, 0);
-  return tt ? Math.round(c.tasks.reduce((s, k) => s + Math.min(k.done, k.target), 0)/tt*100) : null;
+/* ---- Resumen ---- */
+function sparkSVG(vals, color){
+  const W = 160, H = 34, n = vals.length, lo = Math.min(...vals), hi = Math.max(...vals), span = (hi - lo) || 1;
+  const pts = vals.map((v,i) => [i/(n-1)*W, H - 4 - (v - lo)/span*(H - 10)]);
+  const d = pts.map((p,i) => `${i?"L":"M"}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" ");
+  const last = pts[n-1];
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${d} L${W} ${H} L0 ${H} Z" fill="${color}" opacity=".12"/><path d="${d}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><circle cx="${last[0]}" cy="${last[1]}" r="2.6" fill="${color}"/></svg>`;
+}
+function adherence(c){
+  const tot = c.tasks.reduce((s,t) => s + t.target, 0);
+  return tot ? c.tasks.reduce((s,t) => s + Math.min(t.done, t.target), 0)/tot : 0;
 }
 const ckDue = c => !c.checkin || Date.now() - c.checkin.ts > 7*DAY;
 // Ritmo real: kg por semana según los tres últimos registros.
@@ -837,7 +1009,7 @@ function rateOf(c){ const a = c.log.slice(-3); return a.length === 3 ? (a[2] - a
 function advice(c, o){
   const rate = rateOf(c);
   if(!o.kcal || rate === null || !o.expWk || Math.abs(o.delta) < 0.3 || c.adjAt === c.log.length) return null;
-  const down = o.delta < 0, a = adh(c);
+  const down = o.delta < 0, a = c.tasks.length ? Math.round(adherence(c)*100) : null;
   const fast = down ? rate < -0.01*o.W : rate > 0.005*o.W;
   const slow = down ? rate > o.expWk*0.5 : rate < o.expWk*0.5;
   if(!fast && !slow) return null;
@@ -850,74 +1022,96 @@ function advice(c, o){
     ? (down ? `Baja ${real}: más del 1 % de su peso por semana. Sube 100 kcal para cuidar su masa magra.` : `Sube ${real}: más del 0,5 % semanal. Baja 100 kcal para ganar menos grasa.`)
     : `Ritmo real ${real} frente a ${sgn(o.expWk, 2)} esperados. ${d < 0 ? "Baja" : "Sube"} 100 kcal para retomar el ritmo.`};
 }
-function triage(c){
-  const o = calc(c, tplOf(c)), a = adh(c), adv = advice(c, o), why = [];
-  if(o.status.lvl === "bad") why.push(o.status.label);
+// A quién atender hoy y por qué.
+function triage(c, o){
+  const a = c.tasks.length ? Math.round(adherence(c)*100) : null, adv = advice(c, o), why = [];
+  const alert = o.checks.find(k => k[0] === "bad");
+  if(alert) why.push(alert[1]);
+  if(o.status.lvl !== "good") why.push(o.status.lvl === "bad" ? o.status.label : "Plazo: " + o.status.label);
   if(ckDue(c)) why.push(c.checkin ? "Check-in atrasado" : "Sin check-in");
   else if(c.checkin.sleep <= 2) why.push("Duerme poco");
   else if(c.checkin.energy <= 2) why.push("Energía baja");
   if(a !== null && a < 60) why.push("Adherencia baja");
   if(adv) why.push(adv.d ? "Ajuste sugerido" : "Ritmo por revisar");
-  const lvl = o.status.lvl === "bad" || (a !== null && a < 40) ? "bad" : why.length ? "warn" : "good";
-  return {o, a, adv, why, lvl};
+  return {adv, why};
 }
 const scale = v => `<span class="scale" role="img" aria-label="${v} de 5">${[1,2,3,4,5].map(k => `<i class="${k <= v ? "on" : ""}"></i>`).join("")}</span>`;
-const streakTag = n => `<span class="streak num">${icon("flame")}${n} día${n === 1 ? "" : "s"}</span>`;
-function resumen(){
-  if(!S.clients.length) return `<div class="empty"><b>Aún no hay socios</b><span>Crea el primero en la pestaña «Socios» y aquí verás a quién atender cada día.</span></div>`;
-  const order = {bad:0, warn:1, good:2};
-  const rows = S.clients.map(c => ({c, ...triage(c)})).sort((x, y) => order[x.lvl] - order[y.lvl]);
-  const withA = rows.filter(r => r.a !== null);
-  const avg = withA.length ? Math.round(withA.reduce((s, r) => s + r.a, 0)/withA.length) : 0;
-  const upToDate = rows.filter(r => !ckDue(r.c)).length, att = rows.filter(r => r.lvl !== "good").length;
-  const c = curClient();
-  return `<div class="editor">
-    <div class="kpis num">
-      <div class="kpi"><b>${rows.length}</b><span>Socios activos</span></div>
-      <div class="kpi"><b>${avg} %</b><span>Adherencia media</span></div>
-      <div class="kpi"><b>${upToDate}/${rows.length}</b><span>Check-ins al día</span></div>
-      <div class="kpi"><b>${att}</b><span>Por atender hoy</span></div>
-    </div>
-    <div>
-      <div class="sec-title">Prioridad de hoy</div>
-      <div class="list">${rows.map(r => `<button class="item" data-action="sel-client" data-id="${r.c.id}" aria-current="${r.c.id === S.sel}">
-        <span class="item-top"><span>${esc(r.c.name || "Sin nombre")}</span><span class="pill lvl-${r.lvl}">${r.lvl === "good" ? "Al día" : r.lvl === "warn" ? "Revisar" : "Atender"}</span></span>
-        <span class="item-sub">${r.why.length ? esc(r.why.join(" · ")) : "Todo en orden esta semana"}</span>
-        <span class="arow-m num">${r.a !== null ? `<span class="mb"><i style="width:${r.a}%"></i></span><span>${r.a} % de retos</span>` : `<span>Sin retos</span>`}${streakTag(r.c.streak)}<span>${r.c.checkin ? "Check-in " + ago(r.c.checkin.ts) : "Sin check-in"}</span></span>
-      </button>`).join("")}</div>
-    </div>
-    ${c ? resumenDetail(c) : ""}
-  </div>`;
-}
+const streakTag = n => `<span class="stk" title="Días seguidos cumpliendo el plan">${icon("flame")}${n}</span>`;
 function resumenDetail(c){
-  const {o, adv} = triage(c), k = c.checkin, adj = +c.kcalAdj || 0, rate = rateOf(c);
-  return `<div class="out-grid">
-    <div class="ocard">
-      <h4>Último check-in · ${esc(firstName(c.name))}</h4>
-      ${k ? `<div class="row"><span>Enviado</span><b>${ago(k.ts)}</b></div>
-      <div class="row"><span>Peso</span><b class="num">${fmt(o.W,1)} kg</b></div>
-      <div class="row"><span>Energía</span>${scale(k.energy)}</div>
-      <div class="row"><span>Sueño</span>${scale(k.sleep)}</div>
-      <div class="row"><span>Hambre</span>${scale(k.hunger)}</div>
-      ${k.note ? `<div class="bubble">«${esc(k.note)}»</div>` : ""}` : `<p class="note">Aún no envía su check-in semanal.</p>`}
-      <div class="actions"><button class="btn sm" data-action="remind">${icon("bell")} Recordar check-in</button><span class="msg ok" id="rm-msg" role="status"></span></div>
-    </div>
-    <div class="ocard">
-      <h4>Ajuste del plan · por reglas</h4>
-      <div class="row"><span>Plan diario</span><b class="num">${o.kcal ? fmt(o.kcal) + " kcal" : "—"}${adj ? ` (${sgn(adj,0)})` : ""}</b></div>
-      <div class="row"><span>Ritmo real</span><b class="num">${rate === null ? "—" : sgn(rate,2) + " kg/sem"}</b></div>
-      <div class="row"><span>Ritmo esperado</span><b class="num">${o.expWk ? sgn(o.expWk,2) + " kg/sem" : "—"}</b></div>
-      <p class="note">${adv ? esc(adv.txt) : c.adjAt === c.log.length && adj ? "Ajuste aplicado. Se vuelve a revisar con su próximo check-in." : rate === null ? "Con tres registros de peso la app compara su ritmo real con el esperado." : "Va en ritmo. Sin cambios sugeridos."}</p>
-      <div class="actions">
-        ${adv && adv.d ? `<button class="btn primary sm" data-action="apply-adj">${icon("bolt")} Aplicar ${sgn(adv.d,0)} kcal</button>` : ""}
-        ${adj ? `<button class="btn sm" data-action="clear-adj">Quitar ajuste</button>` : ""}
+  const o = calc(c, tplOf(c)), adv = advice(c, o), k = c.checkin, adj = +c.kcalAdj || 0, rate = rateOf(c);
+  return `<div class="ocard">
+    <div class="row"><h4>Check-in y ajuste del plan</h4><span class="note">Calculado por reglas; tú decides</span></div>
+    <div class="chips">${S.clients.map(x => `<button type="button" class="chip" data-action="sel-client" data-id="${x.id}" aria-pressed="${x.id === c.id}">${esc(x.name || "Sin nombre")}</button>`).join("")}</div>
+    <div class="out-grid">
+      <div style="display:flex;flex-direction:column;gap:9px;min-width:0">
+        ${k ? `<div class="row"><span>Último check-in</span><b>${ago(k.ts)}</b></div>
+        <div class="row"><span>Peso</span><b class="num">${fmt(o.W,1)} kg</b></div>
+        <div class="row"><span>Energía</span>${scale(k.energy)}</div>
+        <div class="row"><span>Sueño</span>${scale(k.sleep)}</div>
+        <div class="row"><span>Hambre</span>${scale(k.hunger)}</div>
+        ${k.note ? `<div class="quote">«${esc(k.note)}»</div>` : ""}` : `<p class="note">${esc(firstName(c.name))} aún no envía su check-in semanal.</p>`}
+        <div class="actions"><button class="btn sm" data-action="remind">${icon("bell")} Recordar check-in</button><span class="msg ok" id="rm-msg" role="status"></span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;min-width:0">
+        <div class="row"><span>Plan diario</span><b class="num">${o.kcal ? fmt(o.kcal) + " kcal" : "—"}${adj ? ` (${sgn(adj,0)})` : ""}</b></div>
+        <div class="row"><span>Ritmo real</span><b class="num">${rate === null ? "—" : sgn(rate,2) + " kg/sem"}</b></div>
+        <div class="row"><span>Ritmo esperado</span><b class="num">${o.expWk ? sgn(o.expWk,2) + " kg/sem" : "—"}</b></div>
+        <p class="note">${adv ? esc(adv.txt) : c.adjAt === c.log.length && adj ? "Ajuste aplicado. Se vuelve a revisar con su próximo check-in." : rate === null ? "Con tres registros de peso la app compara su ritmo real con el esperado." : "Va en ritmo. Sin cambios sugeridos."}</p>
+        <div class="actions">
+          ${adv && adv.d ? `<button class="btn primary sm" data-action="apply-adj">${icon("bolt")} Aplicar ${sgn(adv.d,0)} kcal</button>` : ""}
+          ${adj ? `<button class="btn sm" data-action="clear-adj">Quitar ajuste</button>` : ""}
+          <button class="btn sm" data-action="open-client" data-id="${c.id}">Abrir ficha</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="actions">
-    <button class="btn primary" data-action="view-app">${icon("bolt")} Ver su app</button>
-    <button class="btn" data-action="go-tab" data-t="socios">Abrir ficha</button>
-    <button class="btn" data-action="go-tab" data-t="retos">Retos y avisos</button>
+  </div>`;
+}
+function resumen(){
+  if(!S.clients.length) return `<div class="empty"><b>Aún no hay socios</b><span>Crea el primero en «Socios» y aquí verás su evolución.</span></div>`;
+  const rows = S.clients.map(c => { const t = tplOf(c), o = calc(c, t); return {c, o, st:starsOf(c), adh:adherence(c), tr:triage(c, o)}; });
+  const n = rows.length;
+  const adh = rows.reduce((s,r) => s + r.adh, 0)/n;
+  const tasksAll = rows.reduce((s,r) => s + r.c.tasks.length, 0), tasksDone = rows.reduce((s,r) => s + r.st.completed, 0);
+  const onTrack = rows.filter(r => r.o.status.lvl === "good").length;
+  const attention = rows.filter(r => r.tr.why.length);
+  const starsWeek = rows.reduce((s,r) => s + r.st.earned, 0);
+  const sel = curClient();
+  // Serie de ejemplo de 8 semanas que termina en el valor real de esta semana
+  const series = (end, seed, amp) => Array.from({length:8}, (_,i) => i === 7 ? end : Math.max(0, end - (7-i)*amp*.35 + Math.sin(hash(seed+i)%628/100)*amp));
+  const kpi = (ic, label, val, unit, spark, delta) => `<div class="kpi"><span class="k-l">${icon(ic)}${label}</span><span class="k-v num">${val}${unit ? `<small> ${unit}</small>` : ""}</span>${delta}${spark}</div>`;
+  const rank = [...rows].sort((a,b) => (b.st.earned + b.adh) - (a.st.earned + a.adh));
+  const feed = [];
+  rows.forEach(r => {
+    r.c.tasks.filter(t => t.done >= t.target).forEach(t => feed.push({ts:Date.now() - (hash(r.c.id+t.id)%40)*3600e3, html:`<b>${esc(firstName(r.c.name))}</b> completó «${esc(t.title)}» <span class="stars">${starIc()}${t.stars}</span>`, c:r.c}));
+    r.c.notes.forEach(nn => feed.push({ts:nn.ts, html:`Enviaste un aviso a <b>${esc(firstName(r.c.name))}</b>: «${esc(nn.text.length > 60 ? nn.text.slice(0,58) + "…" : nn.text)}»`, c:r.c}));
+    if(r.c.checkin) feed.push({ts:r.c.checkin.ts, html:`<b>${esc(firstName(r.c.name))}</b> envió su check-in semanal`, c:r.c});
+    if(r.c.redeemed) feed.push({ts:Date.now() - 20*60e3, html:`<b>${esc(firstName(r.c.name))}</b> canjeó su premio: ${esc(r.c.reward.name)}`, c:r.c});
+  });
+  feed.sort((a,b) => b.ts - a.ts);
+  return `<div class="editor">
+    <div class="kpis">
+      ${kpi("users","Socios activos", n, "", sparkSVG(series(n, "s", .6), "var(--brand)"), `<span class="delta up">+${Math.max(1, Math.round(n/3))} este mes</span>`)}
+      ${kpi("checkc","Adherencia", Math.round(adh*100), "%", sparkSVG(series(adh*100, "a", 6), "var(--c-carb)"), `<span class="delta ${adh >= .6 ? "up" : "dn"}">${adh >= .6 ? "Buen ritmo" : "Por debajo del 60 %"}</span>`)}
+      ${kpi("star","Retos cumplidos", tasksDone, "de " + tasksAll, sparkSVG(series(tasksDone, "r", 1.2), "var(--star)"), `<span class="delta up">${starsWeek} estrella${starsWeek === 1 ? "" : "s"}</span>`)}
+      ${kpi("trend","En plazo", onTrack, "de " + n, sparkSVG(series(onTrack, "p", .5), "var(--good)"), attention.length ? `<span class="delta dn">${attention.length} por revisar</span>` : `<span class="delta up">Todo en orden</span>`)}
+    </div>
+    <p class="note" style="margin-top:-8px">Las tendencias de semanas anteriores son de ejemplo; el valor de esta semana sale de los datos reales de la demo.</p>
+    <div class="two">
+      <div class="ocard">
+        <div class="row"><h4>Necesitan atención</h4><span class="note">${attention.length} de ${n}</span></div>
+        ${attention.length ? attention.map(r => `<div class="lrow">${avatar(r.c.name)}<div class="grow"><b>${esc(r.c.name)}</b><span class="why">${esc(r.tr.why.join(" · "))}</span></div><button class="btn sm" data-action="review" data-id="${r.c.id}">Revisar</button></div>`).join("")
+          : `<p class="note">Todos tus socios van en plazo, con check-in al día y sin alertas.</p>`}
+      </div>
+      <div class="ocard">
+        <div class="row"><h4>Ranking de la semana</h4>${icon("trophy").replace('aria-hidden="true"','aria-hidden="true" style="width:18px;height:18px;color:var(--star)"')}</div>
+        ${rank.map((r,i) => `<div class="lrow"><span class="rank ${i===0?"r1":""}">${i+1}</span>${avatar(r.c.name,"sm")}<div class="grow"><b>${esc(r.c.name)}</b><div class="meter"><i style="width:${Math.round(r.adh*100)}%"></i></div></div><span class="stars num" title="Estrellas ganadas esta semana">${starIc()}${r.st.earned}</span></div>`).join("")}
+      </div>
+    </div>
+    <div id="rDetail">${sel ? resumenDetail(sel) : ""}</div>
+    <div class="ocard">
+      <div class="row"><h4>Actividad reciente</h4><span class="note">Se actualiza cuando los socios usan la app</span></div>
+      ${feed.slice(0,6).map(f => `<div class="lrow">${avatar(f.c.name,"sm")}<div class="grow"><span style="color:var(--ink);font-size:13.5px">${f.html}</span><span>${ago(f.ts)}</span></div></div>`).join("") || `<p class="note">Sin actividad todavía.</p>`}
+    </div>
   </div>`;
 }
 
@@ -927,8 +1121,11 @@ function clientList(){
   return S.clients.map(c => {
     const t = tplOf(c), o = calc(c, t);
     return `<button class="item" data-action="sel-client" data-id="${c.id}" aria-current="${c.id===S.sel}">
-      <span class="item-top"><span>${esc(c.name || "Sin nombre")}</span><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></span>
-      <span class="item-sub">${t ? esc(t.name) : "Sin forma dietética"}${c.ej ? ` · <span class="tag-ej">ejemplo</span>` : ""}</span>
+      ${avatar(c.name)}
+      <span class="item-body">
+        <span class="item-top"><span>${esc(c.name || "Sin nombre")}</span><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></span>
+        <span class="item-sub">${t ? esc(t.name) : "Sin forma dietética"}${c.ej ? ` · <span class="tag-ej">ejemplo</span>` : ""}</span>
+      </span>
     </button>`;
   }).join("");
 }
@@ -977,7 +1174,7 @@ function clientOut(c){
   if(plan && plan.missing.length) checks.push(["bad",`Sin alimentos de ${plan.missing.map(m => CAT[m].toLowerCase()).join(" ni ")} compatibles. Añade opciones en «Alimentos».`]);
   if(!checks.length) checks.push(["good","Sin alertas. El plan respeta alergias, exclusiones y ritmo saludable."]);
   return `<div class="out-grid">
-    <div class="ocard wide">
+    <div class="ocard wide hero">
       <h4>Meta en ${o.weeks} semanas</h4>
       <div class="meta-line"><span class="big num">${fmt(o.W,1)}<small> kg</small></span><span class="arrow">→</span><span class="big num">${fmt(o.targetW,1)}<small> kg</small></span><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
       <p class="note">${esc(o.status.detail)} Ritmo necesario: <b class="num">${sgn(o.needWk,2)} kg/sem</b> (${fmt(Math.abs(o.needPct),1)} %). Grasa: ${fmt(o.bf,1)} % → ${fmt(o.tbf,1)} %.</p>
@@ -1196,6 +1393,7 @@ function marca(){
         <div class="field"><label for="b-initials">Iniciales del logo</label><input id="b-initials" data-bfield="initials" maxlength="3" value="${esc(b.initials)}" autocomplete="off"></div>
         <div class="field"><label for="b-coach">Nombre del coach</label><input id="b-coach" data-bfield="coach" value="${esc(b.coach)}" autocomplete="off"></div>
         <div class="field"><label for="b-color">Color de marca</label><input id="b-color" type="color" data-bfield="color" value="${esc(b.color)}"></div>
+        <div class="field w2"><span style="font-size:12px;color:var(--muted);font-weight:500">Estilo de la app</span><span class="mini-seg" role="group" aria-label="Estilo de la app" style="align-self:flex-start">${[["dark","Noche","moon"],["light","Día","sun"]].map(([k,l,ic]) => `<button data-action="app-theme" data-k="${k}" aria-pressed="${(S.appTheme||"dark")===k}">${icon(ic)}${l}</button>`).join("")}</span></div>
       </div>
     </div>
     <div>
@@ -1209,125 +1407,179 @@ function marca(){
 /* ===================== App del socio ===================== */
 function doneKey(c){ return c.id + ":" + S.seed; }
 function doneSet(c){ return new Set(S.done[doneKey(c)] || []); }
+let lastPtab = null, loadingPlan = false;
 
 function renderApp(){
   const c = curClient();
   const navs = [["inicio","Inicio","home"],["plan","Plan","plan"],["retos","Retos","star"],["progreso","Progreso","prog"],["perfil","Perfil","user"]];
   $("#anav").innerHTML = navs.map(([id,l,ic]) => `<button data-ptab="${id}" aria-current="${S.ptab===id}">${icon(ic)}${l}</button>`).join("");
   const el = $("#app");
-  if(!c){ el.innerHTML = `${appHead(null)}<div class="a-empty"><b>Sin socio seleccionado</b><span>Crea un socio en el panel del coach.</span></div>`; return; }
+  const anim = lastPtab !== S.ptab; lastPtab = S.ptab;
+  if(!c){ el.innerHTML = `<div class="a-top"><div class="logo">${esc(S.brand.initials || "GYM")}</div><div class="grow"><small>${esc(S.brand.name)}</small><h2>Bienvenido</h2></div></div><div class="a-empty"><b>Sin socio seleccionado</b><span>Crea un socio en el panel del coach.</span></div>`; return; }
   const t = tplOf(c), o = calc(c, t), plan = buildPlan(c, t, o);
-  el.innerHTML = S.ptab === "plan" ? appPlan(c,t,o,plan) : S.ptab === "retos" ? appRetos(c,o) : S.ptab === "progreso" ? appProg(c,t,o) : S.ptab === "perfil" ? appPerfil(c,t) : appHome(c,t,o,plan);
+  el.innerHTML = S.ptab === "plan" ? appPlan(c,t,o,plan) : S.ptab === "retos" ? appRetos(c,o) : S.ptab === "progreso" ? appProg(c,t,o) : S.ptab === "perfil" ? appPerfil(c,t,o) : appHome(c,t,o,plan);
+  if(anim){ el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter"); clearTimeout(renderApp.t); renderApp.t = setTimeout(() => el.classList.remove("enter"), 1300); }
 }
-function appHead(c){
-  return `<div class="a-head"><div class="logo">${esc(S.brand.initials || "GYM")}</div><div><h2>¡Hola${c ? ", " + esc(firstName(c.name)) : ""}!</h2><p>${esc(S.brand.name)} · tu plan de hoy, listo</p></div></div>`;
-}
-function ring(pct){
-  const r = 48, C = 2*Math.PI*r, off = C*(1 - clamp(pct,0,1));
-  return `<svg width="112" height="112" viewBox="0 0 112 112" aria-hidden="true"><circle cx="56" cy="56" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="10"/><circle cx="56" cy="56" r="${r}" fill="none" stroke="var(--brand)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)"/></svg>`;
-}
+function greet(){ const h = new Date().getHours(); return h < 12 ? "Buenos días" : h < 19 ? "Buenas tardes" : "Buenas noches"; }
 function eaten(c, plan){
   const d = doneSet(c); let tot = {...ZERO};
   if(plan) plan.meals.forEach((m,i) => { if(d.has(i)) tot = addM(tot, m.tot); });
   return tot;
 }
-function mbar(label, val, target, cls){
-  const pct = target ? clamp(val/target,0,1)*100 : 0;
-  return `<div><div class="mb-top"><span>${label}</span><span class="num">${fmt(val)} / ${fmt(target)} g</span></div><div class="mb"><i class="${cls}" style="width:${pct}%"></i></div></div>`;
+// Anillos concéntricos estilo actividad: [{pct, color}]
+function rings(list, size=150, stroke=13, gap=4){
+  const c = size/2;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">${list.map((r,i) => {
+    const rad = c - stroke/2 - i*(stroke + gap), C = 2*Math.PI*rad, off = C*(1 - clamp(r.pct,0,1));
+    return `<circle cx="${c}" cy="${c}" r="${rad}" fill="none" stroke="${r.color}" stroke-opacity=".16" stroke-width="${stroke}"/>
+      <circle class="arc" cx="${c}" cy="${c}" r="${rad}" fill="none" stroke="${r.color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}" style="--C:${C.toFixed(2)}"/>`;
+  }).join("")}</svg>`;
+}
+function ring1(pct, color, size=48, stroke=5){
+  const r = size/2 - stroke/2, C = 2*Math.PI*r;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-opacity=".18" stroke-width="${stroke}"/><circle class="arc" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${(C*(1-clamp(pct,0,1))).toFixed(2)}" style="--C:${C.toFixed(2)};transition:stroke-dashoffset .6s var(--ease)"/></svg>`;
+}
+// «Plato»: reparto de calorías de la comida entre proteína, carbohidrato y grasa
+function plate(m, size=56){
+  const kp = m.tot.p*4, kc = m.tot.c*4, kf = m.tot.f*9, tot = kp + kc + kf || 1;
+  const r = size/2 - 5, C = 2*Math.PI*r, segs = [[kp,"var(--c-pro)"],[kc,"var(--c-carb)"],[kf,"var(--c-fat)"]];
+  let acc = 0;
+  const arcs = segs.map(([v,col]) => { const len = v/tot*C, gapL = Math.min(3, len*.3); const s = `<circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${col}" stroke-width="8" stroke-dasharray="${Math.max(0,len-gapL).toFixed(2)} ${(C-len+gapL).toFixed(2)}" stroke-dashoffset="${(-acc).toFixed(2)}"/>`; acc += len; return s; }).join("");
+  return `<div class="plate" role="img" aria-label="Reparto: proteína ${Math.round(kp/tot*100)} %, carbohidratos ${Math.round(kc/tot*100)} %, grasa ${Math.round(kf/tot*100)} %"><svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--a-card-2)" stroke-width="8"/>${arcs}</svg><span class="pc">${fmt(m.tot.k)}</span></div>`;
+}
+function weekStrip(c){
+  const d = new Date(), day = (d.getDay() + 6) % 7, mon = new Date(d); mon.setDate(d.getDate() - day);
+  const L = ["L","M","M","J","V","S","D"];
+  let streak = 0;
+  const cells = L.map((l,i) => {
+    const dt = new Date(mon); dt.setDate(mon.getDate() + i);
+    const past = i < day, ok = past && (hash(c.id + "d" + i) % 10) < 8;
+    return `<div class="day${i===day?" today":""}">${l}<b class="num">${dt.getDate()}</b><i class="${ok || (i===day && doneSet(c).size) ? "ok" : ""}"></i></div>`;
+  });
+  streak = c.streak; // racha real: sube cuando marca todas las comidas del día
+  return {html:`<div class="week" aria-label="Semana actual">${cells.join("")}</div>`, streak};
 }
 function appHome(c,t,o,plan){
-  const e = eaten(c, plan), d = doneSet(c);
+  const e = eaten(c, plan), d = doneSet(c), st = starsOf(c), rw = c.reward, unread = c.notes.filter(n => !n.read).length;
   const next = plan ? plan.meals.findIndex((m,i) => !d.has(i)) : -1;
   const hr = new Date().getHours();
   const bars = Array.from({length:17}, (_,k) => { const h = 6+k; const v = .25 + .55*Math.exp(-Math.pow((h-8)/1.6,2)) + .7*Math.exp(-Math.pow((h-19)/2,2)) + (hash("a"+h)%10)/100; return {h, v:clamp(v,.12,1)}; });
-  const nowBar = bars.find(b => b.h === hr);
+  const nowBar = bars.find(b => b.h === hr), best = [...bars].filter(b => b.h > hr).sort((a,b) => a.v - b.v)[0];
   const msg = o.status.lvl === "good" ? `Vas en ritmo para ${fmt(o.targetW,1)} kg en ${o.weeks} semanas. Sigue así.` :
               o.status.lvl === "warn" ? `Ajustamos el plan esta semana para llegar a tu meta. Lo hablamos en la próxima cita.` :
-              `Tu coach está revisando tu plan antes de la próxima semana.`;
-  const st = starsOf(c), rw = c.reward, unread = c.notes.filter(n => !n.read).length, g = weekGoal(o);
+              `Estoy revisando tu plan antes de la próxima semana.`;
+  const ws = weekStrip(c), adh = adherence(c);
+  const kPct = o.kcal ? e.k/o.kcal : 0, pPct = o.P ? e.p/o.P : 0;
   const rwPct = rw.name ? clamp(st.total/Math.max(1, rw.cost), 0, 1)*100 : 0;
   const wn = c.water.day === today() ? c.water.n : 0;
-  return `<div class="ahead-row">${appHead(c)}<button class="bell" data-action="open-bell" aria-label="Avisos${unread ? ", " + unread + " sin leer" : ""}">${icon("bell")}${unread ? `<span class="badge num">${unread}</span>` : ""}</button></div>
-  <div class="tiles">
-    <button class="tile t1" data-action="checkin"><span class="ti">${icon("qr")}</span>Check-in</button>
-    <button class="tile t2" data-action="friend"><span class="ti">${icon("share")}</span>Trae a un amigo</button>
-  </div>
-  ${ckDue(c) ? `<div class="acard cta">
-    <div class="next"><span class="ic">${icon("pulse")}</span><div style="min-width:0;flex:1"><div class="meal-slot">Check-in semanal</div><div class="meal-name">Cuéntale a tu coach cómo te fue. Toma un minuto.</div></div></div>
-    <button class="btn-app" data-action="ck-open">Hacer mi check-in</button>
-  </div>` : ""}
-  ${plan ? `<div class="acard">
-    <div class="acard-h"><span class="hgroup"><h3>Hoy</h3>${c.streak > 0 ? streakTag(c.streak) : ""}</span><button class="link" data-ptab="plan">Ver plan</button></div>
-    <div class="ring-row">
-      <div class="ring">${ring(o.kcal ? e.k/o.kcal : 0)}<div class="ring-c"><b class="num">${fmt(Math.max(0, o.kcal - e.k))}</b><span>kcal restantes</span></div></div>
-      <div class="mbars">${mbar("Proteína", e.p, o.P, "c-p")}${mbar("Carbohidratos", e.c, o.C, "c-c")}${mbar("Grasa", e.f, o.F, "c-f")}</div>
+  return `<div class="a-top">
+      <div class="logo">${esc(S.brand.initials || "GYM")}</div>
+      <div class="grow"><small>${greet()}</small><h2>${esc(firstName(c.name))}</h2></div>
+      <button class="round" data-action="open-bell" aria-label="Avisos${unread ? ", " + unread + " sin leer" : ""}">${icon("bell")}${unread ? `<span class="badge num">${unread}</span>` : ""}</button>
     </div>
-  </div>` : `<div class="a-empty"><b>Tu plan está en preparación</b><span>Tu coach está configurando tu forma dietética.</span></div>`}
-  <div class="acard">
-    <div class="acard-h"><h3>Retos</h3><button class="link" data-ptab="retos">Ver retos</button></div>
-    ${rw.name ? `<div class="row"><span style="color:var(--ink)">${c.redeemed ? "Premio canjeado: " : "Para tu premio: "}<b>${esc(rw.name)}</b></span><span class="stars num">${starIc()}${st.total}/${rw.cost}</span></div>
-    <div class="mb"><i style="width:${rwPct}%;background:var(--star)"></i></div>` : ""}
-    <div class="row"><span>Meta de la semana</span><b>${g.txt}</b></div>
-  </div>
-  <div class="acard">
-    <div class="acard-h"><h3>Agua</h3><span class="note num">${wn} de 8 vasos</span></div>
-    <div class="water">${Array.from({length:8}, (_,k) => `<button class="glass" data-action="water" data-k="${k}" aria-pressed="${k < wn}" aria-label="Vaso ${k+1} de 8">${icon("drop")}</button>`).join("")}</div>
-  </div>
-  ${plan && next >= 0 ? `<div class="acard"><div class="next"><span class="ic">${icon("plan")}</span><div style="min-width:0;flex:1"><div class="meal-slot">Próxima · ${esc(plan.meals[next].slot)}</div><div class="meal-name">${esc(plan.meals[next].name)}</div></div><button class="tick" data-action="done" data-i="${next}" aria-pressed="false" aria-label="Marcar como hecha">${icon("check")}</button></div></div>` : ""}
-  <div class="acard">
-    <div class="acard-h"><h3>Tu coach</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
-    <div class="coachmsg"><div class="logo sm">${esc(S.brand.initials)}</div><div class="bubble"><b>${esc(S.brand.coach)}</b><br>${esc(msg)}</div></div>
-  </div>
-  <div class="acard">
-    <div class="acard-h"><h3>Aforo</h3><span class="note">${nowBar ? (nowBar.v < .45 ? "Tranquilo ahora" : nowBar.v < .75 ? "Moderado ahora" : "Lleno ahora") : "Cerrado ahora"}</span></div>
-    <div class="aforo" role="img" aria-label="Aforo por hora, de 6:00 a 22:00">${bars.map(b => `<i class="${b.h===hr?"now":""}" style="height:${b.v*100}%"></i>`).join("")}</div>
-    <div class="row note num"><span>6:00</span><span>14:00</span><span>22:00</span></div>
-  </div>`;
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${ws.html}
+      <div class="streak">${icon("flame")}<span>${ws.streak > 0 ? `<b>${ws.streak} día${ws.streak === 1 ? "" : "s"}</b> seguido${ws.streak === 1 ? "" : "s"} cumpliendo tu plan` : "Completa tu plan de hoy y empieza tu racha"}</span></div>
+    </div>
+    ${ckDue(c) ? `<div class="card cta">
+      <div class="nextm"><span class="cta-ic">${icon("pulse")}</span><div class="grow"><div class="slot">Check-in semanal</div><div class="mname">Cuéntale a tu coach cómo te fue. Toma un minuto.</div></div></div>
+      <button class="btn-app" data-action="ck-open">Hacer mi check-in</button>
+    </div>` : ""}
+    ${plan ? `<div class="hero">
+      <div class="hero-h"><span class="a-label">Hoy</span><button class="link" data-ptab="plan">Ver plan ${icon("chev")}</button></div>
+      <div class="rings-row">
+        <div class="rings">${rings([{pct:kPct,color:"var(--brand)"},{pct:pPct,color:"var(--c-pro)"},{pct:adh,color:"var(--c-ret)"}])}
+          <div class="rings-c"><b class="num">${fmt(Math.max(0, o.kcal - e.k))}</b><span>kcal restantes</span></div></div>
+        <div class="rleg">
+          <div><i style="background:var(--brand)"></i><span><b>Calorías</b>${fmt(e.k)} / ${fmt(o.kcal)}</span></div>
+          <div><i style="background:var(--c-pro)"></i><span><b>Proteína</b>${fmt(e.p)} / ${fmt(o.P)} g</span></div>
+          <div><i style="background:var(--c-ret)"></i><span><b>Retos</b>${Math.round(adh*100)} % de la semana</span></div>
+        </div>
+      </div>
+    </div>` : `<div class="a-empty"><b>Tu plan está en preparación</b><span>Tu coach está configurando tu forma dietética.</span></div>`}
+    <div class="qa">
+      <button data-action="checkin"><span class="qi">${icon("qr")}</span>Check-in</button>
+      <button data-ptab="plan"><span class="qi">${icon("utensil")}</span>Comidas</button>
+      <button data-ptab="retos"><span class="qi">${icon("star")}</span>Retos</button>
+      <button data-action="friend"><span class="qi">${icon("share")}</span>Invitar</button>
+    </div>
+    ${plan && next >= 0 ? `<div class="card">
+      <div class="card-h"><h3>Próxima comida</h3><span class="slot">${esc(plan.meals[next].slot)}</span></div>
+      <div class="nextm">${plan.meals[next].reward ? `<div class="plate"><span class="pc" style="color:var(--star)">${icon("gift").replace('aria-hidden="true"','aria-hidden="true" style="width:26px;height:26px"')}</span></div>` : plate(plan.meals[next])}
+        <div class="grow"><div class="mname">${esc(plan.meals[next].name)}</div><div class="mk">${fmt(plan.meals[next].tot.k)} kcal · P ${fmt(plan.meals[next].tot.p)} · C ${fmt(plan.meals[next].tot.c)} · G ${fmt(plan.meals[next].tot.f)}</div></div>
+        <button class="tick" data-action="done" data-i="${next}" aria-pressed="false" aria-label="Marcar como hecha">${icon("check")}</button></div>
+    </div>` : ""}
+    <div class="card">
+      <div class="card-h"><h3>Agua</h3><span class="note num">${wn} de 8 vasos</span></div>
+      <div class="water">${Array.from({length:8}, (_,k) => `<button class="glass" data-action="water" data-k="${k}" aria-pressed="${k < wn}" aria-label="Vaso ${k+1} de 8">${icon("drop")}</button>`).join("")}</div>
+    </div>
+    ${rw.name ? `<button class="card press" data-ptab="retos" style="text-align:left;color:inherit;font:inherit;cursor:pointer">
+      <div class="card-h"><h3>${c.redeemed ? "Premio canjeado" : "Tu premio"}</h3><span class="stars num">${starIc()}${st.total}/${rw.cost}</span></div>
+      <div style="font-weight:600">${esc(rw.name)}</div>
+      <div class="pbar"><i style="width:${rwPct}%"></i></div>
+    </button>` : ""}
+    <div class="card">
+      <div class="card-h"><h3>Tu coach</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
+      <div class="coachmsg">${avatar(S.brand.coach,"sm")}<div class="bubble"><b>${esc(S.brand.coach)}</b>${esc(msg)}</div></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Aforo</h3><span class="note">${nowBar ? (nowBar.v < .45 ? "Tranquilo ahora" : nowBar.v < .75 ? "Moderado ahora" : "Lleno ahora") : "Cerrado ahora"}</span></div>
+      <div class="aforo" role="img" aria-label="Aforo por hora, de 6:00 a 22:00">${bars.map(b => `<i class="${b.h===hr?"now":""}" style="height:${b.v*100}%"></i>`).join("")}</div>
+      <div class="trow-a"><span>6:00</span><span>${best ? `Mejor hora hoy: ${best.h}:00` : "14:00"}</span><span>22:00</span></div>
+    </div>`;
 }
 function appPlan(c,t,o,plan){
   if(!plan) return `<div><div class="a-title">Plan de hoy</div></div><div class="a-empty"><b>Sin forma dietética asignada</b><span>Tu coach la asignará pronto.</span></div>`;
-  const d = doneSet(c);
-  return `<div><div class="a-title">Plan de hoy</div><div class="a-sub">${esc(t.name)} · ${t.meals} comidas</div></div>
-  ${c.allergens.length ? `<div class="al-row"><span class="note">Sin:</span>${c.allergens.map(a => `<span class="al">${AL[a]}</span>`).join("")}</div>` : ""}
-  <div class="sumline num">
-    <div><b>${fmt(plan.total.k)}</b><span>de ${fmt(o.kcal)} kcal</span></div>
-    <div><b>${fmt(plan.total.p)}</b><span>prot. g</span></div>
-    <div><b>${fmt(plan.total.c)}</b><span>carb. g</span></div>
-    <div><b>${fmt(plan.total.f)}</b><span>grasa g</span></div>
-  </div>
+  const d = doneSet(c), e = eaten(c, plan);
+  const mt = (label, val, target, col) => `<div class="mtile"><span>${label}</span><b class="num">${fmt(val)}<small> / ${fmt(target)} g</small></b><div class="pbar"><i style="width:${target ? clamp(val/target,0,1)*100 : 0}%;background:${col}"></i></div></div>`;
+  return `<div><div class="a-title">Plan de hoy</div><div class="a-sub">${esc(t.name)} · ${t.meals} comidas${plan.meals.some(m => m.reward) ? " + premio" : ""}</div></div>
+  <div class="kband"><div><span>Consumido</span><br><b class="num">${fmt(e.k)}</b> <span>/ ${fmt(o.kcal)} kcal</span></div>${ring1(o.kcal ? e.k/o.kcal : 0, "var(--brand)", 52, 6)}</div>
+  <div class="sumrow">${mt("Proteína", e.p, o.P, "var(--c-pro)")}${mt("Carbos", e.c, o.C, "var(--c-carb)")}${mt("Grasa", e.f, o.F, "var(--c-fat)")}</div>
+  ${c.allergens.length ? `<div class="al-row"><span class="al-l">Sin</span>${c.allergens.map(a => `<span class="al">${AL[a]}</span>`).join("")}</div>` : ""}
   ${plan.missing.length ? `<div class="a-empty"><b>Faltan alimentos compatibles</b><span>Tu coach está completando opciones para ti.</span></div>` : ""}
-  ${plan.meals.map((m,i) => m.reward ? `<div class="meal rw-meal${d.has(i)?" done":""}">
-    <div class="meal-h"><div style="min-width:0"><div class="meal-slot">Premio · ganado con tus retos</div><div class="meal-name">${esc(m.name)}</div></div>
+  ${loadingPlan ? plan.meals.map(() => `<div class="skel"></div>`).join("") : plan.meals.map((m,i) => m.reward ? `<div class="meal rw-meal${d.has(i)?" done":""}">
+    <div class="meal-h"><div class="plate"><span class="pc" style="color:var(--star)">${icon("gift").replace('aria-hidden="true"','aria-hidden="true" style="width:26px;height:26px"')}</span></div>
+      <div class="grow"><div class="slot" style="color:var(--star)">Premio · ganado con tus retos</div><div class="mname">${esc(m.name)}</div><div class="mk">${fmt(m.tot.k)} kcal reservadas · el resto del día ya está ajustado</div></div>
       <button class="tick" data-action="done" data-i="${i}" aria-pressed="${d.has(i)}" aria-label="${d.has(i)?"Desmarcar":"Marcar como hecho"}">${icon("check")}</button></div>
-    <div class="mchips"><span>${fmt(m.tot.k)} kcal reservadas</span><span>El resto del día ya está ajustado</span></div>
   </div>` : `<div class="meal${d.has(i)?" done":""}">
-    <div class="meal-h"><div style="min-width:0"><div class="meal-slot">${esc(m.slot)}</div><div class="meal-name">${esc(m.name)}</div></div>
+    <div class="meal-h">${plate(m)}<div class="grow"><div class="slot">${esc(m.slot)}</div><div class="mname">${esc(m.name)}</div></div>
       <button class="tick" data-action="done" data-i="${i}" aria-pressed="${d.has(i)}" aria-label="${d.has(i)?"Desmarcar":"Marcar como hecha"}">${icon("check")}</button></div>
     <ul class="ing">${m.items.map((x,j) => `<li><button class="ing-b${x.orig ? " sw" : ""}" data-action="swap-open" data-m="${i}" data-i="${j}" aria-label="Cambiar ${esc(x.f.name)} por otro alimento"><span>${esc(x.f.name)}${icon("swap")}</span><span>${fmt(x.g)} g</span></button></li>`).join("")}</ul>
-    <div class="mchips"><span>${fmt(m.tot.k)} kcal</span><span>P ${fmt(m.tot.p)}</span><span>C ${fmt(m.tot.c)}</span><span>G ${fmt(m.tot.f)}</span></div>
+    <div class="mchips"><span>${fmt(m.tot.k)} kcal</span><span class="p">P ${fmt(m.tot.p)}</span><span class="c">C ${fmt(m.tot.c)}</span><span class="f">G ${fmt(m.tot.f)}</span></div>
   </div>`).join("")}
-  <p class="note">Toca un alimento para cambiarlo por otro equivalente de tu lista.</p>
+  <p class="note" style="color:var(--a-muted);text-align:center">Toca un alimento para cambiarlo por otro equivalente.</p>
   <div class="plan-actions">
     <button class="btn-app ghost" data-action="reroll">${icon("swap")} Otra combinación</button>
     <button class="btn-app ghost" data-action="shop-open">${icon("cart")} Lista de compras</button>
   </div>
-  ${t.note ? `<p class="note">Nota del coach: ${esc(t.note)}</p>` : ""}`;
+  ${t.note ? `<div class="coachmsg">${avatar(S.brand.coach,"sm")}<div class="bubble"><b>Nota de ${esc(S.brand.coach)}</b>${esc(t.note)}</div></div>` : ""}`;
 }
 // Registros semanales de ejemplo: siguen el ritmo esperado con una pequeña oscilación.
 function history(c,o){
   // Con registros reales (check-ins) se usan los últimos siete; el último siempre es el peso actual.
   if(c.log && c.log.length >= 2){
     const a = c.log.slice(-7), n = a.length - 1;
-    return {past:n, hist:a.map((w,i) => [i - n, i === n ? o.W : w]), real:true};
+    return {past:n, hist:a.map((w,i) => [i - n, i === n ? o.W : w])};
   }
   const past = 6, hist = [];
   const slope = o.expWk ? o.expWk*0.9 : o.needWk;
   for(let k = past; k >= 0; k--){ const wob = k ? Math.sin(hash(c.id+k)%628/100)*0.25 : 0; hist.push([-k, o.W - slope*k + wob]); }
   return {past, hist};
 }
+// Curva suave (Catmull-Rom → Bézier) para la gráfica
+function smooth(pts){
+  if(pts.length < 3) return pts.map((p,i) => `${i?"L":"M"}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" ");
+  let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for(let i = 0; i < pts.length - 1; i++){
+    const p0 = pts[i-1] || pts[i], p1 = pts[i], p2 = pts[i+1], p3 = pts[i+2] || p2;
+    const c1 = [p1[0] + (p2[0]-p0[0])/6, p1[1] + (p2[1]-p0[1])/6], c2 = [p2[0] - (p3[0]-p1[0])/6, p2[1] - (p3[1]-p1[1])/6];
+    d += ` C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
 function chart(c,o){
   const {past, hist} = history(c,o);
-  const W = 330, H = 190, ml = 34, mr = 54, mt = 14, mb = 26;
+  const W = 330, H = 180, ml = 30, mr = 46, mt = 16, mb = 24;
   const x0 = -past, x1 = o.weeks;
   const ys = [...hist.map(p => p[1]), o.targetW];
   let y0 = Math.floor(Math.min(...ys) - 1), y1 = Math.ceil(Math.max(...ys) + 1);
@@ -1335,44 +1587,47 @@ function chart(c,o){
   const Y = y => mt + (1 - (y - y0)/(y1 - y0))*(H - mt - mb);
   const step = (y1 - y0) > 12 ? 4 : (y1 - y0) > 6 ? 2 : 1;
   const grid = []; for(let v = Math.ceil(y0/step)*step; v <= y1; v += step) grid.push(v);
-  const hp = hist.map((p,i) => `${i?"L":"M"}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join(" ");
+  const pts = hist.map(p => [X(p[0]), Y(p[1])]);
+  const hp = smooth(pts);
   const area = `${hp} L${X(0).toFixed(1)} ${(H-mb)} L${X(-past).toFixed(1)} ${(H-mb)} Z`;
   return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Evolución del peso y proyección a ${o.weeks} semanas">
-    <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--brand)" stop-opacity=".22"/><stop offset="1" stop-color="var(--brand)" stop-opacity="0"/></linearGradient></defs>
-    ${grid.map(v => `<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${ml-6}" y="${Y(v)+3}" text-anchor="end">${v}</text>`).join("")}
+    <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--brand)" stop-opacity=".45"/><stop offset="1" stop-color="var(--brand)" stop-opacity="0"/></linearGradient></defs>
+    ${grid.map(v => `<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--a-line)" stroke-width="1"/><text x="${ml-6}" y="${Y(v)+3}" text-anchor="end">${v}</text>`).join("")}
     <path d="${area}" fill="url(#ga)"/>
-    <path d="${hp}" fill="none" stroke="var(--brand)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    <path d="M${X(0)} ${Y(o.W)} L${X(o.weeks)} ${Y(o.targetW)}" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>
-    <line x1="${X(0)}" x2="${X(0)}" y1="${mt}" y2="${H-mb}" stroke="var(--line)" stroke-dasharray="2 3"/>
-    <circle cx="${X(0)}" cy="${Y(o.W)}" r="5" fill="var(--brand)" stroke="var(--surface)" stroke-width="2"/>
-    <circle cx="${X(o.weeks)}" cy="${Y(o.targetW)}" r="5" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
-    <text x="${X(o.weeks)+8}" y="${Y(o.targetW)+3}" style="fill:var(--ink);font-weight:600">${fmt(o.targetW,1)}</text>
-    <text x="${X(0)+8}" y="${Y(o.W)-8}" style="fill:var(--ink);font-weight:600">${fmt(o.W,1)}</text>
-    <text x="${X(-past)}" y="${H-8}" text-anchor="start">−${past} sem</text>
-    <text x="${X(0)}" y="${H-8}" text-anchor="middle">Hoy</text>
-    <text x="${X(o.weeks)}" y="${H-8}" text-anchor="middle">Sem ${o.weeks}</text>
+    <path d="${hp}" fill="none" stroke="var(--a-brand)" stroke-width="3" stroke-linecap="round"/>
+    <path d="M${X(0)} ${Y(o.W)} L${X(o.weeks)} ${Y(o.targetW)}" fill="none" stroke="var(--a-muted)" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>
+    <circle cx="${X(0)}" cy="${Y(o.W)}" r="9" fill="var(--brand)" opacity=".25"/>
+    <circle cx="${X(0)}" cy="${Y(o.W)}" r="5" fill="var(--a-brand)" stroke="var(--a-card)" stroke-width="2"/>
+    <circle cx="${X(o.weeks)}" cy="${Y(o.targetW)}" r="5" fill="var(--a-card)" stroke="var(--a-ink)" stroke-width="2"/>
+    <text x="${X(o.weeks)+8}" y="${Y(o.targetW)+3}" style="fill:var(--a-ink);font-weight:600">${fmt(o.targetW,1)}</text>
+    <text x="${X(-past)}" y="${H-6}" text-anchor="start">−${past} sem</text>
+    <text x="${X(0)}" y="${H-6}" text-anchor="middle">Hoy</text>
+    <text x="${X(o.weeks)}" y="${H-6}" text-anchor="middle">Sem ${o.weeks}</text>
   </svg>`;
 }
 function appProg(c,t,o){
+  const {hist, past} = history(c,o), delta = o.W - hist[0][1];
+  const tFM = o.targetW*o.tbf/100, lean = o.LBM, fat = o.FM;
   return `<div><div class="a-title">Progreso</div><div class="a-sub">Meta: ${fmt(o.tbf,1)} % de grasa en ${o.weeks} semanas</div></div>
-  <div class="stats num">
-    <div class="stat"><b>${fmt(o.W,1)}</b><span>Peso, kg</span></div>
-    <div class="stat"><b>${fmt(o.bf,1)}</b><span>% grasa</span></div>
-    <div class="stat"><b>${fmt(o.LBM,1)}</b><span>Masa magra, kg</span></div>
-  </div>
-  <div class="acard">
-    <div class="acard-h"><h3>Peso</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
+  <div class="card">
+    <div class="pstat"><div><span class="a-label">Peso actual</span><div class="bigv num">${fmt(o.W,1)}<small>kg</small></div></div>
+      <span class="dchip">${delta <= 0 ? "↓" : "↑"} ${fmt(Math.abs(delta),1)} kg en ${past} sem</span></div>
     ${chart(c,o)}
-    <div class="legend"><span><i class="c-p"></i>Registros semanales${c.ej ? " (ejemplo)" : ""}</span><span><i style="background:var(--muted)"></i>Proyección</span></div>
+    <div class="legend" style="font-size:11.5px;color:var(--a-muted)"><span><i style="background:var(--a-brand)"></i>Registros${c.ej ? " (ejemplo)" : ""}</span><span><i style="background:var(--a-muted)"></i>Proyección</span><span class="pill lvl-${o.status.lvl}" style="margin-left:auto">${esc(o.status.label)}</span></div>
   </div>
-  <div class="acard">
-    <div class="row"><span>Último check-in</span><b>${c.checkin ? ago(c.checkin.ts) : "Pendiente"}</b></div>
+  <div class="card">
+    <div class="card-h"><h3>Composición corporal</h3><span class="note num">${fmt(o.bf,1)} % grasa</span></div>
+    <div class="comp" role="img" aria-label="Masa magra ${fmt(lean,1)} kg, masa grasa ${fmt(fat,1)} kg"><i style="flex:${lean};background:linear-gradient(90deg, var(--brand), color-mix(in oklab, var(--brand) 60%, #fff))"></i><i style="flex:${fat};background:var(--c-fat)"></i></div>
+    <div class="comp-leg"><span>Masa magra <b>${fmt(lean,1)} kg</b></span><span>Grasa <b>${fmt(fat,1)} kg</b></span></div>
+  </div>
+  <div class="minis num">
+    <div><b>${fmt(o.targetW,1)}</b><span>Peso meta, kg</span></div>
+    <div><b>${sgn(o.needWk,2)}</b><span>kg por semana</span></div>
+    <div><b>${fmt(Math.abs(fat - tFM),1)}</b><span>kg de grasa ${o.delta<0?"a perder":"a mover"}</span></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h3>Check-in semanal</h3><span class="note">${c.checkin ? "Enviado " + ago(c.checkin.ts) : "Pendiente"}</span></div>
     <button class="btn-app${ckDue(c) ? "" : " ghost"}" data-action="ck-open">${icon("pulse")} ${ckDue(c) ? "Hacer mi check-in" : "Actualizar mi check-in"}</button>
-  </div>
-  <div class="acard">
-    <div class="row"><span>Peso meta</span><b class="num">${fmt(o.targetW,1)} kg</b></div>
-    <div class="row"><span>Ritmo necesario</span><b class="num">${sgn(o.needWk,2)} kg/sem</b></div>
-    <div class="row"><span>Grasa a ${o.delta<0?"perder":"mover"}</span><b class="num">${fmt(Math.abs(o.FM - (o.targetW*o.tbf/100)),1)} kg</b></div>
   </div>
   <button class="btn-app" data-action="share-open">${icon("share")} Compartir mi progreso</button>`;
 }
@@ -1390,18 +1645,21 @@ function ago(ts){
 function ranking(c){
   const short = n => { const p = String(n || "").trim().split(/\s+/); return (p[0] || "Socio") + (p[1] ? " " + p[1].charAt(0) + "." : ""); };
   const rows = S.clients.map(x => ({x, s:starsOf(x).earned})).sort((a,b) => b.s - a.s || b.x.streak - a.x.streak);
-  return `<div class="acard">
-    <div class="acard-h"><h3>Ranking de la semana</h3><span class="note">${esc(S.brand.name)}</span></div>
-    <div>${rows.map((r,i) => `<div class="rank${r.x.id === c.id ? " me" : ""}"><span class="pos num">${i+1}</span><span>${esc(short(r.x.name))}${r.x.id === c.id ? " · tú" : ""}</span>${streakTag(r.x.streak)}<span class="stars num">${starIc()}${r.s}</span></div>`).join("")}</div>
+  return `<div class="card">
+    <div class="card-h"><h3>Ranking de la semana</h3><span class="note">${esc(S.brand.name)}</span></div>
+    <div>${rows.map((r,i) => `<div class="arank${r.x.id === c.id ? " me" : ""}"><span class="pos num">${i+1}</span>${avatar(r.x.name,"sm")}<span class="nm">${esc(short(r.x.name))}${r.x.id === c.id ? " · tú" : ""}</span>${streakTag(r.x.streak)}<span class="stars num">${starIc()}${r.s}</span></div>`).join("")}</div>
     <p class="note">Se sube cumpliendo hábitos, nunca por el peso.</p>
   </div>`;
 }
 function appRetos(c,o){
   const st = starsOf(c), rw = c.reward, g = weekGoal(o);
-  const pct = rw.name ? clamp(st.total/Math.max(1, rw.cost), 0, 1)*100 : 0;
-  const rwCard = rw.name ? `<div class="acard reward">
-    <div class="rw-top"><span class="rw-ic">${icon("gift")}</span><div style="min-width:0;flex:1"><div class="rw-eyebrow">Tu premio</div><div class="rw-name">${esc(rw.name)}</div></div><span class="stars num" style="color:inherit">${starIc()}${st.total}/${rw.cost}</span></div>
-    <div class="rw-bar"><i style="width:${pct}%"></i></div>
+  const pct = rw.name ? clamp(st.total/Math.max(1, rw.cost), 0, 1) : 0;
+  const rwCard = rw.name ? `<div class="reward">
+    <div class="rw-top">
+      <div class="rw-ring">${ring1(pct, "#FFFFFF", 74, 7)}<span class="ic">${icon("gift")}</span></div>
+      <div style="min-width:0;flex:1"><div class="rw-eyebrow">Tu premio</div><div class="rw-name">${esc(rw.name)}</div>
+        <div class="stars num" style="color:#FFE08A;margin-top:6px">${starIc()}${st.total} de ${rw.cost} estrellas</div></div>
+    </div>
     ${c.redeemed ? `<p class="rw-note">Canjeado. ${+rw.kcal ? `Está en tu plan de hoy con ${fmt(rw.kcal)} kcal reservadas.` : "Recógelo en recepción."}</p>`
       : st.total >= rw.cost ? `<button class="rw-btn" data-action="redeem">Canjear premio</button>`
       : `<p class="rw-note">Te faltan ${rw.cost - st.total} estrella${rw.cost - st.total === 1 ? "" : "s"}. Complétalas con tus retos.</p>`}
@@ -1409,21 +1667,35 @@ function appRetos(c,o){
   const tasks = c.tasks.map(t => {
     const full = t.done >= t.target;
     return `<div class="task">
-      <span class="ic">${icon((TASK_TYPES[t.type] || TASK_TYPES.otra)[1])}</span>
+      <div class="tring">${ring1(t.done/t.target, full ? "var(--good)" : "var(--brand)", 48, 5)}<span class="ic" style="${full ? "color:var(--good)" : ""}">${icon((TASK_TYPES[t.type] || TASK_TYPES.otra)[1])}</span></div>
       <div style="min-width:0"><div class="task-t">${esc(t.title)}</div>${t.detail ? `<div class="task-d">${esc(t.detail)}</div>` : ""}
-        <div class="dots" aria-label="${t.done} de ${t.target}">${Array.from({length:t.target}, (_,k) => `<i class="${k < t.done ? "on" : ""}"></i>`).join("")}</div></div>
-      <div class="task-r"><span class="stars num">${starIc()}${t.stars}</span>
-        <button class="inc${full ? " ok" : ""}" data-action="task-inc" data-id="${t.id}" aria-label="${full ? "Completado. Pulsa para deshacer uno" : "Registrar una vez"}">${full ? icon("check") : "+1"}</button></div>
+        <div class="task-m"><span>${t.done} de ${t.target}</span><span class="stars">${starIc()}${t.stars}</span></div></div>
+      <button class="inc${full ? " ok" : ""}" data-action="task-inc" data-id="${t.id}" aria-label="${full ? "Completado. Pulsa para deshacer uno" : "Registrar una vez"}">${full ? icon("check") : "+1"}</button>
     </div>`;
   }).join("");
   const notes = [...c.notes].sort((a,b) => b.ts - a.ts).slice(0,3);
   return `<div><div class="a-title">Retos</div><div class="a-sub">Semana del ${weekRange()}</div></div>
   ${rwCard}
-  <div class="acard"><div class="acard-h"><h3>Meta de la semana</h3><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div>
-    <div class="big">${g.txt}</div><p class="note">Un ritmo que puedes sostener. Tu coach la revisa cada lunes.</p></div>
+  <div class="card"><div class="wgoal"><span class="ic">${icon("trend")}</span><div style="min-width:0;flex:1"><span class="a-label">Meta de la semana</span><b>${g.txt}</b><span class="note">Un ritmo que puedes sostener.</span></div><span class="pill lvl-${o.status.lvl}">${esc(o.status.label)}</span></div></div>
   ${tasks || `<div class="a-empty"><b>Sin retos esta semana</b><span>Tu coach los añadirá pronto.</span></div>`}
   ${S.clients.length > 1 ? ranking(c) : ""}
-  ${notes.length ? `<div><div class="sec-title">Avisos de tu coach</div><div class="note-list">${notes.map(n => `<div class="note-item"><span class="logo sm">${esc(S.brand.initials)}</span><div>${esc(n.text)}<span class="when">${ago(n.ts)}</span></div></div>`).join("")}</div></div>` : ""}`;
+  ${notes.length ? `<div style="display:flex;flex-direction:column;gap:8px"><span class="a-label">Avisos de tu coach</span><div class="note-list">${notes.map(n => `<div class="note-item">${avatar(S.brand.coach,"sm")}<div>${esc(n.text)}<span class="when">${ago(n.ts)}</span></div></div>`).join("")}</div></div>` : ""}`;
+}
+
+/* ---- Celebración al desbloquear un premio ---- */
+function confetti(){
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv = $("#confetti"), sc = $("#screen"); if(!cv || !sc) return;
+  const W = cv.width = sc.clientWidth, H = cv.height = sc.clientHeight, x = cv.getContext("2d");
+  const cols = [S.brand.color, "#F2A40A", "#FF5C8A", "#4D9DFF", "#A98BFF", "#FFFFFF"];
+  const P = Array.from({length:120}, () => ({x:W/2 + (Math.random()-.5)*60, y:H*.42, vx:(Math.random()-.5)*11, vy:-Math.random()*12 - 4, s:4 + Math.random()*5, r:Math.random()*6, vr:(Math.random()-.5)*.4, c:cols[(Math.random()*cols.length)|0]}));
+  let f = 0;
+  (function step(){
+    x.clearRect(0,0,W,H); f++;
+    P.forEach(p => { p.vy += .32; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.globalAlpha = Math.max(0, 1 - f/110); x.fillStyle = p.c; x.fillRect(-p.s/2, -p.s/3, p.s, p.s*.66); x.restore(); });
+    if(f < 110) requestAnimationFrame(step); else x.clearRect(0,0,W,H);
+  })();
 }
 
 /* ---- Avisos (simulan una notificación push) y mensajes breves ---- */
@@ -1446,10 +1718,10 @@ let shareBlob = null;
 async function drawShare(){
   const c = curClient(), img = $("#shareImg"); if(!c || !img) return;
   const o = calc(c, tplOf(c)), st = starsOf(c), t = tplOf(c), {past, hist} = history(c,o);
-  try{ if(document.fonts) await Promise.all([document.fonts.load('700 120px "Barlow Condensed"'), document.fonts.load('600 40px "Onest"'), document.fonts.load('500 40px "Onest"')]); }catch(e){}
+  try{ if(document.fonts) await Promise.all([document.fonts.load('600 120px "Unbounded"'), document.fonts.load('600 40px "Onest"'), document.fonts.load('500 40px "Onest"')]); }catch(e){}
   const story = S.share.fmt === "story", W = 1080, H = story ? 1920 : 1350, M = 84;
   const cv = document.createElement("canvas"); cv.width = W; cv.height = H; const x = cv.getContext("2d");
-  const brand = S.brand.color, D = '"Barlow Condensed","Arial Narrow",sans-serif', B = '"Onest",system-ui,sans-serif';
+  const brand = S.brand.color, D = '"Unbounded","Onest",system-ui,sans-serif', B = '"Onest",system-ui,sans-serif';
   let g = x.createLinearGradient(0, 0, W*.4, H); g.addColorStop(0, mixHex(brand,"#0B0F14",.28)); g.addColorStop(1, mixHex(brand,"#0B0F14",.74));
   x.fillStyle = g; x.fillRect(0,0,W,H);
   const rg = x.createRadialGradient(W*.95, H*.04, 10, W*.95, H*.04, W*.95); rg.addColorStop(0,"rgba(255,255,255,.22)"); rg.addColorStop(1,"rgba(255,255,255,0)");
@@ -1458,7 +1730,7 @@ async function drawShare(){
   for(let k = -H; k < W; k += 34){ x.beginPath(); x.moveTo(k, H); x.lineTo(k + H*.47, 0); x.stroke(); }
   // Cabecera: logo + gimnasio
   rr(x, M, M, 112, 112, 30); x.fillStyle = "#FFFFFF"; x.fill();
-  x.fillStyle = mixHex(brand,"#0B0F14",.2); x.font = `700 54px ${D}`; x.textAlign = "center"; x.textBaseline = "middle";
+  x.fillStyle = mixHex(brand,"#0B0F14",.2); x.font = `700 40px ${D}`; x.textAlign = "center"; x.textBaseline = "middle";
   x.fillText((S.brand.initials || "GYM").toUpperCase(), M+56, M+59);
   x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#FFFFFF"; fitFont(x, S.brand.name, 600, 42, B, W - M*2 - 140); x.fillText(S.brand.name, M+140, M+50);
   x.fillStyle = "rgba(255,255,255,.72)"; x.font = `500 30px ${B}`; x.fillText("Entreno con " + S.brand.coach, M+140, M+94);
@@ -1467,7 +1739,7 @@ async function drawShare(){
   x.fillStyle = mixHex(brand,"#FFFFFF",.55); x.font = `600 32px ${B}`; if("letterSpacing" in x) x.letterSpacing = "6px";
   x.fillText("MI PROGRESO", M, y0 - (story ? 250 : 210)); if("letterSpacing" in x) x.letterSpacing = "0px";
   const head = (delta < 0 ? "−" : "+") + fmt(Math.abs(delta),1) + " kg";
-  x.fillStyle = "#FFFFFF"; fitFont(x, head, 700, story ? 290 : 250, D, W - M*2);
+  x.fillStyle = "#FFFFFF"; fitFont(x, head, 600, story ? 210 : 180, D, W - M*2);
   const hs = parseInt((x.font.match(/(\d+)px/) || [0, 250])[1], 10);
   x.fillText(head, M - 6, y0);
   x.fillStyle = "rgba(255,255,255,.8)"; fitFont(x, `en ${past} semanas${t ? " · " + t.name : ""}`, 500, 44, B, W - M*2);
@@ -1487,7 +1759,7 @@ async function drawShare(){
     S.share.weight ? [fmt(o.W,1) + " kg", "peso actual"] : [String(c.tasks.length ? Math.round(c.tasks.reduce((s,k) => s + Math.min(k.done,k.target), 0) / c.tasks.reduce((s,k) => s + k.target, 0)*100) : 0) + " %", "semana completada"]];
   boxes.forEach(([v, l], i) => {
     const bx = M + i*(bw + gap); rr(x, bx, sy, bw, bh, 28); x.fillStyle = "rgba(255,255,255,.1)"; x.fill();
-    x.fillStyle = "#FFFFFF"; fitFont(x, v, 700, 82, D, bw - 48); x.fillText(v, bx + 26, sy + 96);
+    x.fillStyle = "#FFFFFF"; fitFont(x, v, 600, 60, D, bw - 48); x.fillText(v, bx + 26, sy + 96);
     x.fillStyle = "rgba(255,255,255,.75)"; x.font = `500 28px ${B}`; x.fillText(l, bx + 26, sy + 140);
   });
   // Pie
@@ -1510,18 +1782,28 @@ function openShare(){
     <p class="note" id="share-hint" style="text-align:center">Tú eliges qué se muestra: por defecto no aparece tu peso, solo el cambio.</p>`);
   drawShare();
 }
-function appPerfil(c,t){
+function appPerfil(c,t,o){
   const mail = firstName(c.name).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase() + "@ejemplo.com";
   const row = (l, r) => `<div class="menu-row"><span>${l}</span><span class="r">${r}${icon("chev")}</span></div>`;
-  return `<div class="prof"><div class="avatar">${esc(firstName(c.name).charAt(0))}</div><div><b>${esc(c.name)}</b><div class="note">${esc(mail)}</div></div></div>
-  <div><div class="sec-title">Mi gimnasio</div><div class="menu">
-    <div class="menu-row"><span style="display:flex;gap:10px;align-items:center"><span class="logo sm">${esc(S.brand.initials)}</span>${esc(S.brand.name)}</span><span class="r">${icon("chev")}</span></div>
+  const memberNo = String(hash(c.id + S.brand.name) % 900000 + 100000);
+  const st = starsOf(c);
+  return `<div class="a-top">${avatar(c.name,"lg")}<div class="grow"><h2>${esc(c.name)}</h2><small>${esc(mail)}</small></div></div>
+  <button class="pass press" data-action="checkin" aria-label="Abrir mi carnet para el check-in" style="border:0;text-align:left;font:inherit;cursor:pointer">
+    <div class="pass-top"><div style="display:flex;gap:10px;align-items:center"><span class="logo sm">${esc(S.brand.initials)}</span><div><div class="pass-name">${esc(S.brand.name)}</div><div class="pass-sub">Socio activo</div></div></div><span class="pass-sub">${icon("card").replace('aria-hidden="true"','aria-hidden="true" style="width:22px;height:22px"')}</span></div>
+    <div class="pass-bot"><div><div class="pass-sub">${esc(c.name)}</div><div class="disp num" style="font-size:15px;letter-spacing:.08em;margin-top:3px">Nº ${memberNo.slice(0,3)} ${memberNo.slice(3)}</div></div><span class="pass-qr">${qrSVG(c.id + S.brand.name, 2)}</span></div>
+  </button>
+  <div class="minis num">
+    <div><b>${(c.starsLife || 0) + st.earned}</b><span>Estrellas</span></div>
+    <div><b>${(c.retosTotal || 0) + st.completed}</b><span>Retos</span></div>
+    <div><b>${weekStrip(c).streak}</b><span>Días de racha</span></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px"><span class="a-label">Mi plan</span><div class="menu">
     ${row("Mi coach", esc(S.brand.coach))}
     ${row("Forma dietética", t ? esc(t.name) : "Pendiente")}
-  </div></div>
-  <div><div class="sec-title">Cuenta</div><div class="menu">
-    ${row("Datos personales", "")}
     ${row("Alergias", c.allergens.length ? c.allergens.map(a => AL[a]).join(", ") : "Ninguna")}
+  </div></div>
+  <div style="display:flex;flex-direction:column;gap:8px"><span class="a-label">Cuenta</span><div class="menu">
+    ${row("Datos personales", "")}
     ${row("Datos de salud", c.consent ? "Consentimiento dado" : "Consentimiento pendiente")}
     ${row("Método de pago", "En la web del gimnasio")}
     ${row("Notificaciones", "Activadas")}
@@ -1529,8 +1811,8 @@ function appPerfil(c,t){
   <button class="out" data-action="noop">Cerrar sesión</button>`;
 }
 
-function qrSVG(seed){
-  const n = 25, s = 7; let d = "";
+function qrSVG(seed, s = 7){
+  const n = 25; let d = "";
   const finder = (x,y) => (x>=0&&x<7&&y>=0&&y<7);
   const inF = (x,y) => finder(x,y) || finder(x-(n-7),y) || finder(x,y-(n-7));
   const fpix = (x,y) => { const fx = x>=n-7 ? x-(n-7) : x, fy = y>=n-7 ? y-(n-7) : y; return (fx===0||fx===6||fy===0||fy===6) || (fx>=2&&fx<=4&&fy>=2&&fy<=4); };
@@ -1571,10 +1853,10 @@ function openSwap(mi, ii){
   const alts = allowedFoods(c, t).ok.filter(f => f.cat === base.f.cat && f !== it.f && f !== base.f && !m.items.some(x => x.f === f))
     .sort((x, y) => (x.d === base.f.d ? 0 : 1) - (y.d === base.f.d ? 0 : 1)).slice(0, 6); // primero los del mismo momento del día
   const what = {proteina:"la misma proteína", carbohidrato:"los mismos carbohidratos", grasa:"la misma grasa"}[base.f.cat] || "la misma ración";
-  openSheet(`<b style="font-size:17px">Cambiar ${esc(it.f.name.charAt(0).toLowerCase() + it.f.name.slice(1))}</b>
+  openSheet(`<b style="font-size:17px;text-align:center">Cambiar ${esc(lowerFirst(it.f.name))}</b>
     <p class="note" style="text-align:center">Opciones con ${what}. La app calcula los gramos con las reglas de tu coach.</p>
     <div class="note-list">${alts.map(f => { const g = swapGrams(base, f); return `<button class="opt" data-action="swap-set" data-m="${mi}" data-i="${ii}" data-f="${esc(f.id)}"><b>${esc(f.name)}</b><span class="num">${fmt(g)} g · ${fmt(f.k*g/100)} kcal</span></button>`; }).join("") || `<p class="note" style="text-align:center">Por ahora no hay otra opción compatible con tu plan.</p>`}</div>
-    ${it.orig ? `<button class="btn-app ghost" style="width:100%" data-action="swap-set" data-m="${mi}" data-i="${ii}" data-f="">Volver a ${esc(base.f.name.charAt(0).toLowerCase() + base.f.name.slice(1))}</button>` : ""}
+    ${it.orig ? `<button class="btn-app ghost" style="width:100%" data-action="swap-set" data-m="${mi}" data-i="${ii}" data-f="">Volver a ${esc(lowerFirst(base.f.name))}</button>` : ""}
     <button class="btn-app" style="width:100%" data-action="close-modal">Cerrar</button>`);
 }
 
@@ -1594,27 +1876,13 @@ function openShop(){
     <div class="sheet-actions"><button class="btn-app" data-action="shop-copy">Copiar lista</button><button class="btn-app ghost" data-action="close-modal">Cerrar</button></div>`);
 }
 
-/* ---- Celebración breve dentro del teléfono ---- */
-function confetti(){
-  const fx = $("#fx");
-  if(!fx || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
-  const colors = [S.brand.color, "#E3A008", "#FFFFFF", "#47C285"];
-  fx.innerHTML = Array.from({length:28}, (_,k) => `<i style="left:${4 + (k*37 % 92)}%;background:${colors[k % 4]};--dx:${(k*53 % 120) - 60}px;--rot:${(k % 2 ? 1 : -1)*(240 + k*20)}deg;animation-delay:${(k % 7)*45}ms"></i>`).join("");
-  setTimeout(() => { fx.innerHTML = ""; }, 2200);
-}
-
 /* ===================== Render global ===================== */
 function renderTop(){
   $("#layout").dataset.view = S.view;
   $("#seg-app").setAttribute("aria-selected", S.view === "app");
   $("#seg-coach").setAttribute("aria-selected", S.view === "coach");
-  const th = ["dark","light"].includes(S.theme) ? S.theme : "auto", r = document.documentElement;
-  th === "auto" ? r.removeAttribute("data-theme") : r.setAttribute("data-theme", th);
-  $("#btn-theme").innerHTML = icon(th === "dark" ? "moon" : "sun") + `<span class="th-l">${th === "auto" ? "Auto" : th === "dark" ? "Oscuro" : "Claro"}</span>`;
-  $("#btn-theme").setAttribute("aria-label", "Tema: " + (th === "auto" ? "automático" : th === "dark" ? "oscuro" : "claro"));
 }
 function renderAll(){ applyBrand(); renderTop(); renderCoach(); renderApp(); }
-function enterApp(){ const el = $("#app"); el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter"); }
 function refreshLive(){
   if(S.tab === "socios"){ const c = curClient(); const out = $("#cOut"); if(out && c) out.innerHTML = clientOut(c); const l = $("#clientList"); if(l) l.innerHTML = clientList(); }
   if(S.tab === "formas"){ const t = S.templates.find(x => x.id === S.selT); const out = $("#tOut"); if(out && t) out.innerHTML = tplOut(t); const l = $("#tplList"); if(l) l.innerHTML = tplList(); }
@@ -1631,7 +1899,7 @@ document.addEventListener("click", (ev) => {
   const tab = ev.target.closest("[data-tab]");
   if(tab){ S.tab = tab.dataset.tab; renderCoach(); save(); return; }
   const pt = ev.target.closest("[data-ptab]");
-  if(pt){ S.ptab = pt.dataset.ptab; renderApp(); $("#app").scrollTop = 0; enterApp(); save(); return; }
+  if(pt){ S.ptab = pt.dataset.ptab; renderApp(); $("#app").scrollTop = 0; save(); return; }
   const a = ev.target.closest("[data-action]"); if(!a) return;
   const act = a.dataset.action, c = curClient();
   switch(act){
@@ -1640,8 +1908,11 @@ document.addEventListener("click", (ev) => {
       else { a.dataset.armed = "1"; a.textContent = "¿Seguro? Pulsa otra vez"; setTimeout(() => { if(a.dataset.armed){ delete a.dataset.armed; a.textContent = "Restablecer"; } }, 3500); }
       return;
     }
-    case "theme": S.theme = {auto:"dark", dark:"light", light:"auto"}[S.theme] || "dark"; renderTop(); save(); return;
-    case "go-tab": S.tab = a.dataset.t; renderCoach(); save(); return;
+    case "review": {
+      S.sel = a.dataset.id; renderCoach(); renderApp(); flashPhone(); save();
+      const d = $("#rDetail"); if(d) d.scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
     case "remind": {
       if(!c) return; const text = "¡Ya toca tu check-in semanal! Toma un minuto y ayuda a tu coach a afinar tu plan.";
       c.notes.push({id:"n"+uid(), text, ts:Date.now(), read:false});
@@ -1657,7 +1928,7 @@ document.addEventListener("click", (ev) => {
       renderCoach(); renderApp(); flashPhone(); showPush(text); save(); return;
     }
     case "clear-adj": if(!c) return; c.kcalAdj = 0; delete c.adjAt; renderCoach(); renderApp(); save(); return;
-    /* ---- Check-in, agua, intercambios y lista de compras (socio) ---- */
+    /* ---- Check-in semanal, agua, intercambios y lista de compras (socio) ---- */
     case "ck-open": openCheckin(); return;
     case "ck-set": {
       ckDraft[a.dataset.q] = +a.dataset.v;
@@ -1758,6 +2029,8 @@ document.addEventListener("click", (ev) => {
       S.clients.forEach(x => { if(!x.tpl){ const orig = seedClients().find(s => s.id === x.id); x.tpl = orig ? orig.tpl : S.templates[0].id; } });
       renderCoach(); renderApp(); save(); return;
     }
+    case "app-theme": S.appTheme = a.dataset.k === "light" ? "light" : "dark"; applyBrand(); if(S.tab === "marca") renderCoach(); save(); return;
+    case "open-client": S.sel = a.dataset.id; S.tab = "socios"; renderCoach(); renderApp(); flashPhone(); save(); return;
     case "preset": {
       S.brand.name = a.dataset.n; S.brand.initials = a.dataset.i; S.brand.color = a.dataset.c;
       renderAll(); flashPhone(); save(); return;
@@ -1769,11 +2042,11 @@ document.addEventListener("click", (ev) => {
       const pl = buildPlan(c, tplOf(c), calc(c, tplOf(c)));
       const full = !!pl && d.size >= pl.meals.length && c.streakDay !== today();
       if(full){ c.streak++; c.streakDay = today(); }
-      renderApp(); save();
-      if(full){ if(S.tab === "resumen") renderCoach(); showToast(`¡Día completo! Racha de ${c.streak} días`, true); confetti(); }
+      renderApp(); if(S.tab === "resumen") renderCoach(); save();
+      if(full){ showToast(`¡Día completo! Racha de ${c.streak} días`, true); confetti(); }
       return;
     }
-    case "reroll": S.seed++; renderApp(); save(); return;
+    case "reroll": { loadingPlan = true; renderApp(); setTimeout(() => { loadingPlan = false; S.seed++; renderApp(); save(); }, 650); return; }
     /* ---- Retos y premios (coach) ---- */
     case "quick-task": {
       if(!c) return; const q = QUICK[+a.dataset.i];
@@ -1814,7 +2087,7 @@ document.addEventListener("click", (ev) => {
       const after = starsOf(c).total;
       buzz(); renderApp(); if(S.tab === "retos" || S.tab === "resumen") renderCoach(); save();
       if(!wasFull && t.done >= t.target){
-        if(c.reward.name && !c.redeemed && before < c.reward.cost && after >= c.reward.cost){ showToast(`¡Premio desbloqueado: ${c.reward.name}!`, true); confetti(); }
+        if(c.reward.name && !c.redeemed && before < c.reward.cost && after >= c.reward.cost) { showToast(`¡Premio desbloqueado: ${c.reward.name}!`, true); confetti(); }
         else showToast(`+${t.stars} estrella${t.stars === 1 ? "" : "s"}`, true);
       }
       return;
