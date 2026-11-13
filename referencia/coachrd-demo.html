@@ -360,7 +360,7 @@ input[type=color]{width:52px;height:42px;border:1px solid var(--line);border-rad
 .rleg i{width:10px;height:10px;border-radius:50%;margin-top:4px}
 .rleg b{display:block;font-size:12.5px;font-weight:600}
 .rleg span{font-size:12px;color:var(--a-muted);font-variant-numeric:tabular-nums}
-.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qa{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .qa button{border:1px solid var(--a-line);background:var(--a-card);border-radius:20px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--a-ink);transition:transform .15s var(--ease)}
 .qa button:active,.press:active{transform:scale(.95)}
 .qa .qi{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:color-mix(in oklab, var(--brand) 20%, transparent);color:var(--a-brand)}
@@ -556,8 +556,59 @@ input[type=color]{width:52px;height:42px;border:1px solid var(--line);border-rad
 .opt:active{transform:scale(.97)}
 .opt b{font-weight:600}
 .opt span{color:var(--a-muted);white-space:nowrap;font-size:12.5px}
-.shop{width:100%;display:flex;flex-direction:column;gap:12px;text-align:left}
-.shop .ing{border-top:0;padding-top:0}
+
+/* ---------- Lista de compra: app del socio ---------- */
+.aseg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--a-card);border:1px solid var(--a-line);border-radius:18px;padding:4px}
+.aseg button{border:0;background:transparent;border-radius:14px;padding:10px 6px;font-size:13px;font-weight:600;color:var(--a-muted);display:flex;gap:6px;align-items:center;justify-content:center;transition:background .2s, color .2s}
+.aseg button svg{width:16px;height:16px}
+.aseg button[aria-pressed="true"]{background:color-mix(in oklab, var(--brand) 26%, transparent);color:var(--a-ink)}
+.aseg button[aria-pressed="true"] svg{color:var(--a-brand)}
+.aseg.sm{display:inline-grid;border-radius:999px;padding:3px}
+.aseg.sm button{border-radius:999px;padding:6px 16px;font-size:12.5px}
+.shop-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sgroup{background:var(--a-card);border:1px solid var(--a-line);border-radius:24px;padding:13px 14px 4px;display:flex;flex-direction:column}
+.sgroup h4{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--a-muted);display:flex;justify-content:space-between;gap:8px;padding-bottom:4px}
+.sgroup.fresh{border-style:dashed;border-color:color-mix(in oklab, var(--brand) 55%, transparent)}
+.sgroup.fresh h4{color:var(--a-brand)}
+.srow{display:flex;align-items:center;gap:12px;width:100%;border:0;border-top:1px solid var(--a-line);background:transparent;color:inherit;text-align:left;padding:10px 0}
+.sgroup h4 + .srow{border-top:0}
+.sbox{width:26px;height:26px;border-radius:9px;border:1.5px solid color-mix(in oklab, var(--a-muted) 60%, transparent);display:grid;place-items:center;flex:none;color:transparent;transition:transform .2s var(--ease), background .2s}
+.sbox svg{width:15px;height:15px}
+.srow:active .sbox{transform:scale(.86)}
+.srow[aria-pressed="true"] .sbox{background:var(--brand);border-color:transparent;color:var(--on-brand)}
+.sname{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;font-size:13.5px;font-weight:600;line-height:1.25}
+.sname small{font-size:11.5px;font-weight:500;color:var(--a-muted)}
+.sqty{font-weight:700;font-size:13.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.srow[aria-pressed="true"] .sname > span{text-decoration:line-through}
+.srow[aria-pressed="true"] .sname,.srow[aria-pressed="true"] .sqty{color:var(--a-muted)}
+.card.shop-done{align-items:center;text-align:center;gap:4px;border-color:color-mix(in oklab, var(--brand) 55%, transparent)}
+.shop-done b{font-family:var(--f-display);font-size:17px;letter-spacing:-.02em}
+.shop-done span{color:var(--a-muted);font-size:12.5px}
+
+/* ---------- Lista de compra: panel del coach ---------- */
+.buy-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px;align-items:start}
+.brow{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:13px}
+.ocard h4 + .brow{border-top:0}
+.brow .bk{width:18px;height:18px;border-radius:6px;border:1.5px solid color-mix(in oklab, var(--muted) 55%, transparent);display:grid;place-items:center;flex:none;color:transparent}
+.brow .bk svg{width:12px;height:12px}
+.brow.on .bk{background:var(--brand);border-color:transparent;color:var(--on-brand)}
+.brow .bn{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.brow .bn small{color:var(--muted);font-size:11.5px}
+.brow.on .bn > span{text-decoration:line-through;color:var(--muted)}
+.brow b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.brow.on b{color:var(--muted)}
+.buy-tbl{min-width:560px}
+.buy-tbl th{white-space:normal;line-height:1.3;vertical-align:bottom}
+.buy-tbl td{padding:8px 10px;vertical-align:bottom}
+.buy-tbl th.c,.buy-tbl td.c{text-align:center}
+.buy-tbl td.c{vertical-align:middle}
+.buy-tbl .bl{display:flex;flex-direction:column;gap:4px;min-width:170px}
+.buy-tbl .bl small{font-size:11.5px;color:var(--muted);white-space:normal}
+.buy-tbl input:not([type="checkbox"]),.buy-tbl select{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:7px 9px;width:100%;min-width:0;font:inherit;color:inherit}
+.buy-tbl input:focus,.buy-tbl select:focus{outline:none;border-color:var(--brand);background:var(--surface);box-shadow:0 0 0 3px color-mix(in oklab, var(--brand) 16%, transparent)}
+.buy-tbl select{min-width:116px}
+.buy-tbl input.num-in{width:84px;text-align:right}
+.buy-tbl input[type="checkbox"]{width:18px;height:18px;accent-color:var(--brand)}
 
 /* Móvil real: la app ocupa la pantalla, sin marco de teléfono simulado */
 @media (max-width:480px){
@@ -619,7 +670,7 @@ input[type=color]{width:52px;height:42px;border:1px solid var(--line);border-rad
 </main>
 
 <footer class="wrap foot">
-  Demo con datos de ejemplo. Gasto basal por Katch-McArdle a partir de la masa magra; macros, raciones, intercambios y ajustes sugeridos calculados por reglas que define el coach, no por IA. Las estrellas y el ranking se ganan con hábitos, nunca con el peso. Herramienta de apoyo para profesionales: cada plan lo revisa el coach o nutricionista antes de entregarlo.
+  Demo con datos de ejemplo. Gasto basal por Katch-McArdle a partir de la masa magra; macros, raciones, intercambios, lista de compra y ajustes sugeridos calculados por reglas que define el coach, no por IA. Las estrellas y el ranking se ganan con hábitos, nunca con el peso. Herramienta de apoyo para profesionales: cada plan lo revisa el coach o nutricionista antes de entregarlo.
 </footer>
 
 <script>
@@ -667,6 +718,63 @@ const seedFoods = () => [
   F("mani","Mantequilla de maní","grasa","vegetal",588,25,20,50,["mani"],1),
   F("ensalada","Ensalada verde criolla","vegetal","vegetal",18,0.9,3.5,0.2,[],0)
 ];
+
+/* ===================== Lista de compra: cómo se compra cada alimento ===================== */
+// n: nombre en la lista (dos alimentos con el mismo nombre se suman en una línea).
+// u: unidad de compra. "lb" libras (lo normal en RD), "un" unidades, "g" gramos, "ml" mililitros.
+// y: rendimiento = gramos (o ml) que se compran en crudo por cada 100 g cocidos del plan.
+// ug: gramos de una unidad tal como se compra. l: [singular, plural] de la unidad.
+// fr: fresco, se compra cada semana aunque la lista sea del mes. sec: sección del supermercado.
+// Valores aproximados: el coach los ajusta en «Lista de compra».
+const BUY = {
+  pollo:{n:"Pechuga de pollo",u:"lb",y:135,sec:"carnes"},
+  res:{n:"Res magra para guisar",u:"lb",y:145,sec:"carnes"},
+  bacalao:{n:"Bacalao salado",u:"lb",y:90,sec:"carnes"},
+  camarones:{n:"Camarones pelados",u:"lb",y:125,sec:"carnes"},
+  huevo:{n:"Huevos",u:"un",y:100,ug:50,l:["huevo","huevos"],sec:"lacteos"},
+  claras:{n:"Huevos",u:"un",y:100,ug:33,l:["huevo","huevos"],sec:"lacteos"},
+  queso:{n:"Queso blanco de freír",u:"lb",y:105,sec:"lacteos"},
+  yogur:{n:"Yogur griego natural 0 %",u:"g",y:100,fr:true,sec:"lacteos"},
+  tofu:{n:"Tofu firme",u:"g",y:110,sec:"despensa"},
+  arroz:{n:"Arroz blanco",u:"lb",y:38,sec:"despensa"},
+  habichuelas:{n:"Habichuelas rojas secas",u:"lb",y:40,sec:"despensa"},
+  lentejas:{n:"Lentejas secas",u:"lb",y:40,sec:"despensa"},
+  platano:{n:"Plátano verde",u:"un",y:155,ug:240,l:["plátano","plátanos"],fr:true,sec:"viveres"},
+  batata:{n:"Batata",u:"lb",y:120,fr:true,sec:"viveres"},
+  yuca:{n:"Yuca",u:"lb",y:125,fr:true,sec:"viveres"},
+  avena:{n:"Avena en hojuelas",u:"g",y:19,sec:"despensa"},
+  pan:{n:"Pan integral",u:"un",y:100,ug:30,l:["rebanada","rebanadas"],fr:true,sec:"despensa"},
+  guineo:{n:"Guineo maduro",u:"un",y:155,ug:180,l:["guineo","guineos"],fr:true,sec:"viveres"},
+  lechosa:{n:"Lechosa",u:"lb",y:150,fr:true,sec:"viveres"},
+  aguacate:{n:"Aguacate",u:"un",y:150,ug:450,l:["aguacate","aguacates"],fr:true,sec:"viveres"},
+  aceite:{n:"Aceite de oliva",u:"ml",y:109,sec:"despensa"},
+  mani:{n:"Mantequilla de maní",u:"g",y:100,sec:"despensa"},
+  ensalada:{n:"Vegetales para ensalada (lechuga, tomate y pepino)",u:"lb",y:115,fr:true,sec:"viveres"}
+};
+const SECS = [["carnes","Carnes y pescados"],["lacteos","Huevos y lácteos"],["viveres","Víveres, frutas y vegetales"],["despensa","Granos y despensa"]];
+const SEC = Object.fromEntries(SECS);
+const BUY_UNITS = [["lb","Libras"],["un","Unidades"],["g","Gramos"],["ml","Mililitros"]];
+const LB = 453.59237; // gramos por libra
+// Completa los datos de compra de un alimento. Uno nuevo del coach entra en la lista desde el
+// primer momento: con su propio nombre, por libras y con rendimiento 100.
+function ensureFood(f){
+  const b = f.buy && typeof f.buy === "object" ? f.buy : {...(BUY[f.id] || {})};
+  if(typeof b.n !== "string") b.n = f.name;
+  if(!BUY_UNITS.some(([k]) => k === b.u)) b.u = "lb";
+  if(!(b.y > 0)) b.y = 100;
+  if(!(b.ug > 0)) b.ug = null;
+  if(!Array.isArray(b.l) || b.l.length !== 2) b.l = ["unidad","unidades"];
+  b.fr = !!b.fr;
+  f.buy = b; return f;
+}
+// Sección del supermercado: la del alimento o, si no la tiene, la que sale de su origen y su grupo.
+function secOf(f){
+  const b = f.buy || {};
+  if(SEC[b.sec]) return b.sec;
+  if(["carne","pescado","marisco"].includes(f.origin)) return "carnes";
+  if(f.origin === "huevo" || f.origin === "lacteo") return "lacteos";
+  return f.cat === "vegetal" || b.fr ? "viveres" : "despensa";
+}
 const seedTemplates = () => [
   {id:"def",name:"Definición criolla",adjust:-20,protein:2.4,fatPct:25,meals:4,exclude:[],note:"Déficit moderado con víveres hervidos y guisos sin fritura.",ej:true},
   {id:"recomp",name:"Recomposición",adjust:-10,protein:2.2,fatPct:28,meals:4,exclude:[],note:"Déficit suave y proteína alta para ganar músculo mientras baja grasa.",ej:true},
@@ -710,15 +818,20 @@ function ensureClient(c){
   if(!c.checkin || typeof c.checkin !== "object") c.checkin = null;
   if(!Number.isFinite(c.consent)) c.consent = null;
   if(!c.water || typeof c.water !== "object") c.water = {day:"",n:0};
+  // Lista de compra: periodo que prefiere el socio y productos ya comprados por lista (huella del plan + periodo).
+  if(!c.shop || typeof c.shop !== "object") c.shop = {per:"week",chk:{}};
+  if(c.shop.per !== "month") c.shop.per = "week";
+  if(!c.shop.chk || typeof c.shop.chk !== "object") c.shop.chk = {};
   return c;
 }
 
 /* ===================== Estado ===================== */
 const KEY = "coachrd-demo-v5";
 // theme: tema del panel del coach ("dark" | "light"); null sigue al sistema. appTheme: estilo de la app del socio.
-const fresh = () => ({v:5,theme:null,brand:{name:"Atlántico Fit",initials:"AF",color:"#0E7C74",coach:"Coach José"},foods:seedFoods(),templates:seedTemplates(),clients:seedClients().map(ensureClient),sel:"c2",selT:"def",tab:"resumen",ptab:"inicio",seed:0,done:{},swaps:{},view:"app",share:{fmt:"post",weight:false},appTheme:"dark"});
+// pseg: qué muestra la pantalla Plan de la app ("menu" = menú de hoy, "shop" = lista de compra).
+const fresh = () => ({v:5,theme:null,brand:{name:"Atlántico Fit",initials:"AF",color:"#0E7C74",coach:"Coach José"},foods:seedFoods().map(ensureFood),templates:seedTemplates(),clients:seedClients().map(ensureClient),sel:"c2",selT:"def",tab:"resumen",ptab:"inicio",pseg:"menu",seed:0,done:{},swaps:{},view:"app",share:{fmt:"post",weight:false},appTheme:"dark"});
 function load(){
-  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); if(o && o.v === 5){ const s = Object.assign(fresh(), o); s.clients.forEach(ensureClient); return s; } } }catch(e){}
+  try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); if(o && o.v === 5){ const s = Object.assign(fresh(), o); s.clients.forEach(ensureClient); s.foods.forEach(ensureFood); return s; } } }catch(e){}
   return fresh();
 }
 let S = load();
@@ -967,16 +1080,73 @@ function buildPlan(cl, t, o){
   return {meals, total, missing};
 }
 
+/* ===================== Lista de compra (determinista, sin IA) ===================== */
+const slug = s => String(s).toLowerCase().replace(/[áéíóúüñ]/g, ch => ({á:"a",é:"e",í:"i",ó:"o",ú:"u",ü:"u",ñ:"n"})[ch]).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+// Siempre hacia arriba y en pasos enteros: que no falte comida. La tolerancia evita que 1.000 g suba a 1.050 g.
+const ceilStep = (v, step) => v > 0 ? Math.max(1, Math.ceil(v/step - 1e-9))*step : 0;
+const massTxt = g => { g = Math.round(g); return g >= 1000 ? +(g/1000).toFixed(2) + " kg" : g + " g"; };
+// Libras con cuartos: 6.75 → «6¾», 0.5 → «½», 1 → «1».
+function frac(lb){ const q = Math.max(0, Math.round(lb*4)), w = Math.floor(q/4), f = ["","¼","½","¾"][q % 4]; return w === 0 && f ? f : w + f; }
+// Cantidad de compra ya redondeada: cuartos de libra, unidades enteras, 50 g o 25 ml.
+// amount: gramos en crudo (lb y g), mililitros (ml) o unidades (un). planG: gramos cocidos del plan.
+function qtyOf(b, amount, planG){
+  const inPlan = massTxt(planG) + " en el plan";
+  if(b.u === "un"){ const q = ceilStep(amount, 1); return {q, txt:q + " " + (q === 1 ? b.l[0] : b.l[1]), sub:inPlan}; }
+  if(b.u === "ml"){ const q = ceilStep(amount, 25); return {q, txt:q >= 1000 ? +(q/1000).toFixed(3) + " L" : q + " ml", sub:inPlan}; }
+  if(b.u === "g"){ const q = ceilStep(amount, 50); return {q, txt:massTxt(q), sub:inPlan}; }
+  const q = ceilStep(amount/LB, .25); return {q, txt:frac(q) + " lb", sub:"≈ " + massTxt(q*LB)};
+}
+// Lista de compra de un socio. Sale de su plan del día repetido 7 días (la demo genera un plan diario).
+// El mes es esa semana × 4, salvo los frescos, que se compran cada semana.
+function shopList(c, plan, per){
+  per = per === "month" ? "month" : "week";
+  const lines = new Map();
+  // El premio canjeado no trae alimentos del cuaderno: no entra en la compra.
+  const items = plan.meals.filter(m => !m.reward).flatMap(m => m.items).sort((a, b) => a.f.id < b.f.id ? -1 : a.f.id > b.f.id ? 1 : 0);
+  for(const {f, g} of items){
+    const b = ensureFood(f).buy, u = b.u === "un" && !(b.ug > 0) ? "lb" : b.u; // sin gramos por unidad se compra al peso
+    const cooked = g*7, raw = cooked*b.y/100, amount = u === "un" ? raw/b.ug : raw;
+    const name = b.n.trim() || f.name, k = (slug(name) || slug(f.id)) + ":" + (u === "un" || u === "ml" ? u : "peso");
+    const L = lines.get(k);
+    if(L){ L.amount += amount; L.planG += cooked; L.fr = L.fr || b.fr; }
+    else lines.set(k, {k, name, b:{...b, u}, sec:secOf(f), fr:b.fr, amount, planG:cooked});
+  }
+  const month = per === "month";
+  const all = [...lines.values()].map(L => {
+    // Se multiplica antes de redondear: 4 semanas de pollo son 26¾ lb, no 4 × 6¾ = 27 lb.
+    const wk = month && L.fr, w = month && !L.fr ? 4 : 1, q = qtyOf(L.b, L.amount*w, L.planG*w);
+    return {k:L.k, name:L.name, sec:L.sec, wk, txt:q.txt, sub:q.sub};
+  }).sort((a, b) => a.k < b.k ? -1 : a.k > b.k ? 1 : 0);
+  const groups = [...SECS.map(([id, title]) => ({id, title, items:all.filter(x => !x.wk && x.sec === id)})),
+    {id:"frescos", title:"Frescos · cómpralos cada semana", items:all.filter(x => x.wk)}].filter(g => g.items.length);
+  // Clave de la lista: huella del plan + periodo. Si el plan cambia, los checks empiezan de cero.
+  const sig = hash(plan.meals.map(m => m.items.map(x => x.f.id + ":" + x.g).join(",")).join("|")).toString(36);
+  return {per, sig, key:sig + ":" + per, groups, items:all, n:all.length};
+}
+// Lista del socio con su plan actual. Sin periodo, usa el que el socio tiene guardado.
+function curShop(c, per){
+  const t = tplOf(c), plan = c && t ? buildPlan(c, t, calc(c, t)) : null;
+  return plan ? shopList(c, plan, per || c.shop.per) : null;
+}
+// Productos ya comprados de una lista (solo cuentan los que siguen en ella).
+function shopDone(c, L){ const ck = new Set(c.shop.chk[L.key] || []); return new Set(L.items.filter(x => ck.has(x.k)).map(x => x.k)); }
+// La lista en texto, para copiarla a las notas o a WhatsApp.
+function shopText(L){
+  return `Lista de compra · ${L.per === "month" ? "Mes" : "Semana"} · ${S.brand.name}\n\n` +
+    L.groups.map(g => g.title.toUpperCase() + "\n" + g.items.map(x => `- ${x.name}: ${x.txt}`).join("\n")).join("\n\n");
+}
+
 /* ===================== Panel del coach ===================== */
 function renderCoach(){
   const used = S.clients.length, nT = S.templates.length, nF = S.foods.length;
-  const tabs = [["resumen","Resumen","grid",null],["socios","Socios","users",used],["retos","Retos y premios","star",null],["formas","Formas dietéticas","layers",nT],["alimentos","Alimentos","leaf",nF],["marca","Marca","palette",null]];
+  const tabs = [["resumen","Resumen","grid",null],["socios","Socios","users",used],["retos","Retos y premios","star",null],["formas","Formas dietéticas","layers",nT],["alimentos","Alimentos","leaf",nF],["compras","Lista de compra","cart",null],["marca","Marca","palette",null]];
   const HEAD = {
     resumen:["Hola, " + S.brand.coach, "Así va tu gimnasio esta semana: adherencia, metas y quién necesita un empujón."],
     socios:["Socios", "Peso, altura, % de grasa, alergias y plazo. El plan se recalcula al instante y su app cambia en vivo."],
     retos:["Retos y premios", "Hábitos que suman estrellas, premios que motivan y avisos directos a su móvil."],
     formas:["Formas dietéticas", "Tus reglas: ajuste calórico, proteína, grasa, comidas al día y exclusiones."],
     alimentos:["Alimentos", "Tu cuaderno de alimentos. La app solo propone lo que esté aquí."],
+    compras:["Lista de compra", "La compra de cada socio sale sola de su plan: en libras, por secciones y lista para el supermercado."],
     marca:["Tu marca", "Nombre, logo, color y estilo de la app que reciben tus socios."]
   }[S.tab] || ["",""];
   $("#coach").innerHTML = `
@@ -992,7 +1162,7 @@ function renderCoach(){
         <p>${esc(HEAD[1])}</p>
       </div>
       <div class="coach-body" id="coachBody">${
-        S.tab === "resumen" ? resumen() : S.tab === "socios" ? socios() : S.tab === "retos" ? retos() : S.tab === "formas" ? formas() : S.tab === "alimentos" ? alimentos() : marca()
+        S.tab === "resumen" ? resumen() : S.tab === "socios" ? socios() : S.tab === "retos" ? retos() : S.tab === "formas" ? formas() : S.tab === "alimentos" ? alimentos() : S.tab === "compras" ? compras() : marca()
       }</div>
     </div>`;
 }
@@ -1389,6 +1559,63 @@ function alimentos(){
   </div>`;
 }
 
+/* ---- Lista de compra ---- */
+let prevPer = "week"; // periodo de la vista previa del coach: no se guarda ni cambia el de la app del socio
+function compras(){
+  const c = curClient();
+  return `<div class="split">
+    <aside class="list">
+      <div class="list-head"><span>Socios</span></div>
+      <div class="list" id="clientList">${clientList()}</div>
+    </aside>
+    <div class="editor">
+      ${c ? `<div class="editor" id="buyOut">${comprasOut(c)}</div>` : `<div class="empty"><b>Aún no hay socios</b><span>Crea uno en la pestaña «Socios» y su lista de compra aparecerá aquí.</span></div>`}
+      ${buyEditor()}
+    </div>
+  </div>`;
+}
+// Lista del socio elegido, con lo que ya ha comprado en su app.
+function comprasOut(c){
+  const L = curShop(c, prevPer), nm = esc(firstName(c.name));
+  if(!L) return `<div class="empty"><b>${nm} aún no tiene plan</b><span>Asígnale una forma dietética en «Socios» y su lista de compra aparecerá aquí.</span></div>`;
+  const done = shopDone(c, L), month = L.per === "month";
+  const row = x => `<div class="brow${done.has(x.k) ? " on" : ""}"><span class="bk">${icon("check")}</span><span class="bn"><span>${esc(x.name)}</span><small>${esc(x.sub)}</small></span><b>${esc(x.txt)}</b></div>`;
+  return `<div class="ocard hero">
+      <h4>Lista de compra de ${nm} · ${month ? "mes" : "semana"}</h4>
+      <div class="weekgoal" style="justify-content:space-between;align-items:center">
+        <span class="big num">${done.size} de ${L.n} <small>comprado${L.n === 1 ? "" : "s"}</small></span>
+        <span class="mini-seg" role="group" aria-label="Vista previa de la lista">${[["week","Semana"],["month","Mes"]].map(([k,l]) => `<button data-action="prev-per" data-k="${k}" aria-pressed="${L.per === k}">${l}</button>`).join("")}</span>
+      </div>
+      <p class="note">${month ? "Su semana × 4; lo fresco, con la cantidad de una semana." : "Su plan de hoy repetido 7 días."} Cantidades en crudo y redondeadas hacia arriba. Cambiar aquí entre semana y mes es solo una vista previa: ${nm} tiene su app en modo ${c.shop.per === "month" ? "mes" : "semana"}.</p>
+      <div class="actions">
+        <button class="btn primary" data-action="shop-send">${icon("send")} Enviar a su móvil</button>
+        <button class="btn" data-action="shop-copy" data-who="coach">Copiar lista</button>
+        <span class="msg" id="buy-msg" role="status"></span>
+      </div>
+    </div>
+    ${L.n ? `<div class="buy-cols">${L.groups.map(g => `<div class="ocard"><h4>${g.title}</h4>${g.items.map(row).join("")}</div>`).join("")}</div>`
+      : `<div class="empty"><b>La lista está vacía</b><span>Añade alimentos compatibles con su forma dietética y aparecerán aquí.</span></div>`}`;
+}
+// Tabla para ajustar cómo se compra cada alimento del cuaderno.
+function buyEditor(){
+  if(!S.foods.length) return "";
+  const rows = S.foods.map(f => {
+    const b = ensureFood(f).buy, id = esc(f.id), nm = esc(f.name);
+    return `<tr>
+      <td><label class="bl"><small>${nm}</small><input data-buy="n" data-id="${id}" value="${esc(b.n)}" placeholder="${nm}" autocomplete="off" aria-label="Nombre en la lista de ${nm}"></label></td>
+      <td><select data-buy="u" data-id="${id}" aria-label="Unidad de compra de ${nm}">${BUY_UNITS.map(([k,l]) => `<option value="${k}"${b.u === k ? " selected" : ""}>${l}</option>`).join("")}</select></td>
+      <td class="n"><input class="num-in" type="number" inputmode="decimal" min="1" step="1" data-buy="y" data-id="${id}" value="${esc(b.y)}" aria-label="Gramos en crudo por 100 g cocidos de ${nm}"></td>
+      <td class="n"><input class="num-in" type="number" inputmode="decimal" min="1" step="1" data-buy="ug" data-id="${id}" value="${esc(b.ug ?? "")}" placeholder="—" aria-label="Gramos por unidad de ${nm}"></td>
+      <td class="c"><input type="checkbox" data-buy="fr" data-id="${id}"${b.fr ? " checked" : ""} aria-label="${nm} es fresco"></td>
+    </tr>`;
+  }).join("");
+  return `<div>
+    <div class="sec-title">Ajustar cómo se compra cada alimento</div>
+    <div class="tbl-wrap"><table class="buy-tbl"><thead><tr><th>Alimento del plan y nombre en la lista</th><th>Unidad</th><th class="n">Crudo por<br>100 g cocidos</th><th class="n">Gramos<br>por unidad</th><th class="c">Fresco</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="note" style="margin-top:9px">«Crudo por 100 g cocidos» es lo que hay que comprar para que salgan 100 g en el plato: 135 g de pechuga cruda o 38 g de arroz (en mililitros, los ml por cada 100 g). Dos alimentos con el mismo nombre se suman en una sola línea. Para comprar por unidades indica cuántos gramos trae cada una; sin ese dato se compra por libras. Los frescos se compran cada semana aunque la lista sea del mes.</p>
+  </div>`;
+}
+
 /* ---- Marca ---- */
 function marca(){
   const b = S.brand;
@@ -1426,6 +1653,8 @@ function renderApp(){
   const t = tplOf(c), o = calc(c, t), plan = buildPlan(c, t, o);
   el.innerHTML = S.ptab === "plan" ? appPlan(c,t,o,plan) : S.ptab === "retos" ? appRetos(c,o) : S.ptab === "progreso" ? appProg(c,t,o) : S.ptab === "perfil" ? appPerfil(c,t,o) : appHome(c,t,o,plan);
   if(anim){ el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter"); clearTimeout(renderApp.t); renderApp.t = setTimeout(() => el.classList.remove("enter"), 1300); }
+  // El coach ve en vivo la lista del socio y lo que va marcando como comprado.
+  if(S.tab === "compras"){ const out = $("#buyOut"); if(out) out.innerHTML = comprasOut(c); }
 }
 function greet(){ const h = new Date().getHours(); return h < 12 ? "Buenos días" : h < 19 ? "Buenas tardes" : "Buenas noches"; }
 function eaten(c, plan){
@@ -1494,7 +1723,7 @@ function appHome(c,t,o,plan){
       <button class="btn-app" data-action="ck-open">Hacer mi check-in</button>
     </div>` : ""}
     ${plan ? `<div class="hero">
-      <div class="hero-h"><span class="a-label">Hoy</span><button class="link" data-ptab="plan">Ver plan ${icon("chev")}</button></div>
+      <div class="hero-h"><span class="a-label">Hoy</span><button class="link" data-action="menu-open">Ver plan ${icon("chev")}</button></div>
       <div class="rings-row">
         <div class="rings">${rings([{pct:kPct,color:"var(--brand)"},{pct:pPct,color:"var(--c-pro)"},{pct:adh,color:"var(--c-ret)"}], 156, 12, 3)}
           <div class="rings-c"><b class="num" style="--ch:${left.length}">${left}</b><span>kcal<br>restantes</span></div></div>
@@ -1507,7 +1736,8 @@ function appHome(c,t,o,plan){
     </div>` : `<div class="a-empty"><b>Tu plan está en preparación</b><span>Tu coach está configurando tu forma dietética.</span></div>`}
     <div class="qa">
       <button data-action="checkin"><span class="qi">${icon("qr")}</span>Check-in</button>
-      <button data-ptab="plan"><span class="qi">${icon("utensil")}</span>Comidas</button>
+      <button data-action="menu-open"><span class="qi">${icon("utensil")}</span>Comidas</button>
+      <button data-action="shop-open"><span class="qi">${icon("cart")}</span>Compra</button>
       <button data-ptab="retos"><span class="qi">${icon("star")}</span>Retos</button>
       <button data-action="friend"><span class="qi">${icon("share")}</span>Invitar</button>
     </div>
@@ -1536,11 +1766,36 @@ function appHome(c,t,o,plan){
       <div class="trow-a"><span>6:00</span><span>${best ? `Mejor hora hoy: ${best.h}:00` : "14:00"}</span><span>22:00</span></div>
     </div>`;
 }
+// Conmutador de la pantalla Plan: menú de hoy o lista de compra.
+function planSeg(){
+  const cur = S.pseg === "shop" ? "shop" : "menu";
+  return `<div class="aseg" role="group" aria-label="Qué quieres ver">${[["menu","Menú de hoy","utensil"],["shop","Lista de compra","cart"]].map(([k,l,ic]) => `<button data-action="pseg" data-k="${k}" aria-pressed="${cur === k}">${icon(ic)}${l}</button>`).join("")}</div>`;
+}
+// Lista de compra del socio: periodo, progreso, productos por sección con su check y acciones.
+function appShop(c, plan){
+  const L = shopList(c, plan, c.shop.per), done = shopDone(c, L), month = L.per === "month", full = L.n > 0 && done.size === L.n;
+  const row = x => `<button class="srow" data-action="shop-chk" data-k="${esc(x.k)}" aria-pressed="${done.has(x.k)}">
+      <span class="sbox">${icon("check")}</span><span class="sname"><span>${esc(x.name)}</span><small>${esc(x.sub)}</small></span><span class="sqty">${esc(x.txt)}</span></button>`;
+  return `<div><div class="a-title">Lista de compra</div><div class="a-sub">Sale de tu plan, en libras y lista para el supermercado</div></div>
+  ${planSeg()}
+  <div class="shop-top"><span class="a-label">Comprar para</span><div class="aseg sm" role="group" aria-label="Periodo de la compra">${[["week","Semana"],["month","Mes"]].map(([k,l]) => `<button data-action="shop-per" data-k="${k}" aria-pressed="${L.per === k}">${l}</button>`).join("")}</div></div>
+  <div class="kband"><div><span>${month ? "Compra del mes" : "Compra de la semana"}</span><br><b class="num">${done.size}</b> <span>de ${L.n} producto${L.n === 1 ? "" : "s"}</span></div>${ring1(L.n ? done.size/L.n : 0, "var(--brand)", 52, 6)}</div>
+  ${full ? `<div class="card shop-done"><b>¡Compra completa!</b><span>Ya tienes todo para ${month ? "tu mes" : "tu semana"}.</span></div>` : ""}
+  ${L.n ? L.groups.map(g => `<div class="sgroup${g.id === "frescos" ? " fresh" : ""}"><h4><span>${g.title}</span><span class="num">${g.items.filter(x => done.has(x.k)).length}/${g.items.length}</span></h4>${g.items.map(row).join("")}</div>`).join("") +
+    `<div class="plan-actions">
+      <button class="btn-app" data-action="shop-copy">Copiar lista</button>
+      <button class="btn-app ghost" data-action="shop-clear">Desmarcar todo</button>
+    </div>
+    <p class="note" id="shop-hint" style="color:var(--a-muted);text-align:center">${month ? "Tu semana × 4, en crudo y redondeado hacia arriba. Lo fresco se compra cada semana." : "Tu plan de hoy repetido 7 días, en crudo y redondeado hacia arriba."}</p>`
+    : `<div class="a-empty"><b>Tu lista está en preparación</b><span>Aparecerá aquí cuando tu plan tenga sus alimentos.</span></div>`}`;
+}
 function appPlan(c,t,o,plan){
   if(!plan) return `<div><div class="a-title">Plan de hoy</div></div><div class="a-empty"><b>Sin forma dietética asignada</b><span>Tu coach la asignará pronto.</span></div>`;
+  if(S.pseg === "shop") return appShop(c, plan);
   const d = doneSet(c), e = eaten(c, plan);
   const mt = (label, val, target, col) => `<div class="mtile"><span>${label}</span><b class="num">${fmt(val)}<small> / ${fmt(target)} g</small></b><div class="pbar"><i style="width:${target ? clamp(val/target,0,1)*100 : 0}%;background:${col}"></i></div></div>`;
   return `<div><div class="a-title">Plan de hoy</div><div class="a-sub">${esc(t.name)} · ${t.meals} comidas${plan.meals.some(m => m.reward) ? " + premio" : ""}</div></div>
+  ${planSeg()}
   <div class="kband"><div><span>Consumido</span><br><b class="num">${fmt(e.k)}</b> <span>/ ${fmt(o.kcal)} kcal</span></div>${ring1(o.kcal ? e.k/o.kcal : 0, "var(--brand)", 52, 6)}</div>
   <div class="sumrow">${mt("Proteína", e.p, o.P, "var(--c-pro)")}${mt("Carbos", e.c, o.C, "var(--c-carb)")}${mt("Grasa", e.f, o.F, "var(--c-fat)")}</div>
   ${c.allergens.length ? `<div class="al-row"><span class="al-l">Sin</span>${c.allergens.map(a => `<span class="al">${AL[a]}</span>`).join("")}</div>` : ""}
@@ -1558,7 +1813,7 @@ function appPlan(c,t,o,plan){
   <p class="note" style="color:var(--a-muted);text-align:center">Toca un alimento para cambiarlo por otro equivalente.</p>
   <div class="plan-actions">
     <button class="btn-app ghost" data-action="reroll">${icon("swap")} Otra combinación</button>
-    <button class="btn-app ghost" data-action="shop-open">${icon("cart")} Lista de compras</button>
+    <button class="btn-app ghost" data-action="shop-open">${icon("cart")} Lista de compra</button>
   </div>
   ${t.note ? `<div class="coachmsg">${avatar(S.brand.coach,"sm")}<div class="bubble"><b>Nota de ${esc(S.brand.coach)}</b>${esc(t.note)}</div></div>` : ""}`;
 }
@@ -1868,22 +2123,6 @@ function openSwap(mi, ii){
     <button class="btn-app" style="width:100%" data-action="close-modal">Cerrar</button>`);
 }
 
-/* ---- Lista de compras ---- */
-let shopText = "";
-function openShop(){
-  const c = curClient(); if(!c) return;
-  const t = tplOf(c), plan = buildPlan(c, t, calc(c, t)); if(!plan) return;
-  const sum = new Map();
-  plan.meals.forEach(m => m.items.forEach(x => sum.set(x.f, (sum.get(x.f) || 0) + x.g*7)));
-  const qty = g => g >= 1000 ? fmt(g/1000, 1) + " kg" : fmt(g) + " g";
-  const groups = CATS.map(([k,l]) => [l, [...sum].filter(([f]) => f.cat === k)]).filter(g => g[1].length);
-  shopText = `Lista de compras · 7 días · ${S.brand.name}\n\n` + groups.map(([l, list]) => l.toUpperCase() + "\n" + list.map(([f,g]) => `- ${f.name}: ${qty(g)}`).join("\n")).join("\n\n");
-  openSheet(`<b style="font-size:17px">Lista de compras · 7 días</b>
-    <div class="shop">${groups.map(([l, list]) => `<div><div class="sec-title">${l}</div><ul class="ing">${list.map(([f,g]) => `<li><span>${esc(f.name)}</span><span>${qty(g)}</span></li>`).join("")}</ul></div>`).join("")}</div>
-    <p class="note" id="shop-hint" style="text-align:center">Cantidades ya cocidas, según tu plan de hoy repetido 7 días.</p>
-    <div class="sheet-actions"><button class="btn-app" data-action="shop-copy">Copiar lista</button><button class="btn-app ghost" data-action="close-modal">Cerrar</button></div>`);
-}
-
 /* ===================== Render global ===================== */
 function renderTop(){
   $("#layout").dataset.view = S.view;
@@ -1977,11 +2216,42 @@ document.addEventListener("click", (ev) => {
       if(a.dataset.f) sw[k] = a.dataset.f; else delete sw[k];
       $("#modal").innerHTML = ""; renderApp(); save(); showToast("Plan actualizado"); return;
     }
-    case "shop-open": openShop(); return;
+    /* ---- Lista de compra (socio y coach) ---- */
+    case "menu-open": S.ptab = "plan"; S.pseg = "menu"; renderApp(); $("#app").scrollTop = 0; save(); return;
+    case "shop-open": S.ptab = "plan"; S.pseg = "shop"; renderApp(); $("#app").scrollTop = 0; save(); return;
+    case "pseg": S.pseg = a.dataset.k === "shop" ? "shop" : "menu"; renderApp(); $("#app").scrollTop = 0; save(); return;
+    case "shop-per": if(!c) return; c.shop.per = a.dataset.k === "month" ? "month" : "week"; renderApp(); save(); return;
+    case "shop-chk": {
+      if(!c) return; const L = curShop(c); if(!L) return;
+      const done = shopDone(c, L), k = a.dataset.k, before = done.size;
+      done.has(k) ? done.delete(k) : done.add(k);
+      // Solo se guardan los checks del plan actual: los de un plan anterior se descartan.
+      Object.keys(c.shop.chk).forEach(x => { if(!x.startsWith(L.sig + ":")) delete c.shop.chk[x]; });
+      c.shop.chk[L.key] = [...done]; buzz(); renderApp(); save();
+      if(done.size === L.n && before < L.n){ showToast("¡Compra completa!", true); confetti(); }
+      return;
+    }
+    case "shop-clear": {
+      if(!c) return; const L = curShop(c); if(!L) return;
+      delete c.shop.chk[L.key]; renderApp(); save(); showToast("Lista desmarcada"); return;
+    }
     case "shop-copy": {
-      const hint = $("#shop-hint"), set = t => { if(hint) hint.textContent = t; };
-      try{ navigator.clipboard.writeText(shopText).then(() => set("Lista copiada. Pégala en tus notas o en WhatsApp."), () => set("No se pudo copiar aquí. Selecciona la lista y cópiala a mano.")); }
-      catch(e){ set("No se pudo copiar aquí. Selecciona la lista y cópiala a mano."); }
+      if(!c) return; const coach = a.dataset.who === "coach", L = curShop(c, coach ? prevPer : null); if(!L) return;
+      const el = $(coach ? "#buy-msg" : "#shop-hint"), say = t => { if(el) el.textContent = t; };
+      const ok = () => { say("Lista copiada. Pégala en tus notas o en WhatsApp."); if(!coach) showToast("Lista copiada"); };
+      const ko = () => say("No se pudo copiar aquí. Selecciona la lista y cópiala a mano.");
+      try{ navigator.clipboard.writeText(shopText(L)).then(ok, ko); }catch(e){ ko(); }
+      return;
+    }
+    // Vista previa del coach: cambia entre semana y mes sin guardar ni tocar la app del socio.
+    case "prev-per": { prevPer = a.dataset.k === "month" ? "month" : "week"; const out = $("#buyOut"); if(out && c) out.innerHTML = comprasOut(c); return; }
+    case "shop-send": {
+      if(!c) return; const L = curShop(c); if(!L) return;
+      const text = `Tu lista de compra ya está lista: ${L.n} producto${L.n === 1 ? "" : "s"} para ${L.per === "month" ? "tu mes" : "tu semana"}. Ábrela en Plan › Lista de compra.`;
+      c.notes.push({id:"n"+uid(), text, ts:Date.now(), read:false});
+      if(window.innerWidth < 1080){ S.view = "app"; renderTop(); window.scrollTo({top:0, behavior:"smooth"}); }
+      renderApp(); showPush(text); save();
+      const m = $("#buy-msg"); if(m){ m.className = "msg ok"; m.textContent = `Enviado al móvil de ${firstName(c.name)}.`; }
       return;
     }
     case "sel-client": S.sel = a.dataset.id; S.ptab = S.ptab || "inicio"; renderCoach(); renderApp(); flashPhone(); save(); return;
@@ -2000,7 +2270,7 @@ document.addEventListener("click", (ev) => {
       c.allergens = c.allergens.includes(k) ? c.allergens.filter(x => x !== k) : [...c.allergens, k];
       a.setAttribute("aria-pressed", c.allergens.includes(k)); refreshLive(); return;
     }
-    case "view-app": S.view = "app"; S.ptab = "plan"; renderTop(); renderApp(); flashPhone(); save(); if(window.innerWidth < 1080) window.scrollTo({top:0,behavior:"smooth"}); return;
+    case "view-app": S.view = "app"; S.ptab = "plan"; S.pseg = "menu"; renderTop(); renderApp(); flashPhone(); save(); if(window.innerWidth < 1080) window.scrollTo({top:0,behavior:"smooth"}); return;
     case "sel-tpl": S.selT = a.dataset.id; renderCoach(); save(); return;
     case "new-tpl": {
       const id = "t" + uid();
@@ -2027,7 +2297,7 @@ document.addEventListener("click", (ev) => {
       if(vals.some(x => !Number.isFinite(x) || x < 0)){ msg.className = "msg err"; msg.textContent = "Completa calorías, proteína, carbohidratos y grasa (0 o más)."; return; }
       const [k,p,cc,f] = vals; const est = p*4 + cc*4 + f*9;
       const al = [...document.querySelectorAll("#nf-al [aria-pressed='true']")].map(b => b.dataset.k);
-      S.foods.unshift({id:"f"+uid(),name,cat:$("#nf-cat").value,origin:$("#nf-origin").value,k,p,c:cc,f,allergens:al,d:$("#nf-d").value === "1"});
+      S.foods.unshift(ensureFood({id:"f"+uid(),name,cat:$("#nf-cat").value,origin:$("#nf-origin").value,k,p,c:cc,f,allergens:al,d:$("#nf-d").value === "1"}));
       renderCoach(); renderApp(); save();
       const m2 = $("#nf-msg");
       if(k > 0 && Math.abs(est - k)/k > .15){ m2.className = "msg err"; m2.textContent = `Añadido. Ojo: los macros suman ${fmt(est)} kcal y declaraste ${fmt(k)}. Revisa los valores.`; }
@@ -2040,7 +2310,7 @@ document.addEventListener("click", (ev) => {
       S.foods = []; S.templates = []; S.selT = null; S.clients.forEach(x => x.tpl = ""); renderCoach(); renderApp(); save(); return;
     }
     case "examples": {
-      const have = new Set(S.foods.map(f => f.id)); seedFoods().forEach(f => { if(!have.has(f.id)) S.foods.push(f); });
+      const have = new Set(S.foods.map(f => f.id)); seedFoods().forEach(f => { if(!have.has(f.id)) S.foods.push(ensureFood(f)); });
       const haveT = new Set(S.templates.map(t => t.id)); seedTemplates().forEach(t => { if(!haveT.has(t.id)) S.templates.push(t); });
       if(!S.selT) S.selT = S.templates[0]?.id;
       S.clients.forEach(x => { if(!x.tpl){ const orig = seedClients().find(s => s.id === x.id); x.tpl = orig ? orig.tpl : S.templates[0].id; } });
@@ -2149,6 +2419,15 @@ document.addEventListener("click", (ev) => { const b = ev.target.closest(".sheet
 
 document.addEventListener("input", (ev) => {
   const el = ev.target;
+  // Lista de compra: el coach ajusta cómo se compra un alimento y la lista del socio cambia al instante.
+  if(el.dataset.buy){
+    const f = S.foods.find(x => x.id === el.dataset.id); if(!f) return; const b = ensureFood(f).buy, k = el.dataset.buy;
+    if(k === "n") b.n = el.value;
+    else if(k === "u"){ if(BUY_UNITS.some(([u]) => u === el.value)) b.u = el.value; }
+    else if(k === "fr") b.fr = el.checked;
+    else { const v = parseFloat(el.value); if(k === "ug") b.ug = v > 0 ? v : null; else if(v > 0) b.y = v; else return; }
+    renderApp(); save(); return; // renderApp también refresca la lista en el panel del coach
+  }
   if(el.dataset.field){
     const c = curClient(); if(!c) return; const k = el.dataset.field;
     if(["name","sex","tpl"].includes(k)) c[k] = el.value;
