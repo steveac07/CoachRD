@@ -22,6 +22,7 @@ La vende el gimnasio a sus socios; el coach define alimentos, formas dietéticas
 - Tarjeta para redes: por defecto no muestra el peso, solo el cambio.
 - Textos de la interfaz en español dominicano neutro y en positivo.
 - Cada cambio de esquema es una migración nueva en `supabase/migrations/`; nunca se edita una ya aplicada.
+- Lista de compra: se calcula por código sumando el menú de 7 días (el mes es la semana × 4). Convierte gramos cocidos a crudo con el rendimiento de cada alimento, agrupa por nombre de compra y redondea hacia arriba: cuartos de libra, unidades enteras, 50 g, 25 ml. Los frescos se compran cada semana. El premio del día no entra.
 
 ## Referencias
 - `referencia/coachrd-demo.html`: demo aprobada. Fuente de verdad para diseño, flujos, cálculos y generador de planes.
