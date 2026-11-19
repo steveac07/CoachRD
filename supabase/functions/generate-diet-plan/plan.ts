@@ -79,10 +79,18 @@ export function mealTargets(daily: Macros, slots: readonly SlotId[]): MealTarget
 // Catálogo permitido
 // ---------------------------------------------------------------------------
 
-/** Quita del catálogo los alimentos excluidos para el socio. Se aplica ANTES de llamar a la IA. */
-export function allowedFoods(foods: readonly Food[], excludedIds: readonly string[]): Food[] {
-  const excluded = new Set(excludedIds);
-  return foods.filter((food) => !excluded.has(food.id));
+/**
+ * Quita del catálogo los alimentos que el socio tiene excluidos y los de los orígenes que excluye su
+ * forma dietética (p. ej. carne en «Vegetariana»). Se aplica ANTES de llamar a la IA.
+ */
+export function allowedFoods(
+  foods: readonly Food[],
+  excludedIds: readonly string[],
+  excludedOrigins: readonly string[] = [],
+): Food[] {
+  const ids = new Set(excludedIds);
+  const origins = new Set(excludedOrigins);
+  return foods.filter((food) => !ids.has(food.id) && !origins.has(food.origin));
 }
 
 // ---------------------------------------------------------------------------

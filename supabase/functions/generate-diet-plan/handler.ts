@@ -28,6 +28,8 @@ export interface ClientContext {
   goal: string;
   mealsPerDay: number;
   excludedFoodIds: string[];
+  /** Orígenes que excluye la forma dietética asignada (vacío si no tiene). */
+  excludedOrigins: string[];
   consentAt: string | null;
   /** Objetivos que fija el coach. Null si aún no los ha fijado. */
   targets: Macros | null;
@@ -115,7 +117,7 @@ async function generate(req: Request, deps: HandlerDeps): Promise<Response> {
   }
 
   // 6. Catálogo permitido: las exclusiones se quitan ANTES de llamar a la IA
-  const catalog = allowedFoods(await deps.loadActiveFoods(), client.excludedFoodIds);
+  const catalog = allowedFoods(await deps.loadActiveFoods(), client.excludedFoodIds, client.excludedOrigins);
   if (catalog.length === 0) return json(409, { error: 'empty_catalog' });
   const foodIds = catalog.map((food) => food.id);
 

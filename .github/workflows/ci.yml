@@ -23,6 +23,9 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run test:ci
+      # El cálculo de objetivos se prueba contra calc() de la demo: si la demo cambia, hay que regenerarlo.
+      - name: Los resultados esperados coinciden con la demo actual
+        run: npm run golden:demo && git diff --exit-code -- lib/nutrition/__tests__/demo-calc.golden.json
 
   functions:
     name: Edge Functions (Deno)
@@ -52,6 +55,8 @@ jobs:
       - run: npm ci
       # Aplica todas las migraciones, en orden, sobre una base de datos vacía.
       - run: npm run db:start
+      # Tests de RLS y funciones SQL (pgTAP) en supabase/tests/
+      - run: npm run db:test
       # Si alguien cambia una migración y no regenera los tipos, el job falla.
       - run: npm run gen:types:local
       - name: Los tipos de la app y de las Edge Functions coinciden con las migraciones
