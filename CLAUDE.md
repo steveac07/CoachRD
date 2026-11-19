@@ -24,6 +24,9 @@ La vende el gimnasio a sus socios; el coach define alimentos, formas dietéticas
 - Generar un plan lo pide el coach para un socio suyo (`is_coach_of`), nunca el socio.
 - Alérgenos y exclusiones se filtran por código antes de llamar a la IA y se comprueban después.
 - Los planes generados nacen como `draft` y el socio solo ve los `approved` (lo impone RLS).
+- El contenido de `diet_plans` solo lo escribe la Edge Function (service_role): la app no tiene INSERT/UPDATE/DELETE.
+  El coach cambia el estado con la RPC `review_diet_plan` (solo `draft` → `approved`/`rejected`). Hay un único
+  `approved` por socio (índice único): al aprobar otro, el anterior pasa a `archived`.
 - Datos de salud: exigir consentimiento (`consent_health_data_at`, Ley 172-13 de RD) antes de guardarlos.
 - Retos: las estrellas se ganan por hábitos, nunca por el peso. Meta semanal: máximo 1 % del peso al bajar y 0,5 % al subir.
 - Premios de comida: el plan del día reserva sus calorías y ajusta carbohidrato y grasa; la proteína no se toca.
@@ -37,8 +40,8 @@ La vende el gimnasio a sus socios; el coach define alimentos, formas dietéticas
 - `referencia/coachrd-demo.html`: demo aprobada. Fuente de verdad para diseño, flujos, cálculos y generador de planes.
 - `supabase/migrations/20261101000000_init.sql`: esquema inicial. En producción se aplicó desde el SQL Editor,
   así que en el historial remoto se marca con `npx supabase migration repair --status applied 20261101000000`.
-- `app/login.tsx` y `app/coach/`: panel del coach (lista de socios y ficha con cálculo en vivo, guardar objetivos y generar
-  plan). La lógica está en `lib/coach/` (pura y probada) y la interfaz en `components/coach/`, con la paleta de la demo
+- `app/login.tsx` y `app/coach/`: panel del coach (lista de socios, ficha con cálculo en vivo, guardar objetivos y generar
+  plan, y `plan/[planId]` para revisar el borrador y aprobarlo o rechazarlo). La lógica está en `lib/coach/` (pura y probada) y la interfaz en `components/coach/`, con la paleta de la demo
   en `tailwind.config.js`.
 - `supabase/functions/generate-diet-plan/`: Edge Function (Deno) que genera el borrador del plan. `plan.ts` es lógica pura
   (comidas, validación y macros), `ai.ts` el adaptador de Claude, `handler.ts` el HTTP con dependencias inyectadas

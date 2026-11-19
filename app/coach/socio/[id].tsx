@@ -1,11 +1,11 @@
 // Ficha del socio: valoración del coach, cálculo en vivo (reglas de la demo), guardar objetivos y
 // generar el borrador del plan con la Edge Function.
-import { Stack, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Link, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useCallback, useMemo, useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 import { TargetsPanel } from '@/components/coach/TargetsPanel';
-import { Body, Button, Card, Choice, Heading, Loading, Notice, Pill, Row, Screen, NumberField } from '@/components/coach/ui';
+import { Body, Button, Card, Choice, Heading, LinkButton, Loading, Notice, NumberField, Pill, Row, Screen } from '@/components/coach/ui';
 import {
   type ClientDetail,
   fetchClientDetail,
@@ -28,16 +28,11 @@ import {
   validateDraft,
 } from '@/lib/coach/assessment';
 import { draftReadyMessage } from '@/lib/coach/generateMessages';
+import { PLAN_STATUS } from '@/lib/coach/planReview';
 import { ACTIVITY_LABELS, fmt, isActivityLevel } from '@/lib/nutrition/targets';
 import { useCoach } from '@/providers/CoachProvider';
 
 const FIELD_ORDER: readonly DraftField[] = ['bodyFatPct', 'targetBodyFatPct', 'leanGainKg', 'weeks', 'kcalAdjust'];
-
-const PLAN_STATUS = {
-  draft: { label: 'Borrador', level: 'warn' },
-  approved: { label: 'Aprobado', level: 'good' },
-  rejected: { label: 'Rechazado', level: 'bad' },
-} as const;
 
 type Message = { level: 'good' | 'warn' | 'bad'; text: string } | null;
 
@@ -76,9 +71,12 @@ export default function ClientScreen() {
     }
   }, [id, coach.user_id]);
 
-  useEffect(() => {
-    void load();
-  }, [load]);
+  // Al volver de revisar un plan, la ficha se actualiza (estado de los planes recientes).
+  useFocusEffect(
+    useCallback(() => {
+      void load();
+    }, [load]),
+  );
 
   const validation = useMemo(() => (draft ? validateDraft(draft) : null), [draft]);
   const form = forms.find((f) => f.id === draft?.dietFormId) ?? null;
@@ -229,6 +227,13 @@ export default function ClientScreen() {
             <View className="flex-row flex-wrap gap-2">
               <Button label="Guardar objetivos" onPress={save} busy={saving} disabled={!canSave} />
               <Button label="Generar plan" variant="secondary" onPress={generate} busy={generating} disabled={!canGenerate} />
+              {lastPlan ? (
+                <LinkButton
+                  label="Revisar borrador"
+                  variant="primary"
+                  href={{ pathname: '/coach/plan/[planId]', params: { planId: lastPlan.planId } }}
+                />
+              ) : null}
             </View>
           </Card>
 
@@ -237,10 +242,19 @@ export default function ClientScreen() {
               {detail.plans.map((plan) => {
                 const status = PLAN_STATUS[plan.status];
                 return (
-                  <View key={plan.id} className="flex-row flex-wrap items-center justify-between gap-2">
-                    <Text className="text-sm text-ink dark:text-ink-dark">{dateTime(plan.created_at)}</Text>
-                    <Pill level={status.level}>{status.label}</Pill>
-                  </View>
+                  <Link key={plan.id} href={{ pathname: '/coach/plan/[planId]', params: { planId: plan.id } }} asChild>
+                    <Pressable
+                      accessibilityRole="link"
+                      accessibilityLabel={`${plan.status === 'draft' ? 'Revisar' : 'Ver'} el plan del ${dateTime(plan.created_at)}`}
+                      className="min-h-11 flex-row flex-wrap items-center justify-between gap-2 rounded-xl px-1 active:bg-surface2 dark:active:bg-surface2-dark"
+                    >
+                      <Text className="text-sm text-ink dark:text-ink-dark">{dateTime(plan.created_at)}</Text>
+                      <View className="flex-row items-center gap-2">
+                        <Pill level={status.level}>{status.label}</Pill>
+                        <Text className="text-sm font-semibold text-brand">{plan.status === 'draft' ? 'Revisar ›' : 'Ver ›'}</Text>
+                      </View>
+                    </Pressable>
+                  </Link>
                 );
               })}
             </Card>

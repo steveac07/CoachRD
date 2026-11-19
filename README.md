@@ -39,6 +39,8 @@ elige la forma dietética. El cálculo se ve en vivo con las reglas de la demo (
 
 1. **Guardar objetivos**: guarda la valoración y los objetivos juntos (RPC `save_coach_assessment`).
 2. **Generar plan**: llama a la Edge Function `generate-diet-plan` y deja el borrador en `diet_plans`.
+3. **Revisar borrador** (`/coach/plan/<id>`): comidas, alimentos, gramos y macros frente al objetivo. **Aprobar plan**
+   lo hace visible para el socio (el aprobado anterior se archiva); **Rechazar** lo descarta. Las dos aceptan una nota.
 
 Si el coach aún no tiene formas dietéticas, la lista ofrece crear las cuatro de la demo con un botón.
 

@@ -1,7 +1,9 @@
 // Piezas de interfaz del panel del coach, con la paleta de la demo aprobada.
+import { type Href, Link } from 'expo-router';
 import type { ReactNode } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 
+import type { StatusLevel } from '@/lib/coach/planReview';
 import type { Level } from '@/lib/nutrition/targets';
 
 export function Screen({ children }: { children: ReactNode }) {
@@ -59,13 +61,14 @@ export function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-const PILL: Record<Level, string> = {
+const PILL: Record<StatusLevel, string> = {
+  neutral: 'bg-muted/10 text-muted dark:text-muted-dark',
   good: 'bg-good/10 text-good dark:text-good-dark',
   warn: 'bg-warn/10 text-warn dark:text-warn-dark',
   bad: 'bg-bad/10 text-bad dark:text-bad-dark',
 };
 
-export function Pill({ level, children }: { level: Level; children: ReactNode }) {
+export function Pill({ level, children }: { level: StatusLevel; children: ReactNode }) {
   return (
     <Text className={`self-start overflow-hidden rounded-full px-2.5 py-0.5 text-xs font-semibold ${PILL[level]}`}>
       {children}
@@ -117,6 +120,22 @@ export function Button({
         {label}
       </Text>
     </Pressable>
+  );
+}
+
+/** Enlace con aspecto de botón (navega con Expo Router). */
+export function LinkButton({ label, href, variant = 'secondary' }: { label: string; href: Href; variant?: 'primary' | 'secondary' }) {
+  const look = variant === 'primary'
+    ? 'bg-brand active:opacity-80'
+    : 'border border-line bg-surface active:bg-surface2 dark:border-line-dark dark:bg-surface-dark';
+  return (
+    <Link href={href} asChild>
+      <Pressable accessibilityRole="link" className={`min-h-11 items-center justify-center rounded-xl px-4 py-2.5 ${look}`}>
+        <Text className={`text-base font-semibold ${variant === 'primary' ? 'text-white' : 'text-ink dark:text-ink-dark'}`}>
+          {label}
+        </Text>
+      </Pressable>
+    </Link>
   );
 }
 
