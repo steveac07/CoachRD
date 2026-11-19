@@ -24,6 +24,22 @@ jobs:
       - run: npm run lint
       - run: npm run test:ci
 
+  functions:
+    name: Edge Functions (Deno)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      # Deno llega como devDependency (npm) para usar la misma versión en Windows y en el CI.
+      - run: npm ci
+      - run: npm run fn:check
+      - run: npm run fn:lint
+      - run: npm run fn:fmt
+      - run: npm run fn:test
+
   database:
     name: Migraciones y tipos de Supabase
     runs-on: ubuntu-latest
@@ -38,5 +54,5 @@ jobs:
       - run: npm run db:start
       # Si alguien cambia una migración y no regenera los tipos, el job falla.
       - run: npm run gen:types:local
-      - name: types/database.ts coincide con las migraciones
-        run: git diff --exit-code -- types/database.ts
+      - name: Los tipos de la app y de las Edge Functions coinciden con las migraciones
+        run: git diff --exit-code -- types/database.ts supabase/functions/_shared/database.types.ts
