@@ -1,5 +1,5 @@
 # Netlify publica la demo aprobada como página de inicio.
-# Solo se copia el HTML: ni las migraciones ni la Edge Function de referencia/ se publican.
+# Solo se copia el HTML: ni las migraciones ni las Edge Functions (supabase/) se publican.
 #
 # Cuando la app Expo sustituya a la demo, cambia a:
 #   command = "npx expo export -p web"

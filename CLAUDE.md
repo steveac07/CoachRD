@@ -14,6 +14,8 @@ La vende el gimnasio a sus socios; el coach define alimentos, formas dietéticas
 - Instala dependencias con `npx expo install`, no con `npm install`, para respetar las versiones del SDK.
 - En la app solo existen `EXPO_PUBLIC_SUPABASE_URL` y la clave publishable/anon. Nunca `service_role` ni `ANTHROPIC_API_KEY` en el cliente: todo lo `EXPO_PUBLIC_` acaba en el bundle.
 - La IA nunca calcula macros. Elige alimentos del catálogo (enum de `foods.id`) y gramos; el código calcula y valida.
+- Los objetivos diarios (`nutrition_targets`) los fija el coach con las reglas de su forma dietética (Katch-McArdle, como la demo). La Edge Function no los calcula: sin objetivos responde `409 targets_required`.
+- Generar un plan lo pide el coach para un socio suyo (`is_coach_of`), nunca el socio.
 - Alérgenos y exclusiones se filtran por código antes de llamar a la IA y se comprueban después.
 - Los planes generados nacen como `draft` y el socio solo ve los `approved` (lo impone RLS).
 - Datos de salud: exigir consentimiento (`consent_health_data_at`, Ley 172-13 de RD) antes de guardarlos.
@@ -29,7 +31,12 @@ La vende el gimnasio a sus socios; el coach define alimentos, formas dietéticas
 - `referencia/coachrd-demo.html`: demo aprobada. Fuente de verdad para diseño, flujos, cálculos y generador de planes.
 - `supabase/migrations/20261101000000_init.sql`: esquema inicial. En producción se aplicó desde el SQL Editor,
   así que en el historial remoto se marca con `npx supabase migration repair --status applied 20261101000000`.
-- `referencia/generate-diet-plan/`: Edge Function inicial (Claude con structured outputs + macros por código).
+- `supabase/functions/generate-diet-plan/`: Edge Function (Deno) que genera el borrador del plan. `plan.ts` es lógica pura
+  (comidas, validación y macros), `ai.ts` el adaptador de Claude, `handler.ts` el HTTP con dependencias inyectadas
+  y `supabase.ts` el acceso a datos. El JSON de `diet_plans.plan` es un contrato con `lib/shopping`
+  (`fixtures/draft-plan.json`, probado en los dos lados).
+- Las Edge Functions no pueden importar fuera de `supabase/functions/`: los tipos de la base van en
+  `_shared/database.types.ts` (los escribe `npm run gen:types`) y las dependencias, con versión exacta, en `_shared/deps.ts`.
 
 ## Comandos
 - `npx expo start` (tecla `w` para web)
@@ -37,3 +44,5 @@ La vende el gimnasio a sus socios; el coach define alimentos, formas dietéticas
 - `npx expo-doctor`
 - `npm run db:start` / `npm run db:reset`: Postgres local con todas las migraciones (requiere Docker Desktop)
 - `npm run gen:types:local`: tipos desde la base local · `npm run gen:types`: desde el proyecto remoto
+- `npm run fn:check` · `npm run fn:lint` · `npm run fn:fmt` · `npm run fn:test`: Edge Functions (Deno llega por npm)
+- `npm run fn:deploy`: despliega `generate-diet-plan` (requiere `npx supabase link`)

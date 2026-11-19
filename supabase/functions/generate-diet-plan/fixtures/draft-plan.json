@@ -1,0 +1,172 @@
+{
+  "meals": [
+    {
+      "slot": "desayuno",
+      "label": "Desayuno",
+      "dish_name": "Mangú con huevo",
+      "prep_tip": "Hierve el plátano con una pizca de sal y májalo con un poco del agua de la cocción.",
+      "items": [
+        {
+          "food_id": "platano_verde_hervido",
+          "name": "Plátano verde hervido (mangú sin grasa)",
+          "grams": 200,
+          "household": "1.25 unidad",
+          "macros": {
+            "kcal": 232,
+            "protein_g": 1.6,
+            "carbs_g": 62.4,
+            "fat_g": 0.4
+          }
+        },
+        {
+          "food_id": "huevo_entero",
+          "name": "Huevo entero",
+          "grams": 100,
+          "household": "2 unidad",
+          "macros": {
+            "kcal": 143,
+            "protein_g": 12.6,
+            "carbs_g": 0.7,
+            "fat_g": 9.5
+          }
+        }
+      ],
+      "macros": {
+        "kcal": 375,
+        "protein_g": 14.2,
+        "carbs_g": 63.1,
+        "fat_g": 9.9
+      },
+      "target": {
+        "kcal": 563,
+        "protein_g": 43.8,
+        "carbs_g": 56.3,
+        "fat_g": 17.2
+      }
+    },
+    {
+      "slot": "almuerzo",
+      "label": "Almuerzo",
+      "dish_name": "La bandera ligera",
+      "prep_tip": "Guisa el pollo con sofrito natural y sirve las habichuelas sin grasa añadida.",
+      "items": [
+        {
+          "food_id": "arroz_blanco_cocido",
+          "name": "Arroz blanco cocido",
+          "grams": 180,
+          "household": "1.25 taza",
+          "macros": {
+            "kcal": 234,
+            "protein_g": 4.9,
+            "carbs_g": 50.8,
+            "fat_g": 0.5
+          }
+        },
+        {
+          "food_id": "habichuelas_rojas_cocidas",
+          "name": "Habichuelas rojas cocidas (sin grasa)",
+          "grams": 130,
+          "household": "1 cucharón",
+          "macros": {
+            "kcal": 165,
+            "protein_g": 11.3,
+            "carbs_g": 29.6,
+            "fat_g": 0.7
+          }
+        },
+        {
+          "food_id": "pechuga_pollo_cocida",
+          "name": "Pechuga de pollo cocida sin piel",
+          "grams": 160,
+          "household": null,
+          "macros": {
+            "kcal": 264,
+            "protein_g": 49.6,
+            "carbs_g": 0,
+            "fat_g": 5.8
+          }
+        },
+        {
+          "food_id": "ensalada_verde",
+          "name": "Ensalada verde (lechuga, tomate, pepino)",
+          "grams": 150,
+          "household": "0.75 plato",
+          "macros": {
+            "kcal": 27,
+            "protein_g": 1.4,
+            "carbs_g": 5.3,
+            "fat_g": 0.3
+          }
+        }
+      ],
+      "macros": {
+        "kcal": 690,
+        "protein_g": 67.2,
+        "carbs_g": 85.7,
+        "fat_g": 7.3
+      },
+      "target": {
+        "kcal": 720,
+        "protein_g": 56,
+        "carbs_g": 72,
+        "fat_g": 22
+      }
+    },
+    {
+      "slot": "cena",
+      "label": "Cena",
+      "dish_name": "Pollo con ensalada y aguacate",
+      "prep_tip": "Haz el pollo en la air fryer y agrega el aguacate al servir.",
+      "items": [
+        {
+          "food_id": "pechuga_pollo_cocida",
+          "name": "Pechuga de pollo cocida sin piel",
+          "grams": 150,
+          "household": null,
+          "macros": {
+            "kcal": 248,
+            "protein_g": 46.5,
+            "carbs_g": 0,
+            "fat_g": 5.4
+          }
+        },
+        {
+          "food_id": "ensalada_verde",
+          "name": "Ensalada verde (lechuga, tomate, pepino)",
+          "grams": 200,
+          "household": "1 plato",
+          "macros": {
+            "kcal": 36,
+            "protein_g": 1.8,
+            "carbs_g": 7,
+            "fat_g": 0.4
+          }
+        },
+        {
+          "food_id": "aguacate",
+          "name": "Aguacate",
+          "grams": 105,
+          "household": null,
+          "macros": {
+            "kcal": 168,
+            "protein_g": 2.1,
+            "carbs_g": 8.9,
+            "fat_g": 15.4
+          }
+        }
+      ],
+      "macros": {
+        "kcal": 452,
+        "protein_g": 50.4,
+        "carbs_g": 15.9,
+        "fat_g": 21.2
+      },
+      "target": {
+        "kcal": 518,
+        "protein_g": 40.3,
+        "carbs_g": 51.7,
+        "fat_g": 15.8
+      }
+    }
+  ]
+}

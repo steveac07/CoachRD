@@ -1,0 +1,29 @@
+{
+  "nodeModulesDir": "none",
+  "lock": false,
+  "tasks": {
+    "check": "deno check .",
+    "test": "deno test --allow-read=. --allow-env",
+    "lint": "deno lint",
+    "fmt": "deno fmt --check"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ]
+    }
+  },
+  "fmt": {
+    "lineWidth": 120,
+    "singleQuote": true,
+    "exclude": [
+      "_shared/database.types.ts"
+    ]
+  }
+}
