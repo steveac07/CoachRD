@@ -22,14 +22,18 @@ La vende el gimnasio a sus socios; el coach define alimentos, formas dietéticas
 - Tarjeta para redes: por defecto no muestra el peso, solo el cambio.
 - Textos de la interfaz en español dominicano neutro y en positivo.
 - Cada cambio de esquema es una migración nueva en `supabase/migrations/`; nunca se edita una ya aplicada.
+  Después: `npm run db:reset` y `npm run gen:types:local`, y commit de `types/database.ts` (el CI falla si no coincide).
 - Lista de compra: se calcula por código sumando el menú de 7 días (el mes es la semana × 4). Convierte gramos cocidos a crudo con el rendimiento de cada alimento, agrupa por nombre de compra y redondea hacia arriba: cuartos de libra, unidades enteras, 50 g, 25 ml. Los frescos se compran cada semana. El premio del día no entra.
 
 ## Referencias
 - `referencia/coachrd-demo.html`: demo aprobada. Fuente de verdad para diseño, flujos, cálculos y generador de planes.
-- `referencia/001_init.sql`: esquema ya aplicado en Supabase desde el SQL Editor.
+- `supabase/migrations/20261101000000_init.sql`: esquema inicial. En producción se aplicó desde el SQL Editor,
+  así que en el historial remoto se marca con `npx supabase migration repair --status applied 20261101000000`.
 - `referencia/generate-diet-plan/`: Edge Function inicial (Claude con structured outputs + macros por código).
 
 ## Comandos
 - `npx expo start` (tecla `w` para web)
-- `npx tsc --noEmit`
+- `npm run typecheck` · `npm run lint` · `npm run test:ci` (lo mismo que corre el CI)
 - `npx expo-doctor`
+- `npm run db:start` / `npm run db:reset`: Postgres local con todas las migraciones (requiere Docker Desktop)
+- `npm run gen:types:local`: tipos desde la base local · `npm run gen:types`: desde el proyecto remoto
