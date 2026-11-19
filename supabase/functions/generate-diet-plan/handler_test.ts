@@ -13,6 +13,7 @@ const CLIENT: ClientContext = {
   goal: 'perdida_grasa',
   mealsPerDay: 3,
   excludedFoodIds: ['aguacate'],
+  excludedOrigins: [],
   consentAt: '2026-11-01T10:00:00Z',
   targets: DAILY,
 };
@@ -98,6 +99,27 @@ Deno.test('los alimentos excluidos no llegan a la IA (ni sistema, ni prompt, ni 
   assert(sent);
   const everything = [sent.system, sent.prompt, JSON.stringify(sent.schema)].join('\n').toLowerCase();
   assertFalse(everything.includes('aguacate'));
+});
+
+Deno.test('los orígenes que excluye la forma dietética no llegan a la IA', async () => {
+  const vegetariana = {
+    ...PLAN_OK,
+    almuerzo: {
+      ...PLAN_OK.almuerzo!,
+      items: PLAN_OK.almuerzo!.items.filter((i) => i.food_id !== 'pechuga_pollo_cocida'),
+    },
+  };
+  const { handler, spy } = setup(
+    { loadClient: () => Promise.resolve({ ...CLIENT, excludedOrigins: ['carne'] }) },
+    { ok: true, json: vegetariana, model: 'claude-sonnet-5-5' },
+  );
+  const res = await call(handler, post());
+  const sent = spy.prompts[0];
+  assert(sent);
+  assertFalse(JSON.stringify(sent.schema).includes('pechuga_pollo_cocida'));
+  assertFalse(sent.prompt.includes('Pechuga'));
+  // La cena del plan de ejemplo lleva pollo: la validación lo rechaza aunque la IA lo devolviera
+  assertEquals(res.body, { error: 'ai_generation_failed', reason: 'invalid_plan' });
 });
 
 Deno.test('guarda el modelo que respondió de verdad', async () => {

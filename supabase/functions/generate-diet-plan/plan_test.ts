@@ -51,6 +51,14 @@ Deno.test('allowedFoods quita las exclusiones del socio', () => {
   assertEquals(ids.length, FOODS.length - 2);
 });
 
+Deno.test('allowedFoods quita también los orígenes que excluye la forma dietética', () => {
+  const ids = allowedFoods(FOODS, [], ['carne', 'huevo']).map((f) => f.id);
+  assertFalse(ids.includes('pechuga_pollo_cocida'));
+  assertFalse(ids.includes('huevo_entero'));
+  assert(ids.includes('arroz_blanco_cocido'));
+  assertEquals(ids.length, FOODS.length - 2);
+});
+
 Deno.test('el esquema obliga a todas las comidas y limita food_id al catálogo permitido', () => {
   const allowed = allowedFoods(FOODS, ['aguacate']).map((f) => f.id);
   const schema = aiPlanJsonSchema(SLOTS_3, allowed);

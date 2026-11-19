@@ -8,6 +8,8 @@ export interface Food {
   id: string;
   name: string;
   category: string;
+  /** vegetal, carne, pescado, marisco, huevo o lacteo (`foods.origin`). */
+  origin: string;
   kcal_100g: number;
   protein_100g: number;
   carbs_100g: number;

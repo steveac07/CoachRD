@@ -49,7 +49,7 @@ export function supabaseDeps(
     },
 
     async loadClient(clientId) {
-      const [profile, targets] = await Promise.all([
+      const [profile, targets, assessment] = await Promise.all([
         admin
           .from('client_profiles')
           .select('goal, meals_per_day, excluded_food_ids, consent_health_data_at')
@@ -57,26 +57,37 @@ export function supabaseDeps(
           .maybeSingle(),
         admin
           .from('nutrition_targets')
-          .select('kcal, protein_g, carbs_g, fat_g')
+          .select('kcal, protein_g, carbs_g, fat_g, meals_per_day')
+          .eq('user_id', clientId)
+          .maybeSingle(),
+        admin
+          .from('client_assessments')
+          .select('diet_forms(excluded_origins)')
           .eq('user_id', clientId)
           .maybeSingle(),
       ]);
       if (profile.error) fail('client_profiles', profile.error.message);
       if (targets.error) fail('nutrition_targets', targets.error.message);
+      if (assessment.error) fail('client_assessments', assessment.error.message);
       if (!profile.data) return null;
+      const t = targets.data;
       return {
         goal: profile.data.goal,
-        mealsPerDay: profile.data.meals_per_day,
+        // Las comidas al día las fija la forma dietética al guardar los objetivos; si no, las del perfil.
+        mealsPerDay: t?.meals_per_day ?? profile.data.meals_per_day,
         excludedFoodIds: profile.data.excluded_food_ids,
+        excludedOrigins: assessment.data?.diet_forms?.excluded_origins ?? [],
         consentAt: profile.data.consent_health_data_at,
-        targets: targets.data,
+        targets: t ? { kcal: t.kcal, protein_g: t.protein_g, carbs_g: t.carbs_g, fat_g: t.fat_g } : null,
       };
     },
 
     async loadActiveFoods(): Promise<Food[]> {
       const { data, error } = await admin
         .from('foods')
-        .select('id, name, category, kcal_100g, protein_100g, carbs_100g, fat_100g, household_unit, household_unit_g')
+        .select(
+          'id, name, category, origin, kcal_100g, protein_100g, carbs_100g, fat_100g, household_unit, household_unit_g',
+        )
         .eq('active', true)
         .order('id');
       if (error) fail('foods', error.message);

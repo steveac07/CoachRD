@@ -5,6 +5,7 @@ const arroz: Food = {
   id: 'arroz_blanco_cocido',
   name: 'Arroz blanco cocido',
   category: 'carbohidrato',
+  origin: 'vegetal',
   kcal_100g: 130,
   protein_100g: 2.7,
   carbs_100g: 28.2,

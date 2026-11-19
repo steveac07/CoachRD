@@ -31,6 +31,17 @@ npx expo-doctor
 Copia `.env.example` a `.env` y completa los valores públicos de Supabase.
 Las dependencias nuevas se instalan con `npx expo install`.
 
+### Panel del coach
+
+`/login` → `/coach` (lista de socios) → `/coach/socio/<id>` (ficha). Hace falta una cuenta que esté en la tabla
+`coaches`. En la ficha el coach escribe su valoración (grasa actual y meta, músculo a ganar, plazo, ajuste fino) y
+elige la forma dietética. El cálculo se ve en vivo con las reglas de la demo (Katch-McArdle). Después:
+
+1. **Guardar objetivos**: guarda la valoración y los objetivos juntos (RPC `save_coach_assessment`).
+2. **Generar plan**: llama a la Edge Function `generate-diet-plan` y deja el borrador en `diet_plans`.
+
+Si el coach aún no tiene formas dietéticas, la lista ofrece crear las cuatro de la demo con un botón.
+
 ## Base de datos (Supabase)
 
 Todo el esquema vive en `supabase/migrations/`, en orden. Con Docker Desktop abierto:
@@ -39,6 +50,7 @@ Todo el esquema vive en `supabase/migrations/`, en orden. Con Docker Desktop abi
 npm run db:start          # Postgres local con todas las migraciones
 npm run db:reset          # vuelve a crearla desde cero
 npm run gen:types:local   # regenera types/database.ts
+npm run db:test           # tests de RLS y funciones SQL (pgTAP, supabase/tests/)
 ```
 
 `types/database.ts` se versiona. El CI aplica las migraciones sobre una base vacía y falla si los tipos
@@ -94,6 +106,7 @@ npm run fn:deploy
 ## CI
 
 GitHub Actions (`.github/workflows/ci.yml`) corre en cada pull request y en cada push a `master`:
-tipos, lint y tests de la app, Edge Functions (Deno) y migraciones + tipos de Supabase.
+tipos, lint y tests de la app (con el cálculo comparado contra la demo), Edge Functions (Deno) y
+migraciones + tests de RLS + tipos de Supabase.
 
 Las reglas del proyecto están en `CLAUDE.md`.
