@@ -786,7 +786,7 @@ const H_AGO = h => Date.now() - h*3600e3;
 // log: pesos semanales (del más antiguo al actual). checkin: último check-in semanal del socio.
 // consent: fecha en que aceptó el tratamiento de sus datos de salud (Ley 172-13).
 const seedClients = () => [
-  {id:"c2",name:"Andrea Alvarez",sex:"F",age:29,weight:64,height:163,bf:30,tbf:24,lean:0,weeks:20,act:1.375,allergens:["lacteos","gluten"],tpl:"recomp",ej:true,
+  {id:"c2",name:"Andrea Álvarez",sex:"F",age:29,weight:64,height:163,bf:30,tbf:24,lean:0,weeks:20,act:1.375,allergens:["lacteos","gluten"],tpl:"recomp",ej:true,
    tasks:[T("pasos","Caminar 8.000 pasos","",5,2,3),T("agua","Beber 2,5 litros de agua","",6,1,5),T("plan","Cumplir el plan del día","",6,2,4)],
    bank:1,retosTotal:6,starsLife:11,reward:{name:"Clase de baile gratis",cost:5,kcal:0},redeemed:false,
    streak:12,consent:H_AGO(24*50),log:[65.1,64.9,64.8,64.6,64.4,64.2,64],
@@ -798,7 +798,7 @@ const seedClients = () => [
    streak:3,consent:H_AGO(24*50),log:[90.6,90.1,89.5,88.9,88.4,88.1,88],
    checkin:{ts:H_AGO(24*9),energy:3,sleep:2,hunger:4,note:"Semana de mucho trabajo, dormí poco."},
    notes:[{id:"n1",text:"Esta semana sube la elíptica de 20 a 30 minutos. Si te ves bien, 5 minutos más cada sesión.",ts:H_AGO(3),read:false}]},
-  {id:"c3",name:"Liam Perez",sex:"M",age:22,weight:70,height:180,bf:12,tbf:13,lean:4,weeks:24,act:1.725,allergens:["crustaceos"],tpl:"vol",ej:true,
+  {id:"c3",name:"Liam Pérez",sex:"M",age:22,weight:70,height:180,bf:12,tbf:13,lean:4,weeks:24,act:1.725,allergens:["crustaceos"],tpl:"vol",ej:true,
    tasks:[T("baloncesto","Jugar baloncesto","",3,2,2),T("plan","Hacer las 5 comidas","",6,2,5)],
    bank:2,retosTotal:4,starsLife:8,reward:{name:"Batido de mamey",cost:4,kcal:350},redeemed:false,
    streak:8,consent:H_AGO(24*50),log:[68.5,68.8,69,69.3,69.5,69.8,70],

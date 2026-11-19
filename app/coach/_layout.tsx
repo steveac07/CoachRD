@@ -56,6 +56,7 @@ export default function CoachLayout() {
       <Stack screenOptions={{ headerTintColor: '#0E7C74', headerTitleStyle: { fontWeight: '700' } }}>
         <Stack.Screen name="index" options={{ title: 'Socios' }} />
         <Stack.Screen name="socio/[id]" options={{ title: 'Ficha del socio' }} />
+        <Stack.Screen name="plan/[planId]" options={{ title: 'Revisión del plan' }} />
       </Stack>
     </CoachProvider>
   );

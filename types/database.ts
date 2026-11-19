@@ -87,14 +87,14 @@ isOneToOne: false
                   ]
                 },"diet_plans": {
                   Row: {
-                    "approved_at": string | null,"approved_by": string | null,"created_at": string,"deviation": NonNullable<Json>,"id": string,"model": string,"plan": NonNullable<Json>,"status": Database["public"]['Enums']["plan_status"],"totals": NonNullable<Json>,"user_id": string
+                    "approved_at": string | null,"approved_by": string | null,"created_at": string,"deviation": NonNullable<Json>,"id": string,"model": string,"plan": NonNullable<Json>,"review_note": string | null,"reviewed_at": string | null,"reviewed_by": string | null,"status": Database["public"]['Enums']["plan_status"],"totals": NonNullable<Json>,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "approved_at"?: string | null,"approved_by"?: string | null,"created_at"?: string,"deviation": NonNullable<Json>,"id"?: string,"model": string,"plan": NonNullable<Json>,"status"?: Database["public"]['Enums']["plan_status"],"totals": NonNullable<Json>,"user_id": string
+                    "approved_at"?: string | null,"approved_by"?: string | null,"created_at"?: string,"deviation": NonNullable<Json>,"id"?: string,"model": string,"plan": NonNullable<Json>,"review_note"?: string | null,"reviewed_at"?: string | null,"reviewed_by"?: string | null,"status"?: Database["public"]['Enums']["plan_status"],"totals": NonNullable<Json>,"user_id": string
                   }
                   Update: {
-                    "approved_at"?: string | null,"approved_by"?: string | null,"created_at"?: string,"deviation"?: NonNullable<Json>,"id"?: string,"model"?: string,"plan"?: NonNullable<Json>,"status"?: Database["public"]['Enums']["plan_status"],"totals"?: NonNullable<Json>,"user_id"?: string
+                    "approved_at"?: string | null,"approved_by"?: string | null,"created_at"?: string,"deviation"?: NonNullable<Json>,"id"?: string,"model"?: string,"plan"?: NonNullable<Json>,"review_note"?: string | null,"reviewed_at"?: string | null,"reviewed_by"?: string | null,"status"?: Database["public"]['Enums']["plan_status"],"totals"?: NonNullable<Json>,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -174,12 +174,15 @@ isOneToOne: false
 "owns_diet_form":
 { Args: { "form": string }; Returns: boolean
                            },
+"review_diet_plan":
+{ Args: { "p_decision": string,"p_note"?: string,"p_plan": string }; Returns: Database["public"]['Enums']["plan_status"]
+                           },
 "save_coach_assessment":
 { Args: { "p_body_fat_pct": number,"p_carbs_g": number,"p_client": string,"p_diet_form_id": string,"p_fat_g": number,"p_kcal": number,"p_kcal_adjust": number,"p_lean_gain_kg": number,"p_meals_per_day": number,"p_protein_g": number,"p_target_body_fat_pct": number,"p_weeks": number }; Returns: undefined
                            }
           }
           Enums: {
-            "plan_status": "draft"|"approved"|"rejected"
+            "plan_status": "draft"|"approved"|"rejected"|"archived"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -295,7 +298,7 @@ export type CompositeTypes<
 export const Constants = {
   "public": {
           Enums: {
-            "plan_status": ["draft", "approved", "rejected"]
+            "plan_status": ["draft", "approved", "rejected", "archived"]
           }
         }
 } as const

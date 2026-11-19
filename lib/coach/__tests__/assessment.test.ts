@@ -15,7 +15,7 @@ import { draftReadyMessage, generateErrorMessage, joinEs } from '../generateMess
 
 const PROFILE: ClientProfile = {
   user_id: 'socia-1',
-  display_name: 'Ana Pérez',
+  display_name: 'Andrea Álvarez',
   sex: 'F',
   birth_date: '1995-05-10',
   height_cm: 165,
@@ -165,7 +165,7 @@ describe('ageOn y clientName', () => {
   });
   it('usa un nombre por defecto si el socio no lo ha puesto', () => {
     expect(clientName({ display_name: '  ' })).toBe('Socio sin nombre');
-    expect(clientName({ display_name: 'Ana' })).toBe('Ana');
+    expect(clientName({ display_name: 'Andrea Álvarez' })).toBe('Andrea Álvarez');
   });
 });
 

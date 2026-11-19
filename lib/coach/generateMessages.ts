@@ -39,7 +39,7 @@ export function generateErrorMessage(status: number | null, body: GenerateErrorB
   }
 }
 
-const MACRO_LABELS: Record<string, string> = {
+export const MACRO_LABELS: Record<string, string> = {
   kcal: 'calorías',
   protein_g: 'proteína',
   carbs_g: 'carbohidratos',

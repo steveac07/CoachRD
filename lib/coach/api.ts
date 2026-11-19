@@ -9,6 +9,7 @@ import type { Assessment, AssessmentValues, ClientProfile, DietForm } from './as
 import { saveArgs } from './assessment';
 import { DEMO_DIET_FORMS } from './demoForms';
 import { type GenerateErrorBody, generateErrorMessage } from './generateMessages';
+import { type PlanStatus, reviewErrorMessage } from './planReview';
 import type { DailyTargets } from '@/lib/nutrition/targets';
 
 export type Targets = Pick<Tables<'nutrition_targets'>, 'kcal' | 'protein_g' | 'carbs_g' | 'fat_g' | 'meals_per_day' | 'updated_at'>;
@@ -133,4 +134,30 @@ export async function generatePlan(clientId: string): Promise<GenerateResult> {
   }
   const flagged = Array.isArray(data.flagged) ? data.flagged.filter((f): f is string => typeof f === 'string') : [];
   return { ok: true, planId: data.plan_id, needsReview: data.needs_review === true, flagged };
+}
+
+export type PlanDetail = Pick<
+  Tables<'diet_plans'>,
+  'id' | 'user_id' | 'status' | 'created_at' | 'model' | 'plan' | 'totals' | 'deviation' | 'review_note' | 'reviewed_at'
+> & { clientName: string | null };
+
+export async function fetchPlan(planId: string): Promise<PlanDetail | null> {
+  const { data, error } = await supabase
+    .from('diet_plans')
+    .select('id, user_id, status, created_at, model, plan, totals, deviation, review_note, reviewed_at, client_profiles(display_name)')
+    .eq('id', planId)
+    .maybeSingle();
+  if (error) fail('diet_plans', error.message);
+  if (!data) return null;
+  const { client_profiles: client, ...plan } = data;
+  return { ...plan, clientName: client?.display_name ?? null };
+}
+
+export type ReviewResult = { ok: true; status: PlanStatus } | { ok: false; message: string };
+
+/** Aprueba o rechaza un borrador (RPC `review_diet_plan`). Al aprobar, el plan aprobado anterior se archiva. */
+export async function reviewPlan(planId: string, decision: 'approve' | 'reject', note: string): Promise<ReviewResult> {
+  const { data, error } = await supabase.rpc('review_diet_plan', { p_plan: planId, p_decision: decision, p_note: note });
+  if (error) return { ok: false, message: reviewErrorMessage(error.code ?? null) };
+  return { ok: true, status: data };
 }
