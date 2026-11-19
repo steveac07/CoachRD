@@ -6,7 +6,9 @@ El gimnasio la ofrece a sus socios; el coach define alimentos, formas dietética
 ## Demo en Netlify
 
 La demo aprobada vive en `referencia/coachrd-demo.html` y es lo que Netlify publica como página de inicio
-(ver `netlify.toml`). Cada `git push` a la rama de producción la vuelve a desplegar.
+(ver `netlify.toml`). Netlify solo vuelve a desplegar cuando un commit cambia la demo o `netlify.toml`: el resto
+de commits (app, migraciones, Edge Functions) cancelan el build para no gastar créditos. Para forzar un deploy, usa
+«Trigger deploy» en Netlify.
 
 Lo que incluye:
 
